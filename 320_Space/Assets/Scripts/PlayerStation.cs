@@ -14,6 +14,16 @@ public class PlayerStation : MonoBehaviour {
     /// </summary>
     public bool ActionChosen { get; set; }
 
+    /// <summary>
+    /// What station is being targeted
+    /// </summary>
+    public PlayerStation Target { get; set; }
+
+    /// <summary>
+    /// What action the station prepared
+    /// </summary>
+    public string Action { get; set; }
+
     //Private fields
     short health;
     short resources;
@@ -23,6 +33,8 @@ public class PlayerStation : MonoBehaviour {
         health = 3;
         resources = 0;
         ActionChosen = false;
+        Action = "";
+        Target = null;
 	}
 	
 	// Update is called once per frame
@@ -43,6 +55,63 @@ public class PlayerStation : MonoBehaviour {
     /// </summary>
     public void PerformAction()
     {
-        
+        switch (Action)
+        {
+            case "Shoot":
+                if(Target == null)  //target shouldn't be null if shooting
+                {
+                    break;
+                }
+                if (FindTarget())
+                {
+                    if(Target.Action != "Shield")
+                        Target.TakeDamage();
+                }
+
+                resources -= 1;
+                break;
+            case "Reflect":
+                resources -= 1;
+                break;
+            case "Shield":
+                Debug.Log("All incoming missles are destroyed!");
+                break;
+            case "Load":
+                resources++;
+                break;
+        }
+
+        Target = null;
+        Action = "";
+    }
+
+    /// <summary>
+    /// Finds the target of attack, accounting for target reflections
+    /// Preventing Reflection loops
+    /// </summary>
+    /// <returns> Whether a target was found before missle dies off </returns>
+    public bool FindTarget()
+    {
+        int reflections = 0;
+        while(Target.Action == "Reflect" && reflections < 8)
+        {
+            reflections++;
+            PlayerStation newTarget = Target.Target;
+            Target = newTarget;
+        }
+
+        if (reflections < 8)
+            return true;
+        else
+            Debug.Log("Missle ran out of fuel!");
+            return false;
+    }
+
+    /// <summary>
+    /// When the player is hit by missle, take damage
+    /// </summary>
+    public void TakeDamage()
+    {
+        health--;
     }
 }
