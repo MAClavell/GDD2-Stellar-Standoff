@@ -140,12 +140,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46adacfc24bce6d4c81b65bbbeeadb2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numStations: 10
+  numStations: 8
   radius: 3
   lastRadius: 0
-  stationCoords: []
   angle: 0
   station: {fileID: 1884629993}
+  missile: {fileID: 1329512027860444, guid: 751ec801bdc4b96439612725fff9a6c6, type: 2}
 --- !u!4 &670851729
 Transform:
   m_ObjectHideFlags: 0

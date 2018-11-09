@@ -8,7 +8,7 @@ public class PlaceStations : MonoBehaviour {
     public int numStations;
     public float radius;
     public float lastRadius;
-    public List<Vector2> stationCoords;
+    public List<StationData> stations;
     public float angle;
     private float interval;
     private float lastInterval;
@@ -16,10 +16,13 @@ public class PlaceStations : MonoBehaviour {
     private float xPos;
     private float yPos;
     public GameObject station;
+    public GameObject missile;
 
     // Use this for initialization
     void Start ()
     {
+        stations = new List<StationData>();
+
         angle = 90; //sets first station position as top of asteroid
 
         interval = 360 / numStations;
@@ -30,7 +33,13 @@ public class PlaceStations : MonoBehaviour {
             xPos = Mathf.Cos(Mathf.Deg2Rad * angle) * radius;
             yPos = Mathf.Sin(Mathf.Deg2Rad * angle) * radius;
 
-            stationCoords.Add(new Vector2(xPos, yPos));
+            Vector2 position = new Vector2(xPos, yPos);
+
+            Vector3 direction = (new Vector3(position.x, position.y, 0) - Vector3.zero).normalized;
+
+            StationData s = new StationData(position, direction);
+
+            stations.Add(s);
 
             angle -= interval;
         }
@@ -46,7 +55,7 @@ public class PlaceStations : MonoBehaviour {
         for (int i = 0; i < numStations; i++)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(stationCoords[i], radius: radius / 5);
+            Gizmos.DrawWireSphere(stations[i].Position, radius: radius / 5);
         }
     }
 
@@ -59,14 +68,20 @@ public class PlaceStations : MonoBehaviour {
         if(interval != lastInterval || lastRadius != radius)
         {
             angle = 90;
-            stationCoords.Clear();
+            stations.Clear();
 
             for (int i = 0; i < numStations; i++)
             {
                 xPos = Mathf.Cos(Mathf.Deg2Rad * angle) * radius;
                 yPos = Mathf.Sin(Mathf.Deg2Rad * angle) * radius;
 
-                stationCoords.Add(new Vector2(xPos, yPos));
+                Vector2 position = new Vector2(xPos, yPos);
+
+                Vector3 direction = (new Vector3(position.x, position.y, 0) - Vector3.zero).normalized;
+
+                StationData s = new StationData(position, direction);
+
+                stations.Add(s);
 
                 angle -= interval;
             }
@@ -74,5 +89,14 @@ public class PlaceStations : MonoBehaviour {
 
         lastInterval = interval;
         lastRadius = radius;
+
+        //Press Button to spawn missile from station 1
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameObject m = (GameObject)Instantiate(missile);
+            m.GetComponent<TestMissile>().asteroid = this;
+            m.transform.position = stations[0].Position;
+            //Instantiate(missile, stations[0].Position, Quaternion.identity);
+        }
     }
 }
