@@ -36,9 +36,15 @@ public class PlayerStation : MonoBehaviour {
         Action = "";
         Target = null;
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    //Called on startup
+    void Start()
+    {
+        GameManager.Instance.players.Add(this);
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
@@ -47,7 +53,29 @@ public class PlayerStation : MonoBehaviour {
     /// </summary>
     public void ChooseAction()
     {
-
+        while (!ActionChosen)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                Action = "Shoot";
+                ActionChosen = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                Action = "Reflect";
+                ActionChosen = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                Action = "Shield";
+                ActionChosen = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                Action = "Load";
+                ActionChosen = true;
+            }
+        }
     }
 
     /// <summary>
@@ -80,9 +108,6 @@ public class PlayerStation : MonoBehaviour {
                 resources++;
                 break;
         }
-
-        Target = null;
-        Action = "";
     }
 
     /// <summary>
@@ -113,5 +138,11 @@ public class PlayerStation : MonoBehaviour {
     public void TakeDamage()
     {
         health--;
+    }
+
+    public void DebugInfo()
+    {
+        Debug.Log("Resource count: " + resources);
+        Debug.Log("Health: " + health);
     }
 }

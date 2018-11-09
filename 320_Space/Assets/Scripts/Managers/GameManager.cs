@@ -33,6 +33,8 @@ public class GameManager : Singleton<GameManager> {
         {
             //Game is starting
             case GameState.Begin:
+                //set up for number of players goes here i think
+                Debug.Log("Player Count: " + players.Count);
                 State = GameState.Playing;
                 break;
 
@@ -45,12 +47,15 @@ public class GameManager : Singleton<GameManager> {
             case GameState.Playing:
                 switch (roundState)
                 {
-                    //
+                    //Clear previous player actions
                     case RoundState.Begin:
                         currPlayer = 0;
                         foreach(PlayerStation player in players)
                         {
                             player.ActionChosen = false;
+
+                            player.Target = null;
+                            player.Action = "";
                         }
                         break;
 
@@ -90,6 +95,12 @@ public class GameManager : Singleton<GameManager> {
                     //End the round
                     case RoundState.End:
                         roundState = RoundState.Begin;
+
+                        for (int i = 0; i < players.Count; i++)
+                        {
+                            Debug.Log("Player " + i);
+                            players[i].DebugInfo();
+                        }
                         break;
                 }
                 break;
