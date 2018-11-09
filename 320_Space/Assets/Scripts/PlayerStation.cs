@@ -47,7 +47,29 @@ public class PlayerStation : MonoBehaviour {
     /// </summary>
     public void ChooseAction()
     {
-
+        while (!ActionChosen)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                Action = "Shoot";
+                ActionChosen = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                Action = "Reflect";
+                ActionChosen = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                Action = "Shield";
+                ActionChosen = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                Action = "Load";
+                ActionChosen = true;
+            }
+        }
     }
 
     /// <summary>
