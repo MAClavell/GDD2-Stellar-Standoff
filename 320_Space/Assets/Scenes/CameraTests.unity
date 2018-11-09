@@ -202,6 +202,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 669fab9bfb0de37419bb98b40878327c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 2
+  lastZoom: 0
+  startZoom: 5
+  baseZoom: 2
+  meteorRadious: 4
+  currPos: {x: 0, y: 0, z: 0}
+  lastPos: {x: 0, y: 0, z: 0}
+  startPos: {x: 0, y: 0, z: 0}
+  basePos: {x: 0, y: 0, z: 0}
+  startTime: 0
+  distance: 0
+  distCovered: 0
+  percent: 0
 --- !u!1 &1992077213
 GameObject:
   m_ObjectHideFlags: 0
