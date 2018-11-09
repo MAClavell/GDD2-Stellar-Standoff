@@ -36,9 +36,15 @@ public class PlayerStation : MonoBehaviour {
         Action = "";
         Target = null;
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    //Called on startup
+    void Start()
+    {
+        GameManager.Instance.players.Add(this);
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
@@ -102,9 +108,6 @@ public class PlayerStation : MonoBehaviour {
                 resources++;
                 break;
         }
-
-        Target = null;
-        Action = "";
     }
 
     /// <summary>
@@ -135,5 +138,11 @@ public class PlayerStation : MonoBehaviour {
     public void TakeDamage()
     {
         health--;
+    }
+
+    public void DebugInfo()
+    {
+        Debug.Log("Resource count: " + resources);
+        Debug.Log("Health: " + health);
     }
 }
