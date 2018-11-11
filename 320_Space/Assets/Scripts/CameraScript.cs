@@ -30,7 +30,8 @@ public class CameraScript : MonoBehaviour {
     public float percent;
 
     public float spacesOver;
-    //bool wantToRotate = false;
+
+    bool stayOnMe = false;
 
 
     // Use this for initialization
@@ -56,6 +57,7 @@ public class CameraScript : MonoBehaviour {
 
         currRot = world.transform.rotation;
 
+        //increments the number of spaces the camera will go over
         if (Input.GetKeyDown(KeyCode.X))
         {
             spacesOver++;
@@ -64,14 +66,12 @@ public class CameraScript : MonoBehaviour {
                 spacesOver = 1;
             }
             baseRot = lastRot * Quaternion.Euler(degrees * spacesOver);
-            //wantToRotate = !wantToRotate;
         }
-
-        //  world.transform.Rotate(world.transform.forward * speed * Time.deltaTime , Space.World);
-        //if (wantToRotate == true)
-        //{
-            //world.transform.rotation = Quaternion.Slerp(lastRot, baseRot, percent);
-       // }
+        //keeps the camera focused on the same base
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            stayOnMe = !stayOnMe;
+        }
 
         if (currState == CameraState.Start)
         {
@@ -84,18 +84,28 @@ public class CameraScript : MonoBehaviour {
                 transform.position = Vector3.Lerp(lastPos, startPos, percent);
                 Camera.main.orthographicSize = Mathf.Lerp(lastZoom, startZoom, percent);
 
-                world.transform.rotation = Quaternion.Slerp(lastRot, startRot, percent);
+                if(!stayOnMe)
+                    world.transform.rotation = Quaternion.Slerp(lastRot, startRot, percent);
             }
 
             if (Input.GetKeyDown(KeyCode.C))
              {
+                transform.position = startPos;
+                Camera.main.orthographicSize = startZoom;
+
+                if (!stayOnMe)
+                    world.transform.rotation = startRot;
+
+
+
                 currState = CameraState.Base;
                 lastPos = startPos;
                 lastZoom = startZoom;
                 startTime = Time.time;
 
                 //startRot = currRot;
-                lastRot = currRot;
+                if (!stayOnMe)
+                    lastRot = startRot;//currRot;
             }
         }
         else if (currState == CameraState.Base)
@@ -109,19 +119,32 @@ public class CameraScript : MonoBehaviour {
                 transform.position = Vector3.Lerp(lastPos, basePos, percent);
                 Camera.main.orthographicSize = Mathf.Lerp(lastZoom, baseZoom, percent);
 
-                world.transform.rotation = Quaternion.Slerp(lastRot, baseRot, percent);
+                if (!stayOnMe)
+                    world.transform.rotation = Quaternion.Slerp(lastRot, baseRot, percent);
             }
 
             if (Input.GetKeyDown(KeyCode.C))
             {
+                transform.position = basePos;
+                Camera.main.orthographicSize = baseZoom;
+
+                if (!stayOnMe)
+                    world.transform.rotation = baseRot;
+
+
+
                 currState = CameraState.Start;
                 lastPos = basePos;
                 lastZoom = baseZoom;
                 startTime = Time.time;
 
-                baseRot = currRot * Quaternion.Euler(degrees*spacesOver); 
-                lastRot = currRot;
-                startRot = lastRot;
+                if (!stayOnMe)
+                {
+                    lastRot = baseRot;
+                    baseRot = baseRot * Quaternion.Euler(degrees * spacesOver);
+
+                    startRot = lastRot;
+                }
             }
         }
         else if (currState == CameraState.Full)
