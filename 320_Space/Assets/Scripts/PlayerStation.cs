@@ -53,14 +53,14 @@ public class PlayerStation : MonoBehaviour {
     /// </summary>
     public void ChooseAction()
     {
-        while (!ActionChosen)
+        if (!ActionChosen)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.Alpha1)&&resources>0)
             {
                 Action = "Shoot";
                 ActionChosen = true;
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            else if (Input.GetKeyDown(KeyCode.Alpha2)&&resources>0)
             {
                 Action = "Reflect";
                 ActionChosen = true;
@@ -76,27 +76,25 @@ public class PlayerStation : MonoBehaviour {
                 ActionChosen = true;
             }
         }
-        if(Action == "Shoot"||Action == "Reflect")
+    }
+
+    public void ChooseTarget()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            while (Target == null)
-            {
-                if (Input.GetKeyDown(KeyCode.Alpha1))
-                {
-                    Target = GameManager.Instance.players[0];
-                }
-                else if (Input.GetKeyDown(KeyCode.Alpha2))
-                {
-                    Target = GameManager.Instance.players[1];
-                }
-                else if (Input.GetKeyDown(KeyCode.Alpha3))
-                {
-                    Target = GameManager.Instance.players[2];
-                }
-                else if (Input.GetKeyDown(KeyCode.Alpha4))
-                {
-                    Target = GameManager.Instance.players[3];
-                }
-            }
+            Target = GameManager.Instance.players[0];
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Target = GameManager.Instance.players[1];
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            Target = GameManager.Instance.players[2];
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            Target = GameManager.Instance.players[3];
         }
     }
 
