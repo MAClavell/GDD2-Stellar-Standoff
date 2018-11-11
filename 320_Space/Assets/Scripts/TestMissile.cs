@@ -25,7 +25,7 @@ public class TestMissile : MonoBehaviour {
         interval = 2.5f;
         maxHeight = 1.0f;
         originIndex = 0;
-        destinationIndex = 1;
+        destinationIndex = 4;
     }
 	
 	//Update is called once per frame
@@ -35,7 +35,15 @@ public class TestMissile : MonoBehaviour {
         //Update Interpolation data
         timer += Time.deltaTime;
         float fracComplete = timer / interval;
-        Vector3 slerp = Vector3.Slerp(stations[originIndex].Direction, stations[destinationIndex].Direction, fracComplete);
+        Vector3 originDirection = stations[originIndex].Direction;
+        Vector3 destinationDirection = stations[destinationIndex].Direction;
+        float distance = Vector3.Angle(originDirection, destinationDirection);
+        interval = (distance / 180) * 3.5f;
+        if(distance == 180)
+        {
+            destinationDirection = Quaternion.AngleAxis(0.5f, Vector3.forward) * stations[destinationIndex].Direction;
+        }
+        Vector3 slerp = Vector3.Slerp(originDirection, destinationDirection, fracComplete);
         //slerp.z = 0;
         //slerp = new Vector3(slerp.x, slerp.y, 0);
         //Quaternion qSlerp = Quaternion.Slerp(Quaternion.Euler(stations[originIndex].Direction), Quaternion.Euler(stations[destinationIndex].Direction), fracComplete);
