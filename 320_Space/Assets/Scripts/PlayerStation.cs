@@ -76,6 +76,28 @@ public class PlayerStation : MonoBehaviour {
                 ActionChosen = true;
             }
         }
+        if(Action == "Shoot"||Action == "Reflect")
+        {
+            while (Target == null)
+            {
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    Target = GameManager.Instance.players[0];
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    Target = GameManager.Instance.players[1];
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    Target = GameManager.Instance.players[2];
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha4))
+                {
+                    Target = GameManager.Instance.players[3];
+                }
+            }
+        }
     }
 
     /// <summary>
