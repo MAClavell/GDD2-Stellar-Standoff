@@ -25,7 +25,7 @@ public class TestMissile : MonoBehaviour {
         interval = 2.5f;
         maxHeight = 1.0f;
         originIndex = 0;
-        destinationIndex = 4;
+        destinationIndex = 1;
     }
 	
 	//Update is called once per frame

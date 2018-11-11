@@ -24,6 +24,16 @@ public class PlayerStation : MonoBehaviour {
     /// </summary>
     public string Action { get; set; }
 
+    /// <summary>
+    /// Coordinates of station (local to asteroid)
+    /// </summary>
+    public Vector2 Position { get; set; }
+
+    /// <summary>
+    /// Normal vector pointing from center of asteroid to station
+    /// </summary>
+    public Vector3 Direction { get; set; }
+
     //Private fields
     short health;
     short resources;
