@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour {
 
-    enum CameraState { Start, Base, Full , End };
+    enum CameraState { Start, Base, Far , End };
     CameraState currState;
 
     public GameObject world;
 
     public float lastZoom;
-    public float startZoom, baseZoom;//2f,5f
+    public float startZoom, baseZoom, farZoom;//5f, 2f, 10f
 
     public Vector3 currPos;
     public Vector3 lastPos;
-    public Vector3 startPos, basePos, fullPos, endPos;
+    public Vector3 startPos, basePos, farPos, endPos;
 
     public Quaternion currRot;
     public Quaternion lastRot;
@@ -38,6 +38,7 @@ public class CameraScript : MonoBehaviour {
     void Start () {
         startTime = Time.time;
         startPos = transform.position;//new Vector3(0,0,-10);
+        farPos = new Vector3(transform.position.x, transform.position.y, transform.position.z-10);
         lastPos = startPos;
         basePos = new Vector3(0, meteorRadious, -10);
         currState = CameraState.Start;
@@ -84,12 +85,12 @@ public class CameraScript : MonoBehaviour {
                 transform.position = Vector3.Lerp(lastPos, startPos, percent);
                 Camera.main.orthographicSize = Mathf.Lerp(lastZoom, startZoom, percent);
 
-                if(!stayOnMe)
+                if (!stayOnMe)
                     world.transform.rotation = Quaternion.Slerp(lastRot, startRot, percent);
             }
 
             if (Input.GetKeyDown(KeyCode.C))
-             {
+            {
                 transform.position = startPos;
                 Camera.main.orthographicSize = startZoom;
 
@@ -146,10 +147,34 @@ public class CameraScript : MonoBehaviour {
                     startRot = lastRot;
                 }
             }
-        }
-        else if (currState == CameraState.Full)
-        {
 
+        }
+        else if (currState == CameraState.Far)
+        {
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                if (currPos != farPos)
+                {
+                    distCovered = (Time.time - startTime) * speed;
+                    distance = Vector3.Distance(lastPos, farPos);
+                    percent = distCovered / distance;
+
+                    transform.position = Vector3.Lerp(lastPos, farPos, percent);
+                    Camera.main.orthographicSize = Mathf.Lerp(lastZoom, farZoom, percent);
+                }
+
+                if (Input.GetKeyDown(KeyCode.C))
+                {
+                    transform.position = farPos;
+                    Camera.main.orthographicSize = farZoom;
+
+
+                    currState = CameraState.Start;
+                    lastPos = farPos;
+                    lastZoom = farZoom;
+                    startTime = Time.time;
+                }
+            }
         }
         else if (currState == CameraState.End)
         {

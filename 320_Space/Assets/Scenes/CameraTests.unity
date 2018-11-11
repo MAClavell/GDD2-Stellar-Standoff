@@ -235,11 +235,12 @@ MonoBehaviour:
   lastZoom: 0
   startZoom: 5
   baseZoom: 2
+  farZoom: 10
   currPos: {x: 0, y: 0, z: 0}
   lastPos: {x: 0, y: 0, z: 0}
   startPos: {x: 0, y: 0, z: 0}
   basePos: {x: 0, y: 0, z: 0}
-  fullPos: {x: 0, y: 0, z: 0}
+  farPos: {x: 0, y: 0, z: 0}
   endPos: {x: 0, y: 0, z: 0}
   currRot: {x: 0, y: 0, z: 0, w: 0}
   lastRot: {x: 0, y: 0, z: 0, w: 0}
