@@ -49,19 +49,15 @@ public class GameManager : Singleton<GameManager> {
                 {
                     //Clear previous player actions
                     case RoundState.Begin:
+                        Debug.Log("Begin Round");
                         currPlayer = 0;
-                        foreach(PlayerStation player in players)
-                        {
-                            player.ActionChosen = false;
-
-                            player.Target = null;
-                            player.Action = "";
-                        }
+                        
+                        roundState = RoundState.TurnOrder;
                         break;
 
                     //Players are taking their turns
                     case RoundState.TurnOrder:
-
+                        Debug.Log("Player Turn");
                         //Should never be less than 2 players
                         if (players.Count < 2)
                         {
@@ -73,14 +69,18 @@ public class GameManager : Singleton<GameManager> {
                         if(currPlayer == players.Count)
                         {
                             roundState = RoundState.PlayChoices;
+                            currPlayer = 0;
                             return;
                         }
 
                         //Player chooses their action
                         if(players[currPlayer].IsAlive && !players[currPlayer].ActionChosen)
                         {
+                            Debug.Log("Current Player: " + currPlayer);
                             players[currPlayer].ChooseAction();
                         }
+                        currPlayer++;
+
                         break;
 
                     //Play all the choices out
