@@ -96,16 +96,6 @@ public class Missile : MonoBehaviour {
     /// <param name="target">Station to check for impact</param>
     public void CheckStation(PlayerStation target)
     {
-        //if vulnerable
-        //  target.getRekt
-        //  this.Explode
-        //  return
-        //else if shield
-        //  this.explode
-        //  return
-        //else if reflect
-        //  bounces++
-        //  Launch(target, reflectTarget)
         if (target.Action == "Reflect")
         {
             //missle boop
