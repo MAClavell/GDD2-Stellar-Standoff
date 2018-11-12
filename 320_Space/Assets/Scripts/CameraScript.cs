@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour {
 
+    public GameManager manager;
+    List<PlayerStation> players;
+    PlayerStation currPlayer, nextPlayer;
+    int playerNum, nextNum;
+
     enum CameraState { Start, Base, Far , End };
     CameraState currState;
 
@@ -36,6 +41,7 @@ public class CameraScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+      
         startTime = Time.time;
         startPos = transform.position;//new Vector3(0,0,-10);
         farPos = new Vector3(transform.position.x, transform.position.y, transform.position.z-10);
@@ -48,7 +54,13 @@ public class CameraScript : MonoBehaviour {
         lastRot = startRot;
         spacesOver = 1;
         baseRot = lastRot * Quaternion.Euler(degrees * spacesOver);
+
+        players = manager.players;
+        playerCount = players.Count;
+        playerNum = 0;
+        currPlayer = players[playerNum];
         
+
     }
 	
 	// Update is called once per frame
@@ -57,6 +69,17 @@ public class CameraScript : MonoBehaviour {
         currPos = transform.position;
 
         currRot = world.transform.rotation;
+
+        if (!nextPlayer.IsAlive)
+        {
+            nextNum = Mathf.Abs((playerNum + 1) % (int)playerCount);
+            nextPlayer = players[nextNum];
+            while (!nextPlayer.IsAlive)
+            {
+                spacesOver = Mathf.Abs(playerNum - nextNum);
+            }
+            baseRot = lastRot * Quaternion.Euler(degrees * spacesOver);
+        }
 
         //increments the number of spaces the camera will go over
         if (Input.GetKeyDown(KeyCode.X))
