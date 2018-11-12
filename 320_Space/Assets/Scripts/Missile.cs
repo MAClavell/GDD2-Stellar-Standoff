@@ -106,5 +106,22 @@ public class Missile : MonoBehaviour {
         //else if reflect
         //  bounces++
         //  Launch(target, reflectTarget)
+        if (target.Action == "Reflect")
+        {
+            //missle boop
+            bounces++;
+            Launch(target, target.Target);
+        }
+        else if(target.Action == "Shield")
+        {
+            //missle explosion
+            Destroy(gameObject);
+        }
+        else
+        {
+            //missle and base explosion
+            target.TakeDamage();
+            Destroy(gameObject);
+        }
     }
 }
