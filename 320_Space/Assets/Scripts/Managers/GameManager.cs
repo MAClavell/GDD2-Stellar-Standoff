@@ -14,16 +14,19 @@ public class GameManager : Singleton<GameManager> {
     public GameState State { get; set; }
 
     public List<PlayerStation> players { get; set; }
+    public List<Missile> missiles { get; set; }
 
     //Private Fields
     RoundState roundState;
     short currPlayer;
+    bool readyToPlay;
 
     // Called before start
     void Awake () {
         State = GameState.Begin;
         roundState = RoundState.Begin;
         players = new List<PlayerStation>();
+        missiles = new List<Missile>();
         currPlayer = 0;
 	}
 	
@@ -97,6 +100,7 @@ public class GameManager : Singleton<GameManager> {
                         {
                             player.PerformAction();
                         }
+
                         roundState = RoundState.End;
                         break;
 
