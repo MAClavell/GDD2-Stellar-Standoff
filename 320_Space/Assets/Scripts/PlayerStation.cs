@@ -88,6 +88,9 @@ public class PlayerStation : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Logic for the player choosing their target
+    /// </summary>
     public void ChooseTarget()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
