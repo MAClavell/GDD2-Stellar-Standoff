@@ -13,6 +13,7 @@ public class GameManager : Singleton<GameManager> {
     /// </summary>
     public GameState State { get; set; }
 
+    public GameObject stationPre;
     public List<PlayerStation> players { get; set; }
     public List<Missile> missiles { get; set; }
 
@@ -20,6 +21,7 @@ public class GameManager : Singleton<GameManager> {
     RoundState roundState;
     short currPlayer;
     bool readyToPlay;
+    int numPlayers;
 
     // Called before start
     void Awake () {
@@ -28,6 +30,8 @@ public class GameManager : Singleton<GameManager> {
         players = new List<PlayerStation>();
         missiles = new List<Missile>();
         currPlayer = 0;
+        readyToPlay = false;
+        numPlayers = 2;
 	}
 	
 	// Update is called once per frame
@@ -37,8 +41,16 @@ public class GameManager : Singleton<GameManager> {
             //Game is starting
             case GameState.Begin:
                 //set up for number of players goes here i think
-                Debug.Log("Player Count: " + players.Count);
-                State = GameState.Playing;
+                if (readyToPlay)
+                {
+                    for (int i = 0; i < numPlayers; i++)
+                    {
+                        GameObject newPlayer = Instantiate(stationPre);
+                        players.Add(newPlayer.GetComponent<PlayerStation>());
+                    }
+                    Debug.Log("Player Count: " + players.Count);
+                    State = GameState.Playing;
+                }
                 break;
 
             //Game is paused
@@ -122,5 +134,35 @@ public class GameManager : Singleton<GameManager> {
 
                 break;
         }
+    }
+
+    /// <summary>
+    /// Adding players from menu
+    /// </summary>
+    public void AddPlayer()
+    {
+        if (numPlayers < 8)
+        {
+            numPlayers++;
+        }
+    }
+
+    /// <summary>
+    /// Removing player from menu
+    /// </summary>
+    public void RemovePlayer()
+    {
+        if (numPlayers > 2)
+        {
+            numPlayers--;
+        }
+    }
+
+    /// <summary>
+    /// Hitting the play button on main menu
+    /// </summary>
+    public void ToggleReady()
+    {
+        readyToPlay = !readyToPlay;
     }
 }
