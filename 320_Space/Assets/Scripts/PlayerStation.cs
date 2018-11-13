@@ -103,11 +103,45 @@ public class PlayerStation : MonoBehaviour {
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            Target = GameManager.Instance.players[2];
+            if (GameManager.Instance.players[2] != null)
+            {
+                Target = GameManager.Instance.players[2];
+            }
         }
         else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            Target = GameManager.Instance.players[3];
+            if (GameManager.Instance.players[3] != null)
+            {
+                Target = GameManager.Instance.players[3];
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            if (GameManager.Instance.players[4] != null)
+            {
+                Target = GameManager.Instance.players[4];
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            if (GameManager.Instance.players[5] != null)
+            {
+                Target = GameManager.Instance.players[5];
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            if (GameManager.Instance.players[6] != null)
+            {
+                Target = GameManager.Instance.players[6];
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            if (GameManager.Instance.players[7] != null)
+            {
+                Target = GameManager.Instance.players[7];
+            }
         }
     }
 
