@@ -50,7 +50,7 @@ public class PlayerStation : MonoBehaviour {
     //Called on startup
     void Start()
     {
-        GameManager.Instance.players.Add(this);
+        //GameManager.Instance.players.Add(this);
     }
 
     // Update is called once per frame
