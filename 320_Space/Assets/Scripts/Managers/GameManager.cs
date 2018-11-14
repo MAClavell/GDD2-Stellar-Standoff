@@ -27,6 +27,7 @@ public class GameManager : Singleton<GameManager> {
     short currPlayer;
     bool readyToPlay;
     int numPlayers;
+    bool missilesLaunched;
 
     // Called before start
     void Awake () {
@@ -41,6 +42,7 @@ public class GameManager : Singleton<GameManager> {
         mainMenu.enabled = true;
         playerMenu.enabled = false;
         enemyMenu.enabled = false;
+        missilesLaunched = false;
 	}
 	
 	// Update is called once per frame
@@ -96,6 +98,7 @@ public class GameManager : Singleton<GameManager> {
                     //Clear previous player actions
                     case RoundState.Begin:
                         currPlayer = 0;
+                        missilesLaunched = false;
                         foreach(PlayerStation player in players)
                         {
                             player.ActionChosen = false;
@@ -139,12 +142,20 @@ public class GameManager : Singleton<GameManager> {
 
                     //Play all the choices out
                     case RoundState.PlayChoices:
-                        foreach (PlayerStation player in players)
+                        if (!missilesLaunched)
                         {
-                            player.PerformAction();
+                            foreach (PlayerStation player in players)
+                            {
+                                player.PerformAction();
+                            }
+                            missilesLaunched = true;
                         }
 
-                        roundState = RoundState.End;
+
+                        if (missilesLaunched && missiles.Count == 0)
+                        {
+                            roundState = RoundState.End;
+                        }
                         break;
 
                     //End the round

@@ -34,6 +34,8 @@ public class PlayerStation : MonoBehaviour {
     /// </summary>
     public Vector3 Direction { get; set; }
 
+    public GameObject missile;
+
     //Private fields
     short health;
     short resources;
@@ -158,11 +160,9 @@ public class PlayerStation : MonoBehaviour {
                 {
                     break;
                 }
-                if (FindTarget())
-                {
-                    if(Target.Action != "Shield")
-                        Target.TakeDamage();
-                }
+                GameObject newMissile = Instantiate(missile, transform);
+                GameManager.Instance.missiles.Add(newMissile.GetComponent<Missile>());
+                newMissile.GetComponent<Missile>().Launch(this, Target);
 
                 resources -= 1;
                 break;
