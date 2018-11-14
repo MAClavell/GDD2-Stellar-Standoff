@@ -26,7 +26,7 @@ public class GameManager : Singleton<GameManager> {
     RoundState roundState;
     short currPlayer;
     bool readyToPlay;
-    int numPlayers;
+    public int numPlayers;
 
     // Called before start
     void Awake () {
