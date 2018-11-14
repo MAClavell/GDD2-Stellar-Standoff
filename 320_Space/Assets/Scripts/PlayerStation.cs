@@ -27,7 +27,7 @@ public class PlayerStation : MonoBehaviour {
     /// <summary>
     /// Coordinates of station (local to asteroid)
     /// </summary>
-    public Vector2 Position { get; set; }
+    public Vector3 Position { get; set; }
 
     /// <summary>
     /// Normal vector pointing from center of asteroid to station
@@ -54,8 +54,9 @@ public class PlayerStation : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-		
+    void Update ()
+    {
+        transform.position = Position;
 	}
 
     /// <summary>

@@ -20,6 +20,8 @@ public class GameManager : Singleton<GameManager> {
     public List<PlayerStation> players { get; set; }
     public List<Missile> missiles { get; set; }
 
+    public float radius;
+
     //Private Fields
     RoundState roundState;
     short currPlayer;
@@ -28,6 +30,7 @@ public class GameManager : Singleton<GameManager> {
 
     // Called before start
     void Awake () {
+        radius = 2.0f;
         State = GameState.Begin;
         roundState = RoundState.Begin;
         players = new List<PlayerStation>();
@@ -49,9 +52,31 @@ public class GameManager : Singleton<GameManager> {
                 //set up for number of players
                 if (readyToPlay)
                 {
+
+                    float xPos;
+                    float yPos;
+                    float angle = 90;
+                    float interval = 360 / numPlayers;
+                    Vector3 position;
+                    Vector3 direction;
+
                     for (int i = 0; i < numPlayers; i++)
                     {
+                        //Instantiate station prefab
                         GameObject newPlayer = Instantiate(stationPre);
+
+                        //Calculate direction and position of station
+                        xPos = Mathf.Cos(Mathf.Deg2Rad * angle) * radius;
+                        yPos = Mathf.Sin(Mathf.Deg2Rad * angle) * radius;
+                        position = new Vector3(xPos, yPos, 0);
+                        direction = (new Vector3(position.x, position.y, 0) - Vector3.zero).normalized;
+                        angle -= interval;
+
+                        //Assign direction and position to new prefab
+                        newPlayer.GetComponent<PlayerStation>().Direction = direction;
+                        newPlayer.GetComponent<PlayerStation>().Position = position;
+
+                        //Add prefab's PlayerStation component to list
                         players.Add(newPlayer.GetComponent<PlayerStation>());
                     }
                     mainMenu.enabled = false;
