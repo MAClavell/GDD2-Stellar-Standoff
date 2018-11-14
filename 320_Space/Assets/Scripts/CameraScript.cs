@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraScript : MonoBehaviour {
 
     public GameManager manager;
-    List<PlayerStation> players;
+    //List<PlayerStation> players;
     PlayerStation currPlayer, nextPlayer;
     int playerNum, nextNum;
 
@@ -38,28 +38,34 @@ public class CameraScript : MonoBehaviour {
 
     bool stayOnMe = false;
 
+    void Awake()
+    {
+        manager = GameManager.Instance;
+    }
 
     // Use this for initialization
-    void Start () {
-      
+    void Start()
+    {
+
         startTime = Time.time;
         startPos = transform.position;//new Vector3(0,0,-10);
-        farPos = new Vector3(transform.position.x, transform.position.y, transform.position.z-10);
+        farPos = new Vector3(transform.position.x, transform.position.y, transform.position.z - 10);
         lastPos = startPos;
         basePos = new Vector3(0, meteorRadious, -10);
         currState = CameraState.Start;
 
-        degrees= new Vector3(0, 0, 360 / playerCount);
+        degrees = new Vector3(0, 0, 360 / playerCount);
         startRot = world.transform.rotation;
         lastRot = startRot;
         spacesOver = 1;
         baseRot = lastRot * Quaternion.Euler(degrees * spacesOver);
 
-        players = manager.players;
-        playerCount = players.Count;
+        //players = manager.players;
+        playerCount = manager.players.Count;
         playerNum = 0;
-        currPlayer = players[playerNum];
-        
+        currPlayer = manager.players[playerNum];
+        nextPlayer = manager.players[playerNum+1];
+
 
     }
 	
@@ -70,16 +76,16 @@ public class CameraScript : MonoBehaviour {
 
         currRot = world.transform.rotation;
 
-        if (!nextPlayer.IsAlive)
+        /*if (!nextPlayer.IsAlive)
         {
             nextNum = Mathf.Abs((playerNum + 1) % (int)playerCount);
-            nextPlayer = players[nextNum];
+            nextPlayer = manager.players[nextNum];
             while (!nextPlayer.IsAlive)
             {
                 spacesOver = Mathf.Abs(playerNum - nextNum);
             }
             baseRot = lastRot * Quaternion.Euler(degrees * spacesOver);
-        }
+        }*/
 
         //increments the number of spaces the camera will go over
         if (Input.GetKeyDown(KeyCode.X))
@@ -114,6 +120,15 @@ public class CameraScript : MonoBehaviour {
 
             if (Input.GetKeyDown(KeyCode.C))
             {
+                nextNum = Mathf.Abs((playerNum + 1) % (int)playerCount);
+                nextPlayer = manager.players[nextNum];
+                while (!nextPlayer.IsAlive)
+                {
+                    spacesOver = Mathf.Abs(playerNum - nextNum);
+                }
+                baseRot = lastRot * Quaternion.Euler(degrees * spacesOver);
+
+
                 transform.position = startPos;
                 Camera.main.orthographicSize = startZoom;
 
