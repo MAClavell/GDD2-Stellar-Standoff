@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum GameState { Begin, Paused, Playing, End }
 enum RoundState { Begin, TurnOrder, PlayChoices, End }
@@ -15,6 +16,10 @@ public class GameManager : Singleton<GameManager> {
     public Canvas mainMenu;
     public Canvas playerMenu;
     public Canvas enemyMenu;
+    public Text health;
+    public Text resources;
+    public Text playerName;
+    public Text playerTotal;
 
     public GameObject stationPre;
     public List<PlayerStation> players { get; set; }
@@ -43,6 +48,10 @@ public class GameManager : Singleton<GameManager> {
         playerMenu.enabled = false;
         enemyMenu.enabled = false;
         missilesLaunched = false;
+        health.enabled = false;
+        resources.enabled = false;
+        playerName.enabled = false;
+        playerTotal.enabled = true;
 	}
 	
 	// Update is called once per frame
@@ -52,6 +61,7 @@ public class GameManager : Singleton<GameManager> {
             //Game is starting
             case GameState.Begin:
                 //set up for number of players
+                playerTotal.text = numPlayers.ToString();
                 if (readyToPlay)
                 {
 
@@ -125,7 +135,16 @@ public class GameManager : Singleton<GameManager> {
                             return;
                         }
 
+                        //displaying menu and resources
                         playerMenu.enabled = true;
+                        health.enabled = true;
+                        resources.enabled = true;
+                        playerName.enabled = true;
+
+                        health.text = "Health: " + players[currPlayer].Health;
+                        resources.text = "Resources: " + players[currPlayer].Resources;
+                        playerName.text = "Player " + (currPlayer+1);
+
                         //Player chooses their action
                         if (players[currPlayer].IsAlive && !players[currPlayer].ActionChosen)
                         {

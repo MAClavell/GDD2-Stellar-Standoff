@@ -7,7 +7,7 @@ public class PlayerStation : MonoBehaviour {
     /// <summary>
     /// Whether the station is alive
     /// </summary>
-    public bool IsAlive { get { return health > 0; } }
+    public bool IsAlive { get { return Health > 0; } }
 
     /// <summary>
     /// Whether the station has chosen their action or not
@@ -37,13 +37,14 @@ public class PlayerStation : MonoBehaviour {
     public GameObject missile;
 
     //Private fields
-    short health;
-    short resources;
+    public short Health { get; set; }
+    public short Resources { get; set; }
+    
 
 	// Called before start
 	void Awake () {
-        health = 3;
-        resources = 0;
+        Health = 3;
+        Resources = 0;
         ActionChosen = false;
         Action = "";
         Target = null;
@@ -68,12 +69,12 @@ public class PlayerStation : MonoBehaviour {
     {
         if (!ActionChosen)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1)&&resources>0)
+            if (Input.GetKeyDown(KeyCode.Alpha1)&&Resources>0)
             {
                 Action = "Shoot";
                 ActionChosen = true;
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha2)&&resources>0)
+            else if (Input.GetKeyDown(KeyCode.Alpha2)&&Resources>0)
             {
                 Action = "Reflect";
                 ActionChosen = true;
@@ -164,16 +165,16 @@ public class PlayerStation : MonoBehaviour {
                 GameManager.Instance.missiles.Add(newMissile.GetComponent<Missile>());
                 newMissile.GetComponent<Missile>().Launch(this, Target);
 
-                resources -= 1;
+                Resources -= 1;
                 break;
             case "Reflect":
-                resources -= 1;
+                Resources -= 1;
                 break;
             case "Shield":
                 Debug.Log("All incoming missles are destroyed!");
                 break;
             case "Load":
-                resources++;
+                Resources++;
                 break;
         }
     }
@@ -205,12 +206,12 @@ public class PlayerStation : MonoBehaviour {
     /// </summary>
     public void TakeDamage()
     {
-        health--;
+        Health--;
     }
 
     public void DebugInfo()
     {
-        Debug.Log("Resource count: " + resources);
-        Debug.Log("Health: " + health);
+        Debug.Log("Resource count: " + Resources);
+        Debug.Log("Health: " + Health);
     }
 }
