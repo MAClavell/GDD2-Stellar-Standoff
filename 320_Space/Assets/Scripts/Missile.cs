@@ -11,6 +11,7 @@ public class Missile : MonoBehaviour {
     public float radius; //radius of asteroid
 
     public int bounces; //number of times missile has been reflected
+    public int maxBounces; //number of players plus one
     public float maxSpeed; //number of seconds missile takes to go 180
 
     private float arc; //fraction of max height over surface; 0 to 1
@@ -53,6 +54,7 @@ public class Missile : MonoBehaviour {
     void Start ()
     {
         bounces = 0;
+        maxBounces = GameManager.Instance.numPlayers + 1;
         maxSpeed = 3.5f;
         radius = 5.0f;
         maxHeight = 1.0f;
@@ -69,6 +71,12 @@ public class Missile : MonoBehaviour {
         if(fracComplete >= 1)
         {
             CheckStation(destination);
+        }
+
+        if (bounces > maxBounces)
+        {
+            GameManager.Instance.missiles.Remove(this);
+            Destroy(gameObject);
         }
 	}
 
@@ -105,12 +113,14 @@ public class Missile : MonoBehaviour {
         else if(target.Action == "Shield")
         {
             //missle explosion
+            GameManager.Instance.missiles.Remove(this);
             Destroy(gameObject);
         }
         else
         {
             //missle and base explosion
             target.TakeDamage();
+            GameManager.Instance.missiles.Remove(this);
             Destroy(gameObject);
         }
     }
