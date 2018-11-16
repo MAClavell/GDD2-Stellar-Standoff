@@ -76,6 +76,7 @@ public class Missile : MonoBehaviour {
         if (bounces > maxBounces)
         {
             GameManager.Instance.missiles.Remove(this);
+            Explode();
             Destroy(gameObject);
         }
 	}
@@ -115,6 +116,7 @@ public class Missile : MonoBehaviour {
         {
             //missle explosion
             GameManager.Instance.missiles.Remove(this);
+            Explode();
             Destroy(gameObject);
         }
         else
@@ -122,7 +124,17 @@ public class Missile : MonoBehaviour {
             //missle and base explosion
             target.TakeDamage();
             GameManager.Instance.missiles.Remove(this);
+            //Have base do its own explosion?
             Destroy(gameObject);
         }
+    }
+
+    /// <summary>
+    /// Initiate visuals and audio before the object is destroyed
+    /// Potentially make an area of effect?
+    /// </summary>
+    public void Explode()
+    {
+
     }
 }
