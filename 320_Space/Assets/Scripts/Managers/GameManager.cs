@@ -170,6 +170,13 @@ public class GameManager : Singleton<GameManager> {
                             missilesLaunched = true;
                         }
 
+                        foreach(Missile missile in missiles)
+                        {
+                            if (!missile.inFlight)
+                            {
+                                missile.Launch(missile.origin, missile.destination);
+                            }
+                        }
 
                         if (missilesLaunched && missiles.Count == 0)
                         {

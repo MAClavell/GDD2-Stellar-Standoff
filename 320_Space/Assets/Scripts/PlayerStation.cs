@@ -163,7 +163,8 @@ public class PlayerStation : MonoBehaviour {
                 }
                 GameObject newMissile = Instantiate(missile, transform);
                 GameManager.Instance.missiles.Add(newMissile.GetComponent<Missile>());
-                newMissile.GetComponent<Missile>().Launch(this, Target);
+                newMissile.GetComponent<Missile>().origin = this;
+                newMissile.GetComponent<Missile>().destination = Target;
 
                 Resources -= 1;
                 break;

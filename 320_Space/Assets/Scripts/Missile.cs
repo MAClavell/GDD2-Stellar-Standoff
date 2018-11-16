@@ -91,6 +91,7 @@ public class Missile : MonoBehaviour {
 
         //Calculate position
         slerp = Vector3.Slerp(origin.Direction, destination.Direction, fracComplete).normalized; //controls distance around asteroid
+        Debug.Log(slerp);
         arc = Mathf.Sin(fracComplete * Mathf.PI); //controls distance away from surface
         transform.position = (radius + (arc * maxHeight)) * slerp; //sets to transform
 
