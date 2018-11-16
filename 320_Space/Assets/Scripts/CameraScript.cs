@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraScript : MonoBehaviour {
+public class CameraScript : MonoBehaviour
+{
 
     public GameManager manager;
     //List<PlayerStation> players;
     PlayerStation currPlayer, nextPlayer;
     int playerNum, nextNum;
 
-    enum CameraState { Start, Base, Far , End };
+    enum CameraState { Start, Base, Far, End };
     CameraState currState;
 
     public GameObject world;
@@ -64,13 +65,14 @@ public class CameraScript : MonoBehaviour {
         playerCount = manager.players.Count;
         playerNum = 0;
         currPlayer = manager.players[playerNum];
-        nextPlayer = manager.players[playerNum+1];
+        nextPlayer = manager.players[playerNum + 1];
 
 
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
 
         currPos = transform.position;
 
@@ -91,7 +93,7 @@ public class CameraScript : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.X))
         {
             spacesOver++;
-            if(spacesOver > playerCount)
+            if (spacesOver > playerCount)
             {
                 spacesOver = 1;
             }
@@ -105,114 +107,15 @@ public class CameraScript : MonoBehaviour {
 
         if (currState == CameraState.Start)
         {
-            if (currPos != startPos)
-            {
-                distCovered = (Time.time - startTime) * speed;
-                distance = Vector3.Distance(lastPos, startPos);
-                percent = distCovered / distance;
-
-                transform.position = Vector3.Lerp(lastPos, startPos, percent);
-                Camera.main.orthographicSize = Mathf.Lerp(lastZoom, startZoom, percent);
-
-                if (!stayOnMe)
-                    world.transform.rotation = Quaternion.Slerp(lastRot, startRot, percent);
-            }
-
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                nextNum = Mathf.Abs((playerNum + 1) % (int)playerCount);
-                nextPlayer = manager.players[nextNum];
-                while (!nextPlayer.IsAlive)
-                {
-                    spacesOver = Mathf.Abs(playerNum - nextNum);
-                }
-                baseRot = lastRot * Quaternion.Euler(degrees * spacesOver);
-
-
-                transform.position = startPos;
-                Camera.main.orthographicSize = startZoom;
-
-                if (!stayOnMe)
-                    world.transform.rotation = startRot;
-
-
-
-                currState = CameraState.Base;
-                lastPos = startPos;
-                lastZoom = startZoom;
-                startTime = Time.time;
-
-                //startRot = currRot;
-                if (!stayOnMe)
-                    lastRot = startRot;//currRot;
-            }
+            ZoomStart();
         }
         else if (currState == CameraState.Base)
         {
-            if (currPos != basePos)
-            {
-                distCovered = (Time.time - startTime) * speed;
-                distance = Vector3.Distance(lastPos, basePos);
-                percent = distCovered / distance;
-
-                transform.position = Vector3.Lerp(lastPos, basePos, percent);
-                Camera.main.orthographicSize = Mathf.Lerp(lastZoom, baseZoom, percent);
-
-                if (!stayOnMe)
-                    world.transform.rotation = Quaternion.Slerp(lastRot, baseRot, percent);
-            }
-
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                transform.position = basePos;
-                Camera.main.orthographicSize = baseZoom;
-
-                if (!stayOnMe)
-                    world.transform.rotation = baseRot;
-
-
-
-                currState = CameraState.Start;
-                lastPos = basePos;
-                lastZoom = baseZoom;
-                startTime = Time.time;
-
-                if (!stayOnMe)
-                {
-                    lastRot = baseRot;
-                    baseRot = baseRot * Quaternion.Euler(degrees * spacesOver);
-
-                    startRot = lastRot;
-                }
-            }
-
+            ZoomBase();
         }
         else if (currState == CameraState.Far)
         {
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                if (currPos != farPos)
-                {
-                    distCovered = (Time.time - startTime) * speed;
-                    distance = Vector3.Distance(lastPos, farPos);
-                    percent = distCovered / distance;
-
-                    transform.position = Vector3.Lerp(lastPos, farPos, percent);
-                    Camera.main.orthographicSize = Mathf.Lerp(lastZoom, farZoom, percent);
-                }
-
-                if (Input.GetKeyDown(KeyCode.C))
-                {
-                    transform.position = farPos;
-                    Camera.main.orthographicSize = farZoom;
-
-
-                    currState = CameraState.Start;
-                    lastPos = farPos;
-                    lastZoom = farZoom;
-                    startTime = Time.time;
-                }
-            }
+            ZoomFar();
         }
         else if (currState == CameraState.End)
         {
@@ -220,4 +123,115 @@ public class CameraScript : MonoBehaviour {
         }
 
     }
+    void ZoomBase()
+    {
+        if (currPos != basePos)
+        {
+            distCovered = (Time.time - startTime) * speed;
+            distance = Vector3.Distance(lastPos, basePos);
+            percent = distCovered / distance;
+
+            transform.position = Vector3.Lerp(lastPos, basePos, percent);
+            Camera.main.orthographicSize = Mathf.Lerp(lastZoom, baseZoom, percent);
+
+            if (!stayOnMe)
+                world.transform.rotation = Quaternion.Slerp(lastRot, baseRot, percent);
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            transform.position = basePos;
+            Camera.main.orthographicSize = baseZoom;
+
+            if (!stayOnMe)
+                world.transform.rotation = baseRot;
+
+
+
+            currState = CameraState.Start;
+            lastPos = basePos;
+            lastZoom = baseZoom;
+            startTime = Time.time;
+
+            if (!stayOnMe)
+            {
+                lastRot = baseRot;
+                baseRot = baseRot * Quaternion.Euler(degrees * spacesOver);
+
+                startRot = lastRot;
+            }
+        }
+    }
+    void ZoomStart()
+    {
+        if (currPos != startPos)
+        {
+            distCovered = (Time.time - startTime) * speed;
+            distance = Vector3.Distance(lastPos, startPos);
+            percent = distCovered / distance;
+
+            transform.position = Vector3.Lerp(lastPos, startPos, percent);
+            Camera.main.orthographicSize = Mathf.Lerp(lastZoom, startZoom, percent);
+
+            if (!stayOnMe)
+                world.transform.rotation = Quaternion.Slerp(lastRot, startRot, percent);
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            nextNum = Mathf.Abs((playerNum + 1) % (int)playerCount);
+            nextPlayer = manager.players[nextNum];
+            while (!nextPlayer.IsAlive)
+            {
+                spacesOver = Mathf.Abs(playerNum - nextNum);
+            }
+            baseRot = lastRot * Quaternion.Euler(degrees * spacesOver);
+
+
+            transform.position = startPos;
+            Camera.main.orthographicSize = startZoom;
+
+            if (!stayOnMe)
+                world.transform.rotation = startRot;
+
+
+
+            currState = CameraState.Base;
+            lastPos = startPos;
+            lastZoom = startZoom;
+            startTime = Time.time;
+
+            //startRot = currRot;
+            if (!stayOnMe)
+                lastRot = startRot;//currRot;
+        }
+    }
+    void ZoomFar()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            if (currPos != farPos)
+            {
+                distCovered = (Time.time - startTime) * speed;
+                distance = Vector3.Distance(lastPos, farPos);
+                percent = distCovered / distance;
+
+                transform.position = Vector3.Lerp(lastPos, farPos, percent);
+                Camera.main.orthographicSize = Mathf.Lerp(lastZoom, farZoom, percent);
+            }
+
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                transform.position = farPos;
+                Camera.main.orthographicSize = farZoom;
+
+
+                currState = CameraState.Start;
+                lastPos = farPos;
+                lastZoom = farZoom;
+                startTime = Time.time;
+            }
+        }
+    }
+
 }
