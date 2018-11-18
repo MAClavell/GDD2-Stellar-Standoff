@@ -60,7 +60,7 @@ public class PlayerStation : MonoBehaviour {
     void Update ()
     {
         transform.position = Position;
-	}
+    }
 
     /// <summary>
     /// Logic for the player choosing their action
