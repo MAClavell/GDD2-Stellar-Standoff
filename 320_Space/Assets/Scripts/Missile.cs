@@ -41,7 +41,12 @@ public class Missile : MonoBehaviour {
             else angle = -90;
 
         //Sets speed based on distance between origin/destination
-        speed = (Mathf.Abs(distance) / 180) * maxSpeed; 
+        if (maxSpeed <= 0)
+        {
+            maxSpeed = 3.5f;
+        }
+
+        speed = (Mathf.Abs(distance) / 180) * maxSpeed;
 
         //Changes the destination station's direction by half a degree to avoid 180 arc problem
         if (Mathf.Abs(distance) == 180) destination.Direction = Quaternion.AngleAxis(0.5f, Vector3.forward) * destination.Direction;
@@ -92,7 +97,6 @@ public class Missile : MonoBehaviour {
 
         //Calculate position
         slerp = Vector3.Slerp(origin.Direction, destination.Direction, fracComplete).normalized; //controls distance around asteroid
-        Debug.Log(slerp);
         arc = Mathf.Sin(fracComplete * Mathf.PI); //controls distance away from surface
         transform.position = (radius + (arc * maxHeight)) * slerp; //sets to transform
 

@@ -13,6 +13,8 @@ public class GameManager : Singleton<GameManager> {
     /// The current GameState
     /// </summary>
     public GameState State { get; set; }
+
+    //menu stuff
     public Canvas mainMenu;
     public Canvas playerMenu;
     public Canvas enemyMenu;
@@ -186,20 +188,29 @@ public class GameManager : Singleton<GameManager> {
 
                     //End the round
                     case RoundState.End:
-                        roundState = RoundState.Begin;
-
-                        for (int i = 0; i < players.Count; i++)
+                        int alivePlayers = 0;
+                        foreach (PlayerStation player in players)
                         {
-                            Debug.Log("Player " + i);
-                            players[i].DebugInfo();
+                            if (player.IsAlive)
+                            {
+                                alivePlayers++;
+                            }
                         }
+
+                        if (alivePlayers <= 1)
+                        {
+                            State = GameState.End;
+                            break;
+                        }
+
+                        roundState = RoundState.Begin;
                         break;
                 }
                 break;
 
             //Ending the game
             case GameState.End:
-
+                playerName.text = "Game Over";
                 break;
         }
     }

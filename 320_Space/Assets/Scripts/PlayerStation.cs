@@ -172,7 +172,6 @@ public class PlayerStation : MonoBehaviour {
                 Resources -= 1;
                 break;
             case "Shield":
-                Debug.Log("All incoming missles are destroyed!");
                 break;
             case "Load":
                 Resources++;
