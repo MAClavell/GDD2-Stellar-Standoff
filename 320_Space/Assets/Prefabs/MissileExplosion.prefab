@@ -36,6 +36,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4320206519438112}
+  - component: {fileID: 114980086146571054}
   m_Layer: 0
   m_Name: MissileExplosion
   m_TagString: Untagged
@@ -101,6 +102,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114980086146571054
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1230262670181220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 853b0d7de0d8a78439052e30bc1c6c23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fire: {fileID: 0}
+  smoke: {fileID: 0}
+  timerMax: 1
 --- !u!198 &198466416504728948
 ParticleSystem:
   m_ObjectHideFlags: 1

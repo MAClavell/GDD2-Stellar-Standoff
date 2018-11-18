@@ -60,7 +60,7 @@ public class PlayerStation : MonoBehaviour {
     void Update ()
     {
         transform.position = Position;
-	}
+    }
 
     /// <summary>
     /// Logic for the player choosing their action
@@ -161,8 +161,10 @@ public class PlayerStation : MonoBehaviour {
                 {
                     break;
                 }
-                GameObject newMissile = Instantiate(missile, transform);
+                //GameObject newMissile = Instantiate(missile, transform);
+                GameObject newMissile = (GameObject)Instantiate(missile);
                 GameManager.Instance.missiles.Add(newMissile.GetComponent<Missile>());
+                //newMissile.GetComponent<Missile>().Launch(this, Target);
                 newMissile.GetComponent<Missile>().origin = this;
                 newMissile.GetComponent<Missile>().destination = Target;
 
