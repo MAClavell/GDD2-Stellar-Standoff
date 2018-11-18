@@ -147,6 +147,8 @@ public class GameManager : Singleton<GameManager> {
                         resources.text = "Resources: " + players[currPlayer].Resources;
                         playerName.text = "Player " + (currPlayer+1);
 
+                        CheckForStationTouch();
+
                         //Player chooses their action
                         if (players[currPlayer].IsAlive && !players[currPlayer].ActionChosen)
                         {
@@ -246,5 +248,17 @@ public class GameManager : Singleton<GameManager> {
     {
         readyToPlay = !readyToPlay;
         Debug.Log("Play");
+    }
+
+    void CheckForStationTouch()
+    {
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint((Input.GetTouch(0).position)), Vector2.zero);
+            if (hit.collider != null && hit.collider.gameObject.tag == "Station")
+            {
+                Debug.Log("Touched it");
+            }
+        }
     }
 }
