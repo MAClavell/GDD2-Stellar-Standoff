@@ -23,6 +23,8 @@ public class Missile : MonoBehaviour {
     public float timer; //counts from zero to speed
     public float maxHeight; //distance away from surface at peak of arc
 
+    public GameObject explosion;
+
     /// <summary>
     /// Sets up the missile arc and puts it into play
     /// </summary>
@@ -49,7 +51,7 @@ public class Missile : MonoBehaviour {
         speed = (Mathf.Abs(distance) / 180) * maxSpeed;
 
         //Changes the destination station's direction by half a degree to avoid 180 arc problem
-        if (Mathf.Abs(distance) == 180) destination.Direction = Quaternion.AngleAxis(0.5f, Vector3.forward) * destination.Direction;
+        if (Mathf.Abs(distance) == 180) destination.Direction = Quaternion.AngleAxis(-0.5f, Vector3.forward) * destination.Direction;
 
         timer = 0;
         inFlight = true;
@@ -60,9 +62,9 @@ public class Missile : MonoBehaviour {
     {
         bounces = 0;
         maxBounces = GameManager.Instance.numPlayers + 1;
-        maxSpeed = 3.5f;
-        radius = 5.0f;
-        maxHeight = 1.0f;
+        //maxSpeed = 3.5f;
+        //radius = 5.0f;
+        //maxHeight = 1.0f;
 	}
 	
 	// Update is called once per frame
@@ -139,6 +141,7 @@ public class Missile : MonoBehaviour {
     /// </summary>
     public void Explode()
     {
-
+        GameObject e = (GameObject)Instantiate(explosion);
+        e.transform.position = transform.position;
     }
 }
