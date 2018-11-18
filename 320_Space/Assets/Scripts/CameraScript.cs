@@ -143,19 +143,55 @@ public class CameraScript : MonoBehaviour
                 world.transform.rotation = Quaternion.Slerp(lastRot, baseRot, percent);
         }
     }
+    void ClickPlayer()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SetNextPlayer(1);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            SetNextPlayer(2);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            SetNextPlayer(3);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            SetNextPlayer(4);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            SetNextPlayer(5);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            SetNextPlayer(6);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            SetNextPlayer(7);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            SetNextPlayer(0);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            SetNextPlayer(0);
+        }
+    }
     // Update is called once per frame
     void Update()
     {
         currPos = transform.position;
         currRot = world.transform.rotation;
 
-        //Temparary test
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            SetNextPlayer(5);
-        }
+        ClickPlayer();
+       
             //swaps states between start and base
-            if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             if (currState == CameraState.Start)
                 currState = CameraState.Base;
@@ -211,8 +247,8 @@ public class CameraScript : MonoBehaviour
             if (prevState == CameraState.Start)
             {
 
-                //spacesOver = Mathf.Abs(playerNum - nextNum);
-                //baseRot = lastRot * Quaternion.Euler(degrees * spacesOver);
+                spacesOver = Mathf.Abs(playerNum - nextNum);
+                baseRot = lastRot * Quaternion.Euler(degrees * spacesOver);
 
                 prevState = currState;
 
