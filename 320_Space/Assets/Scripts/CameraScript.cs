@@ -55,11 +55,11 @@ public class CameraScript : MonoBehaviour
         currState = CameraState.Start;
         prevState = CameraState.Start;
 
-        degrees = new Vector3(0, 0, 360 / playerCount);
+        degrees = new Vector3(0.0f, 0.0f, (360.0f / playerCount));
         startRot = world.transform.rotation;
         lastRot = startRot;
         spacesOver = 1;
-        baseRot = lastRot * Quaternion.Euler(degrees * spacesOver);
+        baseRot = (lastRot * Quaternion.Euler((degrees * spacesOver)));
 
     }
     /// <summary>
@@ -93,7 +93,7 @@ public class CameraScript : MonoBehaviour
             nextPlayer = manager.players[nextNum];
             while (!nextPlayer.IsAlive)
             {
-                spacesOver = Mathf.Abs(playerNum - nextNum);
+                spacesOver = nextNum - playerNum;
             }
             baseRot = lastRot * Quaternion.Euler(degrees * spacesOver);
         }
@@ -108,7 +108,7 @@ public class CameraScript : MonoBehaviour
         {
             nextNum = targetPlayerNum;
             //nextPlayer = manager.players[nextNum];
-            spacesOver = Mathf.Abs(playerNum - nextNum);
+            spacesOver = nextNum - playerNum;
 
             baseRot = lastRot * Quaternion.Euler(degrees * spacesOver);
         }
@@ -145,42 +145,42 @@ public class CameraScript : MonoBehaviour
     }
     void ClickPlayer()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             SetNextPlayer(1);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             SetNextPlayer(2);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             SetNextPlayer(3);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             SetNextPlayer(4);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             SetNextPlayer(5);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
+        if (Input.GetKeyDown(KeyCode.Y))
         {
             SetNextPlayer(6);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha7))
+        if (Input.GetKeyDown(KeyCode.U))
         {
             SetNextPlayer(7);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha8))
+        if (Input.GetKeyDown(KeyCode.I))
         {
             SetNextPlayer(0);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            SetNextPlayer(0);
-        }
+        //if (Input.GetKeyDown(KeyCode.Alpha0))
+        //{
+        //    SetNextPlayer(0);
+        //}
     }
     // Update is called once per frame
     void Update()
@@ -247,7 +247,7 @@ public class CameraScript : MonoBehaviour
             if (prevState == CameraState.Start)
             {
 
-                spacesOver = Mathf.Abs(playerNum - nextNum);
+                spacesOver = nextNum - playerNum;
                 baseRot = lastRot * Quaternion.Euler(degrees * spacesOver);
 
                 prevState = currState;
