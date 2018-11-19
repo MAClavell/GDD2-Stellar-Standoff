@@ -23,6 +23,9 @@ public class GameManager : Singleton<GameManager> {
     public Text playerName;
     public Text playerTotal;
 
+    //Camera
+    public CameraScript cam;
+
     public GameObject stationPre;
     public List<PlayerStation> players { get; set; }
     public List<MissileData> missiles { get; set; }
@@ -97,6 +100,7 @@ public class GameManager : Singleton<GameManager> {
                     }
                     mainMenu.enabled = false;
                     State = GameState.Playing;
+                    cam.playerCount = numPlayers;
                 }
                 break;
 
@@ -255,6 +259,9 @@ public class GameManager : Singleton<GameManager> {
         Debug.Log("Play");
     }
 
+    /// <summary>
+    /// Checking for touch input on stations
+    /// </summary>
     void CheckForStationTouch()
     {
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
@@ -262,7 +269,37 @@ public class GameManager : Singleton<GameManager> {
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint((Input.GetTouch(0).position)), Vector2.zero);
             if (hit.collider != null && hit.collider.gameObject.tag == "Station")
             {
-                Debug.Log("Touched it");
+                for (int i = 0; i < players.Count; i++)
+                {
+                    if (hit.collider.gameObject == players[i])
+                    {
+                        cam.SetNextPlayer(i);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Checking if station was clicked
+    /// </summary>
+    public void CheckForStationClicked(PlayerStation station)
+    {
+        for (int i = 0; i < players.Count; i++)
+        {
+            if (players[i] == station)
+            {
+                if(cam.currState == CameraScript.CameraState.Start)
+                {
+                    cam.SetNextPlayer(i);
+                    cam.currState = CameraScript.CameraState.Base;
+                }
+                else
+                {
+                    cam.currState = CameraScript.CameraState.Start;
+                }
+                return;
             }
         }
     }
