@@ -25,7 +25,8 @@ public class GameManager : Singleton<GameManager> {
 
     public GameObject stationPre;
     public List<PlayerStation> players { get; set; }
-    public List<Missile> missiles { get; set; }
+    public List<MissileData> missiles { get; set; }
+    public int numMissiles;
 
     public float radius;
 
@@ -35,6 +36,7 @@ public class GameManager : Singleton<GameManager> {
     bool readyToPlay;
     public int numPlayers;
     bool missilesLaunched;
+    public GameObject missilePrefab;
 
     // Called before start
     void Awake () {
@@ -42,7 +44,7 @@ public class GameManager : Singleton<GameManager> {
         State = GameState.Begin;
         roundState = RoundState.Begin;
         players = new List<PlayerStation>();
-        missiles = new List<Missile>();
+        missiles = new List<MissileData>();
         currPlayer = 0;
         readyToPlay = false;
         numPlayers = 2;
@@ -174,16 +176,19 @@ public class GameManager : Singleton<GameManager> {
                             missilesLaunched = true;
                         }
 
-                        foreach(Missile missile in missiles)
+                        foreach(MissileData missile in missiles)
                         {
-                            if (!missile.inFlight)
+                            if (!missile.InFlight)
                             {
-                                missile.Launch(missile.origin, missile.destination);
+                                GameObject m = (GameObject)Instantiate(missilePrefab);
+                                m.GetComponent<Missile>().Launch(missile.Origin, missile.Destination);
+                                missile.InFlight = true;
                             }
                         }
 
-                        if (missilesLaunched && missiles.Count == 0)
+                        if (missilesLaunched && GameManager.Instance.numMissiles <= 0)
                         {
+                            GameManager.Instance.missiles.Clear();
                             roundState = RoundState.End;
                         }
                         break;
