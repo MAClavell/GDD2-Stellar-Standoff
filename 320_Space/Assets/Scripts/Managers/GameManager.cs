@@ -98,6 +98,7 @@ public class GameManager : Singleton<GameManager> {
                     }
                     mainMenu.enabled = false;
                     State = GameState.Playing;
+                    cam.playerCount = numPlayers;
                 }
                 break;
 

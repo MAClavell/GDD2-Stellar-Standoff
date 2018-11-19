@@ -54,7 +54,7 @@ public class PlayerStation : MonoBehaviour {
     void Start()
     {
         //GameManager.Instance.players.Add(this);
-
+        transform.SetParent(GameManager.Instance.cam.world.transform);
     }
 
     // Update is called once per frame
