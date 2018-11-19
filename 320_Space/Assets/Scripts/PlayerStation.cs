@@ -54,6 +54,7 @@ public class PlayerStation : MonoBehaviour {
     void Start()
     {
         //GameManager.Instance.players.Add(this);
+
     }
 
     // Update is called once per frame
@@ -215,5 +216,10 @@ public class PlayerStation : MonoBehaviour {
     {
         Debug.Log("Resource count: " + Resources);
         Debug.Log("Health: " + Health);
+    }
+
+    private void OnMouseDown()
+    {
+        GameManager.Instance.CheckForStationClicked(this);
     }
 }

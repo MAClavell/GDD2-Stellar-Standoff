@@ -960,6 +960,8 @@ MonoBehaviour:
   nextPlayer: {fileID: 0}
   playerNum: 0
   nextNum: 0
+  currState: 0
+  prevState: 0
   world: {fileID: 937949386}
   lastZoom: 0
   startZoom: 5
@@ -975,10 +977,10 @@ MonoBehaviour:
   lastRot: {x: 0, y: 0, z: 0, w: 0}
   startRot: {x: 0, y: 0, z: 0, w: 0}
   baseRot: {x: 0, y: 0, z: 0, w: 0}
-  playerCount: 0
+  playerCount: 2
   degrees: {x: 0, y: 0, z: 0}
   speed: 2
-  meteorRadious: 4
+  meteorRadius: 4
   startTime: 0
   distance: 0
   distCovered: 0
@@ -2670,6 +2672,7 @@ MonoBehaviour:
   resources: {fileID: 556748480}
   playerName: {fileID: 40149100}
   playerTotal: {fileID: 2137312544}
+  cam: {fileID: 519330437}
   stationPre: {fileID: 1745269673744108, guid: 643c9b6e0b86b5b46bd0020c097fc179, type: 2}
   radius: 0
   numPlayers: 0
