@@ -40,6 +40,8 @@ public class GameManager : Singleton<GameManager> {
     public int numPlayers;
     bool missilesLaunched;
     public GameObject missilePrefab;
+    bool zoomed;
+    int camBase;
 
     // Called before start
     void Awake () {
@@ -59,6 +61,8 @@ public class GameManager : Singleton<GameManager> {
         resources.enabled = false;
         playerName.enabled = false;
         playerTotal.enabled = true;
+        zoomed = false;
+        camBase = 0;
 	}
 	
 	// Update is called once per frame
@@ -144,7 +148,23 @@ public class GameManager : Singleton<GameManager> {
                         }
 
                         //displaying menu and resources
-                        playerMenu.enabled = true;
+                        if (zoomed)
+                        {
+                            if(camBase == currPlayer)
+                            {
+                                playerMenu.enabled = true;
+                            }
+                            else
+                            {
+                                enemyMenu.enabled = true;
+                            }
+                        }
+                        else
+                        {
+                            playerMenu.enabled = false;
+                            enemyMenu.enabled = false;
+                        }
+
                         health.enabled = true;
                         resources.enabled = true;
                         playerName.enabled = true;
@@ -165,7 +185,11 @@ public class GameManager : Singleton<GameManager> {
                             players[currPlayer].ChooseTarget();
                         }
                         else
+                        {
+                            cam.currState = CameraScript.CameraState.Start;
+                            zoomed = false;
                             currPlayer++;
+                        }
 
                         break;
 
@@ -294,13 +318,60 @@ public class GameManager : Singleton<GameManager> {
                 {
                     cam.SetNextPlayer(i);
                     cam.currState = CameraScript.CameraState.Base;
+                    zoomed = true;
+                    camBase = i;
                 }
                 else
                 {
                     cam.currState = CameraScript.CameraState.Start;
+                    zoomed = false;
                 }
                 return;
             }
         }
+    }
+
+    /// <summary>
+    /// Shoot for menu functionality
+    /// </summary>
+    public void Shoot()
+    {
+        if (players[currPlayer].Resources > 0)
+        {
+            players[currPlayer].ActionChosen = true;
+            players[currPlayer].Action = "Shoot";
+            players[currPlayer].Target = players[camBase];
+        }
+    }
+
+    /// <summary>
+    /// Reflect for menu functionality
+    /// </summary>
+    public void Reflect()
+    {
+        if (players[currPlayer].Resources > 0)
+        {
+            players[currPlayer].ActionChosen = true;
+            players[currPlayer].Action = "Reflect";
+            players[currPlayer].Target = players[camBase];
+        }
+    }
+
+    /// <summary>
+    /// Load for menu functionality
+    /// </summary>
+    public void Load()
+    {
+        players[currPlayer].ActionChosen = true;
+        players[currPlayer].Action = "Load";
+    }
+
+    /// <summary>
+    /// Shield for menu functionality
+    /// </summary>
+    public void Shield()
+    {
+        players[currPlayer].ActionChosen = true;
+        players[currPlayer].Action = "Shield";
     }
 }

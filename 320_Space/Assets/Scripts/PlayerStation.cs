@@ -55,12 +55,13 @@ public class PlayerStation : MonoBehaviour {
     {
         //GameManager.Instance.players.Add(this);
         transform.SetParent(GameManager.Instance.cam.world.transform);
+        transform.position = Position;
     }
 
     // Update is called once per frame
     void Update ()
     {
-        transform.position = Position;
+        
     }
 
     /// <summary>
