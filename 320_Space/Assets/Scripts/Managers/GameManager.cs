@@ -165,6 +165,15 @@ public class GameManager : Singleton<GameManager> {
                             enemyMenu.enabled = false;
                         }
 
+                        //setting home base color
+                        for (int i = 0; i < players.Count; i++)
+                        {
+                            if(i == currPlayer)
+                            {
+                                
+                            }
+                        }
+
                         health.enabled = true;
                         resources.enabled = true;
                         playerName.enabled = true;
