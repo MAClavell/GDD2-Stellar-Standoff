@@ -8,8 +8,8 @@ public class CameraScript : MonoBehaviour
     public PlayerStation currPlayer, nextPlayer;
     public int playerNum, nextNum;
 
-    enum CameraState { Start, Base, Far, End };
-    CameraState currState, prevState;
+    public enum CameraState { Start, Base, Far, End };
+    public CameraState currState, prevState;
 
     public GameObject world;
 
@@ -26,11 +26,11 @@ public class CameraScript : MonoBehaviour
     public Quaternion lastRot;
     public Quaternion startRot, baseRot;
 
-    public float playerCount;
+    public float playerCount; // default to 2
     public Vector3 degrees;
 
     public float speed;//2.0f
-    public float meteorRadious;//4 for now
+    public float meteorRadius;//4 for now
 
     public float startTime;
     public float distance, distCovered;
@@ -51,7 +51,7 @@ public class CameraScript : MonoBehaviour
         startPos = transform.position;//new Vector3(0,0,-10);
         farPos = new Vector3(transform.position.x, transform.position.y, transform.position.z - 10);
         lastPos = startPos;
-        basePos = new Vector3(0, meteorRadious, -10);
+        basePos = new Vector3(0, meteorRadius, -10);
         currState = CameraState.Start;
         prevState = CameraState.Start;
 
@@ -102,7 +102,7 @@ public class CameraScript : MonoBehaviour
     /// sets base rotation to player number passed in
     /// </summary>
     /// <param name="targetPlayerNum"></param>
-    void SetNextPlayer(int targetPlayerNum)
+    public void SetNextPlayer(int targetPlayerNum)
     {
         if (targetPlayerNum < playerCount)
         {

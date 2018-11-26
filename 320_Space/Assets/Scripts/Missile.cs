@@ -82,7 +82,8 @@ public class Missile : MonoBehaviour {
 
         if (bounces > maxBounces)
         {
-            GameManager.Instance.missiles.Remove(this);
+            //GameManager.Instance.missiles.Remove(this);
+            GameManager.Instance.numMissiles--;
             Explode();
             Destroy(gameObject);
         }
@@ -121,7 +122,8 @@ public class Missile : MonoBehaviour {
         else if(target.Action == "Shield")
         {
             //missle explosion
-            GameManager.Instance.missiles.Remove(this);
+            //GameManager.Instance.missiles.Remove(this);
+            GameManager.Instance.numMissiles--;
             Explode();
             Destroy(gameObject);
         }
@@ -129,7 +131,8 @@ public class Missile : MonoBehaviour {
         {
             //missle and base explosion
             target.TakeDamage();
-            GameManager.Instance.missiles.Remove(this);
+            //GameManager.Instance.missiles.Remove(this);
+            GameManager.Instance.numMissiles--;
             //Have base do its own explosion?
             Destroy(gameObject);
         }

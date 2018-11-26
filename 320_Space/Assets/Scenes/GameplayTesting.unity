@@ -2554,8 +2554,11 @@ MonoBehaviour:
   playerName: {fileID: 40149100}
   playerTotal: {fileID: 2137312544}
   stationPre: {fileID: 1745269673744108, guid: 643c9b6e0b86b5b46bd0020c097fc179, type: 2}
+  numMissiles: 0
   radius: 0
   numPlayers: 0
+  missilePrefab: {fileID: 1334755276076962, guid: a75d8fe2c5b1bc84e9e915b723093d5e,
+    type: 2}
 --- !u!4 &2120391319
 Transform:
   m_ObjectHideFlags: 0

@@ -54,12 +54,14 @@ public class PlayerStation : MonoBehaviour {
     void Start()
     {
         //GameManager.Instance.players.Add(this);
+        transform.SetParent(GameManager.Instance.cam.world.transform);
+        transform.position = Position;
     }
 
     // Update is called once per frame
     void Update ()
     {
-        transform.position = Position;
+        
     }
 
     /// <summary>
@@ -162,11 +164,12 @@ public class PlayerStation : MonoBehaviour {
                     break;
                 }
                 //GameObject newMissile = Instantiate(missile, transform);
-                GameObject newMissile = (GameObject)Instantiate(missile);
-                GameManager.Instance.missiles.Add(newMissile.GetComponent<Missile>());
+                MissileData newMissileData = new MissileData(this, Target);
+                GameManager.Instance.missiles.Add(newMissileData);
+                GameManager.Instance.numMissiles++;
                 //newMissile.GetComponent<Missile>().Launch(this, Target);
-                newMissile.GetComponent<Missile>().origin = this;
-                newMissile.GetComponent<Missile>().destination = Target;
+                //newMissile.GetComponent<Missile>().origin = this;
+                //newMissile.GetComponent<Missile>().destination = Target;
 
                 Resources -= 1;
                 break;
@@ -215,5 +218,10 @@ public class PlayerStation : MonoBehaviour {
     {
         Debug.Log("Resource count: " + Resources);
         Debug.Log("Health: " + Health);
+    }
+
+    private void OnMouseDown()
+    {
+        GameManager.Instance.CheckForStationClicked(this);
     }
 }

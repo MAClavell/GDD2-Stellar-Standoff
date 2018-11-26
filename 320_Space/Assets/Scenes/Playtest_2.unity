@@ -145,7 +145,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 182, y: 265}
+  m_AnchoredPosition: {x: 452, y: -10}
   m_SizeDelta: {x: 493.8, y: 92.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &40149100
@@ -262,7 +262,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 41189788}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2120391318}
+        m_MethodName: Reflect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &41189788
@@ -373,7 +384,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 149253397}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2120391318}
+        m_MethodName: Shoot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &149253397
@@ -960,6 +982,8 @@ MonoBehaviour:
   nextPlayer: {fileID: 0}
   playerNum: 0
   nextNum: 0
+  currState: 0
+  prevState: 0
   world: {fileID: 937949386}
   lastZoom: 0
   startZoom: 5
@@ -975,10 +999,10 @@ MonoBehaviour:
   lastRot: {x: 0, y: 0, z: 0, w: 0}
   startRot: {x: 0, y: 0, z: 0, w: 0}
   baseRot: {x: 0, y: 0, z: 0, w: 0}
-  playerCount: 0
+  playerCount: 2
   degrees: {x: 0, y: 0, z: 0}
   speed: 2
-  meteorRadious: 4
+  meteorRadius: 4
   startTime: 0
   distance: 0
   distCovered: 0
@@ -1016,7 +1040,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 636, y: 209}
+  m_AnchoredPosition: {x: 444, y: 145}
   m_SizeDelta: {x: 493.8, y: 92.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &556748480
@@ -1091,8 +1115,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -379, y: 34}
-  m_SizeDelta: {x: 493.8, y: 300}
+  m_AnchoredPosition: {x: -247, y: 29}
+  m_SizeDelta: {x: 250, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &652218768
 MonoBehaviour:
@@ -1115,7 +1139,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 24
+    m_FontSize: 12
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -1355,7 +1379,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -379, y: 209}
+  m_AnchoredPosition: {x: -119, y: 154}
   m_SizeDelta: {x: 493.8, y: 92.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &996672103
@@ -1645,7 +1669,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 559, y: 34}
+  m_AnchoredPosition: {x: 445, y: -44}
   m_SizeDelta: {x: 493.8, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1494367140
@@ -1669,7 +1693,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 24
+    m_FontSize: 12
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -1904,7 +1928,7 @@ RectTransform:
   - {fileID: 1907919603}
   - {fileID: 678280925}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2061,7 +2085,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1778679708}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2120391318}
+        m_MethodName: Shield
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1778679708
@@ -2189,7 +2224,7 @@ RectTransform:
   - {fileID: 652218767}
   - {fileID: 1494367139}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2468,7 +2503,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1979060066}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2120391318}
+        m_MethodName: Load
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1979060066
@@ -2670,9 +2716,13 @@ MonoBehaviour:
   resources: {fileID: 556748480}
   playerName: {fileID: 40149100}
   playerTotal: {fileID: 2137312544}
+  cam: {fileID: 519330437}
   stationPre: {fileID: 1745269673744108, guid: 643c9b6e0b86b5b46bd0020c097fc179, type: 2}
+  numMissiles: 0
   radius: 0
   numPlayers: 0
+  missilePrefab: {fileID: 1334755276076962, guid: a75d8fe2c5b1bc84e9e915b723093d5e,
+    type: 2}
 --- !u!4 &2120391319
 Transform:
   m_ObjectHideFlags: 0
