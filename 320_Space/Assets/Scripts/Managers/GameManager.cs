@@ -170,7 +170,7 @@ public class GameManager : Singleton<GameManager> {
                         {
                             if(i == currPlayer)
                             {
-                                
+                                //players[i].GetComponent<SpriteRenderer>
                             }
                         }
 
