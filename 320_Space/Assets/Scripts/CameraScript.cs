@@ -29,7 +29,7 @@ public class CameraScript : MonoBehaviour
     public float playerCount; // default to 2
     public Vector3 degrees;
 
-    public float speed;//2.0f
+    public float speed;//3.0f
     public float meteorRadius;//4 for now
 
     public float startTime;
@@ -65,7 +65,7 @@ public class CameraScript : MonoBehaviour
     /// <summary>
     /// sets values if using manager
     /// </summary>
-    void UseManagerStart()
+    public void UseManagerStart()
     {
         playerCount = manager.players.Count;
         playerNum = 0;
