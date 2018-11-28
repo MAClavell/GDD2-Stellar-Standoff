@@ -46,7 +46,6 @@ public class GameManager : Singleton<GameManager> {
 
     // Called before start
     void Awake () {
-        radius = 2.0f;
         State = GameState.Begin;
         roundState = RoundState.Begin;
         players = new List<PlayerStation>();
@@ -100,6 +99,12 @@ public class GameManager : Singleton<GameManager> {
                         //Assign direction and position to new prefab
                         newPlayer.GetComponent<PlayerStation>().Direction = direction;
                         newPlayer.GetComponent<PlayerStation>().Position = position;
+
+                        //Orient the stations
+                        if (direction == new Vector3(0, -1, 0))
+                            newPlayer.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
+                        else
+                            newPlayer.transform.up = direction;
 
                         //Add prefab's PlayerStation component to list
                         players.Add(newPlayer.GetComponent<PlayerStation>());
