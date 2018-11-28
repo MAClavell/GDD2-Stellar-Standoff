@@ -106,6 +106,9 @@ public class GameManager : Singleton<GameManager> {
                         else
                             newPlayer.transform.up = direction;
 
+                        //TO DO: Set station color
+                        //Red, Blue, Green, Yellow, Purple, Aqua, Orange, Pink
+
                         //Add prefab's PlayerStation component to list
                         players.Add(newPlayer.GetComponent<PlayerStation>());
                     }

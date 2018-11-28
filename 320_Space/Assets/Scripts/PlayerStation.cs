@@ -34,6 +34,11 @@ public class PlayerStation : MonoBehaviour {
     /// </summary>
     public Vector3 Direction { get; set; }
 
+    /// <summary>
+    /// Color to tint this station and it's related assets
+    /// </summary>
+    public Color Hue { get; set; }
+
     public GameObject missile;
 
     //Private fields
