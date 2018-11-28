@@ -330,23 +330,26 @@ public class GameManager : Singleton<GameManager> {
     /// </summary>
     public void CheckForStationClicked(PlayerStation station)
     {
-        for (int i = 0; i < players.Count; i++)
+        if (!cam.moving)
         {
-            if (players[i] == station)
+            for (int i = 0; i < players.Count; i++)
             {
-                if(cam.currState == CameraScript.CameraState.Start)
+                if (players[i] == station)
                 {
-                    cam.SetNextPlayer(i);
-                    cam.currState = CameraScript.CameraState.Base;
-                    zoomed = true;
-                    camBase = i;
+                    if (cam.currState == CameraScript.CameraState.Start)
+                    {
+                        cam.SetNextPlayer(i);
+                        cam.currState = CameraScript.CameraState.Base;
+                        zoomed = true;
+                        camBase = i;
+                    }
+                    else
+                    {
+                        cam.currState = CameraScript.CameraState.Start;
+                        zoomed = false;
+                    }
+                    return;
                 }
-                else
-                {
-                    cam.currState = CameraScript.CameraState.Start;
-                    zoomed = false;
-                }
-                return;
             }
         }
     }

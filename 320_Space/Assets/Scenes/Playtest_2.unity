@@ -1008,6 +1008,7 @@ MonoBehaviour:
   distCovered: 0
   percent: 0
   spacesOver: 0
+  moving: 0
 --- !u!1 &556748478
 GameObject:
   m_ObjectHideFlags: 0

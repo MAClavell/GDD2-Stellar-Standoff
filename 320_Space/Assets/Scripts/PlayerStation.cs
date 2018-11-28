@@ -44,7 +44,7 @@ public class PlayerStation : MonoBehaviour {
 	// Called before start
 	void Awake () {
         Health = 3;
-        Resources = 0;
+        Resources = 1;
         ActionChosen = false;
         Action = "";
         Target = null;

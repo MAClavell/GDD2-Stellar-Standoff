@@ -39,10 +39,12 @@ public class CameraScript : MonoBehaviour
     public float spacesOver;
 
     bool stayOnMe = false;
+    public bool moving;
 
     void Awake()
     {
         manager = GameManager.Instance;
+        moving = false;
     }
     // Use this for initialization
     void Start()
@@ -120,6 +122,7 @@ public class CameraScript : MonoBehaviour
     {
         if (currPos != startPos)
         {
+            moving = true;
             distCovered = (Time.time - startTime) * speed;
             distance = Vector3.Distance(lastPos, startPos);
             percent = distCovered / distance;
@@ -130,6 +133,10 @@ public class CameraScript : MonoBehaviour
             if (!stayOnMe)
                 world.transform.rotation = Quaternion.Slerp(lastRot, startRot, percent);
         }
+        else
+        {
+            moving = false;
+        }
     }
     /// <summary>
     /// moves camera position to base position if not there already
@@ -138,6 +145,7 @@ public class CameraScript : MonoBehaviour
     {
         if (currPos != basePos)
         {
+            moving = true;
             distCovered = (Time.time - startTime) * speed;
             distance = Vector3.Distance(lastPos, basePos);
             percent = distCovered / distance;
@@ -147,6 +155,10 @@ public class CameraScript : MonoBehaviour
 
             if (!stayOnMe)
                 world.transform.rotation = Quaternion.Slerp(lastRot, baseRot, percent);
+        }
+        else
+        {
+            moving = false;
         }
     }
     /// <summary>
