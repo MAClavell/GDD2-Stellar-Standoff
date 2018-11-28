@@ -42,6 +42,7 @@ public class GameManager : Singleton<GameManager> {
     public GameObject missilePrefab;
     bool zoomed;
     int camBase;
+    Color baseColor;
 
     // Called before start
     void Awake () {
@@ -62,6 +63,7 @@ public class GameManager : Singleton<GameManager> {
         playerTotal.enabled = true;
         zoomed = false;
         camBase = 0;
+        baseColor = stationPre.GetComponentInChildren<SpriteRenderer>().color;
 	}
 	
 	// Update is called once per frame
@@ -178,7 +180,11 @@ public class GameManager : Singleton<GameManager> {
                         {
                             if(i == currPlayer)
                             {
-                                //players[i].GetComponent<SpriteRenderer>
+                                players[i].GetComponentInChildren<SpriteRenderer>().color = new Color(0.0f, 1.0f, 1.0f);
+                            }
+                            else
+                            {
+                                players[i].GetComponentInChildren<SpriteRenderer>().color = baseColor;
                             }
                         }
 
