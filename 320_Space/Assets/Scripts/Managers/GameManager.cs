@@ -30,6 +30,8 @@ public class GameManager : Singleton<GameManager> {
     public List<PlayerStation> players { get; set; }
     public List<MissileData> missiles { get; set; }
     public int numMissiles;
+    //public List<Shield> Shields { get; set; }
+    //public int numShields
 
     public float radius;
 
@@ -45,7 +47,7 @@ public class GameManager : Singleton<GameManager> {
     Color baseColor;
 
     // Called before start
-    void Awake () {
+    void Awake() {
         State = GameState.Begin;
         roundState = RoundState.Begin;
         players = new List<PlayerStation>();
@@ -64,10 +66,10 @@ public class GameManager : Singleton<GameManager> {
         zoomed = false;
         camBase = 0;
         baseColor = stationPre.GetComponentInChildren<SpriteRenderer>().color;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update() {
         switch (State)
         {
             //Game is starting
@@ -106,8 +108,8 @@ public class GameManager : Singleton<GameManager> {
                         else
                             newPlayer.transform.up = direction;
 
-                        //TO DO: Set station color
-                        //Red, Blue, Green, Yellow, Purple, Aqua, Orange, Pink
+                        //Set station color
+                        newPlayer.GetComponent<PlayerStation>().Hue = PickColor(i);
 
                         //Add prefab's PlayerStation component to list
                         players.Add(newPlayer.GetComponent<PlayerStation>());
@@ -131,7 +133,7 @@ public class GameManager : Singleton<GameManager> {
                     case RoundState.Begin:
                         currPlayer = 0;
                         missilesLaunched = false;
-                        foreach(PlayerStation player in players)
+                        foreach (PlayerStation player in players)
                         {
                             player.ActionChosen = false;
                             player.Action = "";
@@ -150,7 +152,7 @@ public class GameManager : Singleton<GameManager> {
                         }
 
                         //End the turn order if we are past the max players
-                        if(currPlayer == players.Count)
+                        if (currPlayer == players.Count)
                         {
                             roundState = RoundState.PlayChoices;
                             currPlayer = 0;
@@ -160,7 +162,7 @@ public class GameManager : Singleton<GameManager> {
                         //displaying menu and resources
                         if (zoomed)
                         {
-                            if(camBase == currPlayer)
+                            if (camBase == currPlayer)
                             {
                                 playerMenu.enabled = true;
                             }
@@ -178,13 +180,13 @@ public class GameManager : Singleton<GameManager> {
                         //setting home base color
                         for (int i = 0; i < players.Count; i++)
                         {
-                            if(i == currPlayer)
+                            if (i == currPlayer)
                             {
-                                players[i].GetComponentInChildren<SpriteRenderer>().color = new Color(0.0f, 1.0f, 1.0f);
+                                //players[i].GetComponentInChildren<SpriteRenderer>().color = new Color(0.0f, 1.0f, 1.0f);
                             }
                             else
                             {
-                                players[i].GetComponentInChildren<SpriteRenderer>().color = baseColor;
+                                //players[i].GetComponentInChildren<SpriteRenderer>().color = baseColor;
                             }
                         }
 
@@ -194,7 +196,7 @@ public class GameManager : Singleton<GameManager> {
 
                         health.text = "Health: " + players[currPlayer].Health;
                         resources.text = "Resources: " + players[currPlayer].Resources;
-                        playerName.text = "Player " + (currPlayer+1);
+                        playerName.text = "Player " + (currPlayer + 1);
 
                         CheckForStationTouch();
 
@@ -203,7 +205,7 @@ public class GameManager : Singleton<GameManager> {
                         {
                             players[currPlayer].ChooseAction();
                         }
-                        else if((players[currPlayer].Action == "Shoot"||players[currPlayer].Action == "Reflect")&&players[currPlayer].Target == null)
+                        else if ((players[currPlayer].Action == "Shoot" || players[currPlayer].Action == "Reflect") && players[currPlayer].Target == null)
                         {
                             players[currPlayer].ChooseTarget();
                         }
@@ -227,7 +229,7 @@ public class GameManager : Singleton<GameManager> {
                             missilesLaunched = true;
                         }
 
-                        foreach(MissileData missile in missiles)
+                        foreach (MissileData missile in missiles)
                         {
                             if (!missile.InFlight)
                             {
@@ -270,6 +272,32 @@ public class GameManager : Singleton<GameManager> {
             case GameState.End:
                 playerName.text = "Game Over";
                 break;
+        }
+    }
+
+    public Color PickColor(int index)
+    {
+        //Red, Blue, Green, Yellow, Purple, Aqua, Orange, Pink
+        switch (index)
+        {
+            case 0:
+                return Color.red;
+            case 1:
+                return Color.blue;
+            case 2:
+                return Color.green;
+            case 3:
+                return Color.yellow;
+            case 4:
+                return Color.magenta;
+            case 5:
+                return Color.cyan;
+            case 6:
+                return Color.gray;
+            case 7:
+                return Color.black;
+            default:
+                return Color.white;
         }
     }
 
