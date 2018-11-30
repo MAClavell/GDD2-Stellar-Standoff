@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   missile: {fileID: 1334755276076962, guid: a75d8fe2c5b1bc84e9e915b723093d5e, type: 2}
+  shieldRender: {fileID: 212596534054972012}
 --- !u!212 &212596534054972012
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -176,7 +177,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: f2109ef36f7956f41b81bc814887966c, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
