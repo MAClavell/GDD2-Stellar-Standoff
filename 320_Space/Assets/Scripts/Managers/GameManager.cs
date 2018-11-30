@@ -264,7 +264,7 @@ public class GameManager : Singleton<GameManager> {
 
                             if(player.ShieldOn)
                             {
-                                player.DeactivateShield();
+                                player.ShieldOn = false;
                             }
                         }
 

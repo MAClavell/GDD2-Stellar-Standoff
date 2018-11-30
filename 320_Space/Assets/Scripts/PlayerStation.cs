@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-enum ShieldState { Dormant, On, Off }
-
 public class PlayerStation : MonoBehaviour {
 
     /// <summary>
@@ -44,7 +42,7 @@ public class PlayerStation : MonoBehaviour {
     /// <summary>
     /// True if shield is active
     /// </summary>
-    public bool ShieldOn { get; private set; }
+    public bool ShieldOn { get; set; }
 
     public GameObject missile;
 
@@ -55,9 +53,9 @@ public class PlayerStation : MonoBehaviour {
     public short Resources { get; set; }
 
     //Force fields
-    private float shieldTimer;
-    private float shieldPercent;
-    private ShieldState shieldState;
+    public float shieldTimer; //Controls exact opacity during fade
+    private float shieldTime; //Max amount of second to fade in/out
+    private bool shieldVisible; // True if shield is at max (permitted) opacity
 
 	// Called before start
 	void Awake () {
@@ -75,22 +73,22 @@ public class PlayerStation : MonoBehaviour {
         transform.SetParent(GameManager.Instance.cam.world.transform);
         transform.position = Position;
         GetComponentInChildren<SpriteRenderer>().color = Hue;
-        shieldState = ShieldState.Dormant;
+        shieldVisible = false;
+        shieldTimer = 0;
+        shieldTime = 1.5f;
     }
 
     // Update is called once per frame
     void Update ()
     {
-        switch (shieldState)
+        //Runs shield fade-in/fade-out
+        if (ShieldOn && !shieldVisible)
         {
-            case ShieldState.Dormant:
-                break;
-            case ShieldState.On:
-                break;
-            case ShieldState.Off:
-                break;
-            default:
-                break;
+            ActivateShield();
+        }
+        else if (!ShieldOn && shieldVisible)
+        {
+            DeactivateShield();
         }
     }
 
@@ -210,7 +208,6 @@ public class PlayerStation : MonoBehaviour {
                 break;
             case "Shield":
                 ShieldOn = true;
-                ActivateShield();
                 break;
             case "Load":
                 Resources++;
@@ -248,16 +245,28 @@ public class PlayerStation : MonoBehaviour {
         Health--;
     }
 
+    //Fades shield in to partial opacity
     public void ActivateShield()
     {
-        ShieldOn = true;
-        shieldRender.color = new Color(Hue.r, Hue.g, Hue.b, 1);
+        shieldTimer += Time.deltaTime;
+        shieldRender.color = new Color(Hue.r, Hue.g, Hue.b, (shieldTimer / shieldTime) / 1);
+        if (shieldTimer >= shieldTime - 0.5f)
+        {
+            shieldTimer = 0;
+            shieldVisible = true;
+        }
     }
 
+    //Fades shield out until full transparency
     public void DeactivateShield()
     {
-        ShieldOn = false;
-        shieldRender.color = new Color(Hue.r, Hue.g, Hue.b, 0);
+        shieldTimer += Time.deltaTime;
+        shieldRender.color = new Color(Hue.r, Hue.g, Hue.b, (1 - (shieldTimer / shieldTime) ) / 1);
+        if (shieldTimer <= 0)
+        {
+            shieldTimer = 0;
+            shieldVisible = false;
+        }
     }
 
     public void DebugInfo()
