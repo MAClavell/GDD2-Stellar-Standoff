@@ -27,6 +27,8 @@ public class GameManager : Singleton<GameManager> {
     public CameraScript cam;
 
     public GameObject stationPre;
+    public GameObject resourcePre;
+    public GameObject healthPre;
     public List<PlayerStation> players { get; set; }
     public List<MissileData> missiles { get; set; }
     public int numMissiles;

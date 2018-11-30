@@ -2719,6 +2719,9 @@ MonoBehaviour:
   playerTotal: {fileID: 2137312544}
   cam: {fileID: 519330437}
   stationPre: {fileID: 1745269673744108, guid: 643c9b6e0b86b5b46bd0020c097fc179, type: 2}
+  resourcePre: {fileID: 1094764488313732, guid: 237a44273b5391d418b0aef6591cc6c7,
+    type: 2}
+  healthPre: {fileID: 1629701642321042, guid: b1ba443604f4b984fa9a0bdfbe75d76a, type: 2}
   numMissiles: 0
   radius: 4
   numPlayers: 0
