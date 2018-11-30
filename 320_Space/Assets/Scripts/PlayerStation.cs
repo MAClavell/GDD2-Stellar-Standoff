@@ -39,7 +39,14 @@ public class PlayerStation : MonoBehaviour {
     /// </summary>
     public Color Hue { get; set; }
 
+    /// <summary>
+    /// True if shield is active
+    /// </summary>
+    public bool ShieldOn { get; private set; }
+
     public GameObject missile;
+
+    public SpriteRenderer shieldRender;
 
     //Private fields
     public short Health { get; set; }
@@ -183,6 +190,8 @@ public class PlayerStation : MonoBehaviour {
                 Resources -= 1;
                 break;
             case "Shield":
+                ShieldOn = true;
+                ActivateShield();
                 break;
             case "Load":
                 Resources++;
@@ -218,6 +227,18 @@ public class PlayerStation : MonoBehaviour {
     public void TakeDamage()
     {
         Health--;
+    }
+
+    public void ActivateShield()
+    {
+        ShieldOn = true;
+        shieldRender.color = new Color(Hue.r, Hue.g, Hue.b, 1);
+    }
+
+    public void DeactivateShield()
+    {
+        ShieldOn = false;
+        shieldRender.color = new Color(Hue.r, Hue.g, Hue.b, 0);
     }
 
     public void DebugInfo()

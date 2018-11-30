@@ -30,7 +30,6 @@ public class GameManager : Singleton<GameManager> {
     public List<PlayerStation> players { get; set; }
     public List<MissileData> missiles { get; set; }
     public int numMissiles;
-    //public List<Shield> Shields { get; set; }
     //public int numShields
 
     public float radius;
@@ -233,7 +232,7 @@ public class GameManager : Singleton<GameManager> {
                         {
                             if (!missile.InFlight)
                             {
-                                GameObject m = (GameObject)Instantiate(missilePrefab);
+                                GameObject m = (GameObject)Instantiate(missilePrefab, cam.world.transform);
                                 m.GetComponent<Missile>().Launch(missile.Origin, missile.Destination);
                                 missile.InFlight = true;
                             }
@@ -254,6 +253,11 @@ public class GameManager : Singleton<GameManager> {
                             if (player.IsAlive)
                             {
                                 alivePlayers++;
+                            }
+
+                            if(player.ShieldOn)
+                            {
+                                player.DeactivateShield();
                             }
                         }
 
