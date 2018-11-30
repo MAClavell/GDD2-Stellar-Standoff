@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+enum ShieldState { Dormant, On, Off }
+
 public class PlayerStation : MonoBehaviour {
 
     /// <summary>
@@ -51,7 +53,11 @@ public class PlayerStation : MonoBehaviour {
     //Private fields
     public short Health { get; set; }
     public short Resources { get; set; }
-    
+
+    //Force fields
+    private float shieldTimer;
+    private float shieldPercent;
+    private ShieldState shieldState;
 
 	// Called before start
 	void Awake () {
@@ -69,12 +75,23 @@ public class PlayerStation : MonoBehaviour {
         transform.SetParent(GameManager.Instance.cam.world.transform);
         transform.position = Position;
         GetComponentInChildren<SpriteRenderer>().color = Hue;
+        shieldState = ShieldState.Dormant;
     }
 
     // Update is called once per frame
     void Update ()
     {
-        
+        switch (shieldState)
+        {
+            case ShieldState.Dormant:
+                break;
+            case ShieldState.On:
+                break;
+            case ShieldState.Off:
+                break;
+            default:
+                break;
+        }
     }
 
     /// <summary>
