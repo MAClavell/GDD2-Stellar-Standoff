@@ -27,6 +27,8 @@ public class GameManager : Singleton<GameManager> {
     public CameraScript cam;
 
     public GameObject stationPre;
+    public GameObject resourcePre;
+    public GameObject healthPre;
     public List<PlayerStation> players { get; set; }
     public List<MissileData> missiles { get; set; }
     public int numMissiles;
@@ -219,14 +221,18 @@ public class GameManager : Singleton<GameManager> {
 
                     //Play all the choices out
                     case RoundState.PlayChoices:
-                        if (!missilesLaunched)
+                        playerMenu.enabled = false;
+                        enemyMenu.enabled = false;
+                        if (!cam.moving)
                         {
-                            foreach (PlayerStation player in players)
+                            if (!missilesLaunched)
                             {
-                                player.PerformAction();
+                                foreach (PlayerStation player in players)
+                                {
+                                    player.PerformAction();
+                                }
+                                missilesLaunched = true;
                             }
-                            missilesLaunched = true;
-                        }
 
                         foreach (MissileData missile in missiles)
                         {
@@ -238,10 +244,11 @@ public class GameManager : Singleton<GameManager> {
                             }
                         }
 
-                        if (missilesLaunched && GameManager.Instance.numMissiles <= 0)
-                        {
-                            GameManager.Instance.missiles.Clear();
-                            roundState = RoundState.End;
+                            if (missilesLaunched && GameManager.Instance.numMissiles <= 0)
+                            {
+                                GameManager.Instance.missiles.Clear();
+                                roundState = RoundState.End;
+                            }
                         }
                         break;
 
