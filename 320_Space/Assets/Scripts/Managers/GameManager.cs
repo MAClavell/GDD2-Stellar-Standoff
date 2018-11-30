@@ -31,6 +31,8 @@ public class GameManager : Singleton<GameManager> {
     public GameObject healthPre;
     public List<PlayerStation> players { get; set; }
     public List<MissileData> missiles { get; set; }
+    public List<GameObject> healthList { get; set; }
+    public List<GameObject> resourceList { get; set; }
     public int numMissiles;
     //public int numShields
 
@@ -53,6 +55,8 @@ public class GameManager : Singleton<GameManager> {
         roundState = RoundState.Begin;
         players = new List<PlayerStation>();
         missiles = new List<MissileData>();
+        healthList = new List<GameObject>();
+        resourceList = new List<GameObject>();
         currPlayer = 0;
         readyToPlay = false;
         numPlayers = 2;
@@ -194,6 +198,8 @@ public class GameManager : Singleton<GameManager> {
                         health.enabled = true;
                         resources.enabled = true;
                         playerName.enabled = true;
+                        DisplayHealth(players[currPlayer]);
+                        DisplayResources(players[currPlayer]);
 
                         health.text = "Health: " + players[currPlayer].Health;
                         resources.text = "Resources: " + players[currPlayer].Resources;
@@ -438,5 +444,49 @@ public class GameManager : Singleton<GameManager> {
     {
         players[currPlayer].ActionChosen = true;
         players[currPlayer].Action = "Shield";
+    }
+
+
+    void DisplayHealth(PlayerStation player)
+    {
+        if (healthList.Count > 0)
+        {
+            for (int i = 0; i < healthList.Count; i++)
+            {
+                GameObject cont = healthList[i];
+                healthList.Remove(healthList[i]);
+                Destroy(cont);
+            }
+        }
+        for (int i = 0; i < player.Health; i++)
+        {
+            GameObject newHealth = Instantiate(healthPre);
+            Vector3 pos = newHealth.transform.position;
+            pos.x += i;
+            newHealth.transform.position = pos;
+            healthList.Add(newHealth);
+        }
+    }
+
+
+    void DisplayResources(PlayerStation player)
+    {
+        if (resourceList.Count > 0)
+        {
+            for (int i = 0; i < resourceList.Count; i++)
+            {
+                GameObject cont = resourceList[i];
+                resourceList.Remove(resourceList[i]);
+                Destroy(cont);
+            }
+        }
+        for (int i = 0; i < player.Resources; i++)
+        {
+            GameObject newResource = Instantiate(resourcePre);
+            Vector3 pos = newResource.transform.position;
+            pos.x += i;
+            newResource.transform.position = pos;
+            healthList.Add(newResource);
+        }
     }
 }
