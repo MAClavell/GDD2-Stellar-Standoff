@@ -169,6 +169,8 @@ public class PlayerStation : MonoBehaviour {
     /// </summary>
     public void PerformAction()
     {
+        Direction = (new Vector3(transform.position.x, transform.position.y, 0) - Vector3.zero).normalized;
+
         switch (Action)
         {
             case "Shoot":
