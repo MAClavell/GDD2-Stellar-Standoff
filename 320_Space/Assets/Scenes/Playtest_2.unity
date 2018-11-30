@@ -1001,7 +1001,7 @@ MonoBehaviour:
   baseRot: {x: 0, y: 0, z: 0, w: 0}
   playerCount: 8
   degrees: {x: 0, y: 0, z: 0}
-  speed: 3
+  speed: 20
   meteorRadius: 4
   startTime: 0
   distance: 0

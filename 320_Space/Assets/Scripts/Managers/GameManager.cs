@@ -220,29 +220,34 @@ public class GameManager : Singleton<GameManager> {
 
                     //Play all the choices out
                     case RoundState.PlayChoices:
-                        if (!missilesLaunched)
+                        playerMenu.enabled = false;
+                        enemyMenu.enabled = false;
+                        if (!cam.moving)
                         {
-                            foreach (PlayerStation player in players)
+                            if (!missilesLaunched)
                             {
-                                player.PerformAction();
+                                foreach (PlayerStation player in players)
+                                {
+                                    player.PerformAction();
+                                }
+                                missilesLaunched = true;
                             }
-                            missilesLaunched = true;
-                        }
 
-                        foreach (MissileData missile in missiles)
-                        {
-                            if (!missile.InFlight)
+                            foreach (MissileData missile in missiles)
                             {
-                                GameObject m = (GameObject)Instantiate(missilePrefab);
-                                m.GetComponent<Missile>().Launch(missile.Origin, missile.Destination);
-                                missile.InFlight = true;
+                                if (!missile.InFlight)
+                                {
+                                    GameObject m = (GameObject)Instantiate(missilePrefab);
+                                    m.GetComponent<Missile>().Launch(missile.Origin, missile.Destination);
+                                    missile.InFlight = true;
+                                }
                             }
-                        }
 
-                        if (missilesLaunched && GameManager.Instance.numMissiles <= 0)
-                        {
-                            GameManager.Instance.missiles.Clear();
-                            roundState = RoundState.End;
+                            if (missilesLaunched && GameManager.Instance.numMissiles <= 0)
+                            {
+                                GameManager.Instance.missiles.Clear();
+                                roundState = RoundState.End;
+                            }
                         }
                         break;
 
