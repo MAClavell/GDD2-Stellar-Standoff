@@ -124,16 +124,14 @@ public class Missile : MonoBehaviour {
             //missle explosion
             //GameManager.Instance.missiles.Remove(this);
             GameManager.Instance.numMissiles--;
-            Explode();
             Destroy(gameObject);
         }
         else
         {
             //missle and base explosion
             target.TakeDamage();
-            //GameManager.Instance.missiles.Remove(this);
             GameManager.Instance.numMissiles--;
-            //Have base do its own explosion?
+            Explode();
             Destroy(gameObject);
         }
     }
