@@ -48,6 +48,7 @@ public class GameManager : Singleton<GameManager> {
     bool zoomed;
     int camBase;
     Color baseColor;
+    bool playerReady;
 
     // Called before start
     void Awake() {
@@ -71,6 +72,7 @@ public class GameManager : Singleton<GameManager> {
         zoomed = false;
         camBase = 0;
         baseColor = stationPre.GetComponentInChildren<SpriteRenderer>().color;
+        playerReady = false;
     }
 
     // Update is called once per frame
