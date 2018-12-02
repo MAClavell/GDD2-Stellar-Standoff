@@ -18,6 +18,8 @@ public class GameManager : Singleton<GameManager> {
     public Canvas mainMenu;
     public Canvas playerMenu;
     public Canvas enemyMenu;
+    public Canvas turnCanvas;
+    public Canvas animationCanvas;
     public Text health;
     public Text resources;
     public Text playerName;
@@ -49,6 +51,7 @@ public class GameManager : Singleton<GameManager> {
     int camBase;
     Color baseColor;
     bool playerReady;
+    bool actionsReady;
 
     // Called before start
     void Awake() {
@@ -73,6 +76,8 @@ public class GameManager : Singleton<GameManager> {
         camBase = 0;
         baseColor = stationPre.GetComponentInChildren<SpriteRenderer>().color;
         playerReady = false;
+        actionsReady = false;
+        animationCanvas.enabled = false;
     }
 
     // Update is called once per frame
@@ -167,63 +172,74 @@ public class GameManager : Singleton<GameManager> {
                             return;
                         }
 
-                        //displaying menu and resources
-                        if (zoomed)
+                        if (playerReady)
                         {
-                            if (camBase == currPlayer)
+                            //displaying menu and resources
+                            turnCanvas.enabled = false;
+                            if (zoomed)
                             {
-                                playerMenu.enabled = true;
+                                if (camBase == currPlayer)
+                                {
+                                    playerMenu.enabled = true;
+                                }
+                                else
+                                {
+                                    enemyMenu.enabled = true;
+                                }
                             }
                             else
                             {
-                                enemyMenu.enabled = true;
+                                playerMenu.enabled = false;
+                                enemyMenu.enabled = false;
+                            }
+
+                            //setting home base color
+                            for (int i = 0; i < players.Count; i++)
+                            {
+                                if (i == currPlayer)
+                                {
+                                    //players[i].GetComponentInChildren<SpriteRenderer>().color = new Color(0.0f, 1.0f, 1.0f);
+                                }
+                                else
+                                {
+                                    //players[i].GetComponentInChildren<SpriteRenderer>().color = baseColor;
+                                }
+                            }
+
+                            health.enabled = true;
+                            resources.enabled = true;
+                            playerName.enabled = true;
+                            DisplayHealth(players[currPlayer]);
+                            DisplayResources(players[currPlayer]);
+
+                            health.text = "Health: " + players[currPlayer].Health;
+                            resources.text = "Resources: " + players[currPlayer].Resources;
+                            playerName.text = "Player " + (currPlayer + 1);
+
+                            CheckForStationTouch();
+
+                            //Player chooses their action
+                            if (players[currPlayer].IsAlive && !players[currPlayer].ActionChosen)
+                            {
+                                players[currPlayer].ChooseAction();
+                            }
+                            else if ((players[currPlayer].Action == "Shoot" || players[currPlayer].Action == "Reflect") && players[currPlayer].Target == null)
+                            {
+                                players[currPlayer].ChooseTarget();
+                            }
+                            else
+                            {
+                                cam.currState = CameraScript.CameraState.Start;
+                                zoomed = false;
+                                currPlayer++;
+                                playerReady = false;
                             }
                         }
                         else
                         {
-                            playerMenu.enabled = false;
                             enemyMenu.enabled = false;
-                        }
-
-                        //setting home base color
-                        for (int i = 0; i < players.Count; i++)
-                        {
-                            if (i == currPlayer)
-                            {
-                                //players[i].GetComponentInChildren<SpriteRenderer>().color = new Color(0.0f, 1.0f, 1.0f);
-                            }
-                            else
-                            {
-                                //players[i].GetComponentInChildren<SpriteRenderer>().color = baseColor;
-                            }
-                        }
-
-                        health.enabled = true;
-                        resources.enabled = true;
-                        playerName.enabled = true;
-                        DisplayHealth(players[currPlayer]);
-                        DisplayResources(players[currPlayer]);
-
-                        health.text = "Health: " + players[currPlayer].Health;
-                        resources.text = "Resources: " + players[currPlayer].Resources;
-                        playerName.text = "Player " + (currPlayer + 1);
-
-                        CheckForStationTouch();
-
-                        //Player chooses their action
-                        if (players[currPlayer].IsAlive && !players[currPlayer].ActionChosen)
-                        {
-                            players[currPlayer].ChooseAction();
-                        }
-                        else if ((players[currPlayer].Action == "Shoot" || players[currPlayer].Action == "Reflect") && players[currPlayer].Target == null)
-                        {
-                            players[currPlayer].ChooseTarget();
-                        }
-                        else
-                        {
-                            cam.currState = CameraScript.CameraState.Start;
-                            zoomed = false;
-                            currPlayer++;
+                            playerMenu.enabled = false;
+                            turnCanvas.enabled = true;
                         }
 
                         break;
@@ -232,32 +248,41 @@ public class GameManager : Singleton<GameManager> {
                     case RoundState.PlayChoices:
                         playerMenu.enabled = false;
                         enemyMenu.enabled = false;
-                        if (!cam.moving)
+                        if (actionsReady)
                         {
-                            if (!missilesLaunched)
+                            animationCanvas.enabled = false;
+                            if (!cam.moving)
                             {
-                                foreach (PlayerStation player in players)
+                                if (!missilesLaunched)
                                 {
-                                    player.PerformAction();
+                                    foreach (PlayerStation player in players)
+                                    {
+                                        player.PerformAction();
+                                    }
+                                    missilesLaunched = true;
                                 }
-                                missilesLaunched = true;
-                            }
 
-                        foreach (MissileData missile in missiles)
-                        {
-                            if (!missile.InFlight)
-                            {
-                                GameObject m = (GameObject)Instantiate(missilePrefab, cam.world.transform);
-                                m.GetComponent<Missile>().Launch(missile.Origin, missile.Destination);
-                                missile.InFlight = true;
+                                foreach (MissileData missile in missiles)
+                                {
+                                    if (!missile.InFlight)
+                                    {
+                                        GameObject m = (GameObject)Instantiate(missilePrefab, cam.world.transform);
+                                        m.GetComponent<Missile>().Launch(missile.Origin, missile.Destination);
+                                        missile.InFlight = true;
+                                    }
+                                }
+
+                                if (missilesLaunched && GameManager.Instance.numMissiles <= 0)
+                                {
+                                    GameManager.Instance.missiles.Clear();
+                                    actionsReady = false;
+                                    roundState = RoundState.End;
+                                }
                             }
                         }
-
-                            if (missilesLaunched && GameManager.Instance.numMissiles <= 0)
-                            {
-                                GameManager.Instance.missiles.Clear();
-                                roundState = RoundState.End;
-                            }
+                        else
+                        {
+                            animationCanvas.enabled = true;
                         }
                         break;
 
@@ -491,5 +516,16 @@ public class GameManager : Singleton<GameManager> {
             newResource.transform.position = pos;
             healthList.Add(newResource);
         }
+    }
+
+
+    public void TogglePlayerReady()
+    {
+        playerReady = true;
+    }
+
+    public void ToggleAnimationReady()
+    {
+        actionsReady = true;
     }
 }
