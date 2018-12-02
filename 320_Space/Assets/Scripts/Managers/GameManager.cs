@@ -122,7 +122,7 @@ public class GameManager : Singleton<GameManager> {
 
                         //Set station color and number
                         newPlayer.GetComponent<PlayerStation>().Hue = PickColor(i);
-                        newPlayer.GetComponent<PlayerStation>().PlayerNumber = i;
+                        newPlayer.GetComponent<PlayerStation>().PlayerNumber = i + 1;
 
                         //Add prefab's PlayerStation component to list
                         players.Add(newPlayer.GetComponent<PlayerStation>());

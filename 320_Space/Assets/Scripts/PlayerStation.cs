@@ -64,6 +64,7 @@ public class PlayerStation : MonoBehaviour {
     public float shieldTimer; //Controls exact opacity during fade
     private float shieldTime; //Max amount of second to fade in/out
     private bool shieldVisible; // True if shield is at max (permitted) opacity
+    private float maxOpacity; //most opaque (on 0-1 scale) that shield can be
 
 	// Called before start
 	void Awake () {
@@ -84,6 +85,7 @@ public class PlayerStation : MonoBehaviour {
         shieldVisible = false;
         shieldTimer = 0;
         shieldTime = 1.5f;
+        maxOpacity = 0.75f;
         label.GetComponent<TextMeshPro>().text = "Player " + PlayerNumber;
     }
 
@@ -261,8 +263,10 @@ public class PlayerStation : MonoBehaviour {
     public void ActivateShield()
     {
         shieldTimer += Time.deltaTime;
-        shieldRender.color = new Color(Hue.r, Hue.g, Hue.b, (shieldTimer / shieldTime) / 1);
-        if (shieldTimer >= shieldTime - 0.5f)
+        float increment = (shieldTimer / shieldTime) / 1;
+        increment *= maxOpacity;
+        shieldRender.color = new Color(Hue.r, Hue.g, Hue.b, increment);
+        if (shieldTimer >= shieldTime)
         {
             shieldTimer = 0;
             shieldVisible = true;
@@ -273,7 +277,8 @@ public class PlayerStation : MonoBehaviour {
     public void DeactivateShield()
     {
         shieldTimer += Time.deltaTime;
-        shieldRender.color = new Color(Hue.r, Hue.g, Hue.b, (1 - (shieldTimer / shieldTime) ) / 1);
+        float increment = (maxOpacity - (shieldTimer / shieldTime)) / 1;
+        shieldRender.color = new Color(Hue.r, Hue.g, Hue.b, increment);
         if (shieldTimer <= 0)
         {
             shieldTimer = 0;
