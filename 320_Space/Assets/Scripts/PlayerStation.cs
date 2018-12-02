@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerStation : MonoBehaviour {
 
@@ -35,6 +36,11 @@ public class PlayerStation : MonoBehaviour {
     public Vector3 Direction { get; set; }
 
     /// <summary>
+    /// Player Number
+    /// </summary>
+    public int PlayerNumber { get; set; }
+
+    /// <summary>
     /// Color to tint this station and it's related assets
     /// </summary>
     public Color Hue { get; set; }
@@ -47,6 +53,8 @@ public class PlayerStation : MonoBehaviour {
     public GameObject missile;
 
     public SpriteRenderer shieldRender;
+
+    public GameObject label;
 
     //Private fields
     public short Health { get; set; }
@@ -76,6 +84,7 @@ public class PlayerStation : MonoBehaviour {
         shieldVisible = false;
         shieldTimer = 0;
         shieldTime = 1.5f;
+        label.GetComponent<TextMeshPro>().text = "Player " + PlayerNumber;
     }
 
     // Update is called once per frame
@@ -90,6 +99,9 @@ public class PlayerStation : MonoBehaviour {
         {
             DeactivateShield();
         }
+
+        label.transform.position = transform.position + new Vector3(0, 1, 0);
+        label.transform.rotation = Quaternion.identity;
     }
 
     /// <summary>

@@ -25,6 +25,8 @@ public class PlaceStations : MonoBehaviour {
 
         angle = 90; //sets first station position as top of asteroid
 
+        if (numStations < 2) numStations = 2;
+
         interval = 360 / numStations;
 
         //Iterates over asteroid and sets coordinates for each station
