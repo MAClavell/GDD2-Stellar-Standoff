@@ -24,6 +24,7 @@ public class GameManager : Singleton<GameManager> {
     public Text resources;
     public Text playerName;
     public Text playerTotal;
+    public Text currentPlayer;
 
     //Camera
     public CameraScript cam;
@@ -240,6 +241,7 @@ public class GameManager : Singleton<GameManager> {
                             enemyMenu.enabled = false;
                             playerMenu.enabled = false;
                             turnCanvas.enabled = true;
+                            currentPlayer.text = "Player " + (currPlayer + 1);
                         }
 
                         break;
