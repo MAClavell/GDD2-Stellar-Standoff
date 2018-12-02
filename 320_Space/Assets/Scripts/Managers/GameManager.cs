@@ -242,6 +242,7 @@ public class GameManager : Singleton<GameManager> {
                             playerMenu.enabled = false;
                             turnCanvas.enabled = true;
                             currentPlayer.text = "Player " + (currPlayer + 1);
+                            currentPlayer.color = players[currPlayer].Hue;
                         }
 
                         break;
