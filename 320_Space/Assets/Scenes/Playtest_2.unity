@@ -343,7 +343,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 100}
-  m_SizeDelta: {x: 50.6, y: 80.5}
+  m_SizeDelta: {x: 400, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &64735329
 MonoBehaviour:
@@ -2126,7 +2126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3379,6 +3379,7 @@ MonoBehaviour:
   resources: {fileID: 556748480}
   playerName: {fileID: 40149100}
   playerTotal: {fileID: 2137312544}
+  currentPlayer: {fileID: 64735329}
   cam: {fileID: 519330437}
   stationPre: {fileID: 1745269673744108, guid: 643c9b6e0b86b5b46bd0020c097fc179, type: 2}
   resourcePre: {fileID: 1094764488313732, guid: 237a44273b5391d418b0aef6591cc6c7,

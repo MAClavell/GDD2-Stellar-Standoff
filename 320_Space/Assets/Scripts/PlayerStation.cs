@@ -87,6 +87,7 @@ public class PlayerStation : MonoBehaviour {
         shieldTime = 1.5f;
         maxOpacity = 0.75f;
         label.GetComponent<TextMeshPro>().text = "Player " + PlayerNumber;
+        label.GetComponent<TextMeshPro>().outlineColor = Hue;
     }
 
     // Update is called once per frame
