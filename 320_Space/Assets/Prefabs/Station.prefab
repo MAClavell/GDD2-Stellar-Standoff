@@ -23,14 +23,6 @@ GameObject:
   - component: {fileID: 23669502455256894}
   - component: {fileID: 222644298126879488}
   - component: {fileID: 114808454656293266}
-  - component: {fileID: 114339148506187700}
-  - component: {fileID: 114432279833369334}
-  - component: {fileID: 114729262255600360}
-  - component: {fileID: 114169731449602038}
-  - component: {fileID: 114744672187591514}
-  - component: {fileID: 114783071105709788}
-  - component: {fileID: 114215549107399058}
-  - component: {fileID: 114915481729087592}
   m_Layer: 0
   m_Name: Label
   m_TagString: Untagged
@@ -198,50 +190,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa057cf95c3919b45bd4c694c528cd8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114169731449602038
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1249125317445218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4658c7c1dedfaee47a11db2d84218bd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114215549107399058
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1249125317445218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4658c7c1dedfaee47a11db2d84218bd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114339148506187700
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1249125317445218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4658c7c1dedfaee47a11db2d84218bd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114432279833369334
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1249125317445218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4658c7c1dedfaee47a11db2d84218bd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114559933906269638
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -257,39 +205,6 @@ MonoBehaviour:
   shieldRender: {fileID: 212596534054972012}
   label: {fileID: 1249125317445218}
   shieldTimer: 0
---- !u!114 &114729262255600360
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1249125317445218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4658c7c1dedfaee47a11db2d84218bd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114744672187591514
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1249125317445218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4658c7c1dedfaee47a11db2d84218bd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114783071105709788
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1249125317445218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4658c7c1dedfaee47a11db2d84218bd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114808454656293266
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -404,23 +319,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   m_maskType: 0
---- !u!114 &114915481729087592
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1249125317445218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46adacfc24bce6d4c81b65bbbeeadb2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  numStations: 0
-  radius: 0
-  lastRadius: 0
-  angle: 0
-  station: {fileID: 0}
-  missile: {fileID: 0}
 --- !u!212 &212596534054972012
 SpriteRenderer:
   m_ObjectHideFlags: 1
