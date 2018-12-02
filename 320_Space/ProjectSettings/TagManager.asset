@@ -42,6 +42,9 @@ TagManager:
   - name: background
     uniqueID: 3720781539
     locked: 0
+  - name: asteroid
+    uniqueID: 714351191
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

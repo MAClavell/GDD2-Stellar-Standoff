@@ -146,13 +146,13 @@ MonoBehaviour:
   inFlight: 0
   origin: {fileID: 0}
   destination: {fileID: 0}
-  radius: 4
+  radius: 4.25
   bounces: 0
   maxBounces: 4
   maxSpeed: 3.5
   speed: 0
   timer: 0
-  maxHeight: 0.75
+  maxHeight: 1
   explosion: {fileID: 1230262670181220, guid: d5e12e21ba0f18046b40517fdfbd1550, type: 2}
 --- !u!198 &198224783990785652
 ParticleSystem:
