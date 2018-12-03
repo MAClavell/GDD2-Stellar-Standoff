@@ -264,7 +264,7 @@ public class PlayerStation : MonoBehaviour {
     public void ActivateShield()
     {
         shieldTimer += Time.deltaTime;
-        float increment = (shieldTimer / shieldTime) / 1;
+        float increment = shieldTimer / shieldTime;
         increment *= maxOpacity;
         shieldRender.color = new Color(Hue.r, Hue.g, Hue.b, increment);
         if (shieldTimer >= shieldTime)
@@ -278,7 +278,8 @@ public class PlayerStation : MonoBehaviour {
     public void DeactivateShield()
     {
         shieldTimer += Time.deltaTime;
-        float increment = (maxOpacity - (shieldTimer / shieldTime)) / 1;
+        float increment = shieldTimer / shieldTime;
+        increment = maxOpacity - (increment * maxOpacity);
         shieldRender.color = new Color(Hue.r, Hue.g, Hue.b, increment);
         if (shieldTimer <= 0)
         {
