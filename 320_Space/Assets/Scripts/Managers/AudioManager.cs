@@ -35,17 +35,19 @@ public class AudioManager : Singleton<AudioManager> {
         soundSource.transform.parent = transform;
     }
 
-    // Update is called once per frame
-    void Update() {
-
-    }
-
     /// <summary>
     /// Check if a layer is playing
     /// </summary>
     /// <param name="layerName">Name of the layer</param>
     public bool IsLayerPlaying(string layerName)
     {
+        //Error check
+        if (!musicLayerDictionary.ContainsKey(layerName))
+        {
+            Debug.LogError("Audio layer does not exist in dictionary");
+            return false;
+        }
+
         return musicLayerDictionary[layerName].isPlaying;
     }
 
@@ -59,7 +61,7 @@ public class AudioManager : Singleton<AudioManager> {
         //Error check
         if (!soundClipDictionary.ContainsKey(name))
         {
-            Debug.LogError("Audio layer does not exist in dictionary");
+            Debug.LogError("Sound clip does not exist in dictionary");
             return;
         }
 

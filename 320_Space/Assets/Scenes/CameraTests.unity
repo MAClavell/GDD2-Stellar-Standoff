@@ -236,6 +236,8 @@ MonoBehaviour:
   nextPlayer: {fileID: 0}
   playerNum: 0
   nextNum: 0
+  currState: 0
+  prevState: 0
   world: {fileID: 67305911}
   lastZoom: 0
   startZoom: 5
@@ -254,7 +256,7 @@ MonoBehaviour:
   playerCount: 8
   degrees: {x: 0, y: 0, z: 90}
   speed: 2
-  meteorRadious: 4
+  meteorRadius: 4
   startTime: 0
   distance: 0
   distCovered: 0

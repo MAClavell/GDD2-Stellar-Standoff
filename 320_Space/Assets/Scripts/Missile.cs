@@ -51,7 +51,8 @@ public class Missile : MonoBehaviour {
         speed = (Mathf.Abs(distance) / 180) * maxSpeed;
 
         //Changes the destination station's direction by half a degree to avoid 180 arc problem
-        if (Mathf.Abs(distance) == 180) destination.Direction = Quaternion.AngleAxis(-0.5f, Vector3.forward) * destination.Direction;
+        if (distance == 180) destination.Direction = Quaternion.AngleAxis(-0.5f, Vector3.forward) * destination.Direction;
+        else if (distance == -180) destination.Direction = Quaternion.AngleAxis(0.5f, Vector3.forward) * destination.Direction;
 
         timer = 0;
         inFlight = true;
@@ -124,16 +125,14 @@ public class Missile : MonoBehaviour {
             //missle explosion
             //GameManager.Instance.missiles.Remove(this);
             GameManager.Instance.numMissiles--;
-            Explode();
             Destroy(gameObject);
         }
         else
         {
             //missle and base explosion
             target.TakeDamage();
-            //GameManager.Instance.missiles.Remove(this);
             GameManager.Instance.numMissiles--;
-            //Have base do its own explosion?
+            Explode();
             Destroy(gameObject);
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerStation : MonoBehaviour {
 
@@ -34,17 +35,41 @@ public class PlayerStation : MonoBehaviour {
     /// </summary>
     public Vector3 Direction { get; set; }
 
+    /// <summary>
+    /// Player Number
+    /// </summary>
+    public int PlayerNumber { get; set; }
+
+    /// <summary>
+    /// Color to tint this station and it's related assets
+    /// </summary>
+    public Color Hue { get; set; }
+
+    /// <summary>
+    /// True if shield is active
+    /// </summary>
+    public bool ShieldOn { get; set; }
+
     public GameObject missile;
+
+    public SpriteRenderer shieldRender;
+
+    public GameObject label;
 
     //Private fields
     public short Health { get; set; }
     public short Resources { get; set; }
-    
+
+    //Force fields
+    public float shieldTimer; //Controls exact opacity during fade
+    private float shieldTime; //Max amount of second to fade in/out
+    private bool shieldVisible; // True if shield is at max (permitted) opacity
+    private float maxOpacity; //most opaque (on 0-1 scale) that shield can be
 
 	// Called before start
 	void Awake () {
         Health = 3;
-        Resources = 0;
+        Resources = 1;
         ActionChosen = false;
         Action = "";
         Target = null;
@@ -56,12 +81,30 @@ public class PlayerStation : MonoBehaviour {
         //GameManager.Instance.players.Add(this);
         transform.SetParent(GameManager.Instance.cam.world.transform);
         transform.position = Position;
+        GetComponentInChildren<SpriteRenderer>().color = Hue;
+        shieldVisible = false;
+        shieldTimer = 0;
+        shieldTime = 1.5f;
+        maxOpacity = 0.75f;
+        label.GetComponent<TextMeshPro>().text = "Player " + PlayerNumber;
+        label.GetComponent<TextMeshPro>().outlineColor = Hue;
     }
 
     // Update is called once per frame
     void Update ()
     {
-        
+        //Runs shield fade-in/fade-out
+        if (ShieldOn && !shieldVisible)
+        {
+            ActivateShield();
+        }
+        else if (!ShieldOn && shieldVisible)
+        {
+            DeactivateShield();
+        }
+
+        label.transform.position = transform.position + new Vector3(0, 1, 0);
+        label.transform.rotation = Quaternion.identity;
     }
 
     /// <summary>
@@ -156,6 +199,8 @@ public class PlayerStation : MonoBehaviour {
     /// </summary>
     public void PerformAction()
     {
+        Direction = (new Vector3(transform.position.x, transform.position.y, 0) - Vector3.zero).normalized;
+
         switch (Action)
         {
             case "Shoot":
@@ -177,6 +222,7 @@ public class PlayerStation : MonoBehaviour {
                 Resources -= 1;
                 break;
             case "Shield":
+                ShieldOn = true;
                 break;
             case "Load":
                 Resources++;
@@ -212,6 +258,33 @@ public class PlayerStation : MonoBehaviour {
     public void TakeDamage()
     {
         Health--;
+    }
+
+    //Fades shield in to partial opacity
+    public void ActivateShield()
+    {
+        shieldTimer += Time.deltaTime;
+        float increment = (shieldTimer / shieldTime) / 1;
+        increment *= maxOpacity;
+        shieldRender.color = new Color(Hue.r, Hue.g, Hue.b, increment);
+        if (shieldTimer >= shieldTime)
+        {
+            shieldTimer = 0;
+            shieldVisible = true;
+        }
+    }
+
+    //Fades shield out until full transparency
+    public void DeactivateShield()
+    {
+        shieldTimer += Time.deltaTime;
+        float increment = (maxOpacity - (shieldTimer / shieldTime)) / 1;
+        shieldRender.color = new Color(Hue.r, Hue.g, Hue.b, increment);
+        if (shieldTimer <= 0)
+        {
+            shieldTimer = 0;
+            shieldVisible = false;
+        }
     }
 
     public void DebugInfo()
