@@ -66,6 +66,10 @@ public class PlayerStation : MonoBehaviour {
     private bool shieldVisible; // True if shield is at max (permitted) opacity
     private float maxOpacity; //most opaque (on 0-1 scale) that shield can be
 
+	//Audio
+	private AudioSource audioSource;
+	private Coroutine audioCor;
+
 	// Called before start
 	void Awake () {
         Health = 3;
@@ -73,6 +77,10 @@ public class PlayerStation : MonoBehaviour {
         ActionChosen = false;
         Action = "";
         Target = null;
+
+		//Set initial values for audio
+		audioSource = GetComponentInChildren<AudioSource>();
+		audioCor = null;
 	}
 
     //Called on startup
@@ -223,7 +231,9 @@ public class PlayerStation : MonoBehaviour {
                 break;
             case "Shield":
                 ShieldOn = true;
-                break;
+				FadeInAudioClip("forcefield_Idle", shieldTime); //start the audio for the shield
+				break;
+
             case "Load":
                 Resources++;
                 break;
@@ -261,7 +271,7 @@ public class PlayerStation : MonoBehaviour {
     }
 
     //Fades shield in to partial opacity
-    public void ActivateShield()
+    private void ActivateShield()
     {
         shieldTimer += Time.deltaTime;
         float increment = shieldTimer / shieldTime;
@@ -272,20 +282,28 @@ public class PlayerStation : MonoBehaviour {
             shieldTimer = 0;
             shieldVisible = true;
         }
-    }
+
+
+	}
+
+	public void TurnOffShield()
+	{
+		ShieldOn = false;
+		FadeOutAudioSource(shieldTime);
+	}
 
     //Fades shield out until full transparency
-    public void DeactivateShield()
+    private void DeactivateShield()
     {
         shieldTimer += Time.deltaTime;
         float increment = shieldTimer / shieldTime;
         increment = maxOpacity - (increment * maxOpacity);
         shieldRender.color = new Color(Hue.r, Hue.g, Hue.b, increment);
-        if (shieldTimer <= 0)
+        if (shieldTimer >= shieldTime)
         {
             shieldTimer = 0;
             shieldVisible = false;
-        }
+		}
     }
 
     public void DebugInfo()
@@ -298,4 +316,32 @@ public class PlayerStation : MonoBehaviour {
     {
         GameManager.Instance.CheckForStationClicked(this);
     }
+
+	/// <summary>
+	/// Fade in an audio clip to the station's audio source
+	/// </summary>
+	/// <param name="audioClip">The clip to fade in</param>
+	/// <param name="fadeLength">The length of the fade</param>
+	public void FadeInAudioClip(string audioClip, float fadeLength)
+	{
+		if (audioCor != null)
+			StopCoroutine(audioCor);
+
+		AudioClip clip = AudioManager.Instance.GetSoundEffect(audioClip);
+		audioSource.clip = clip;
+		audioSource.Play();
+		audioCor = AudioManager.Instance.FadeSource(audioSource, 0.5f, fadeLength);
+	}
+
+	/// <summary>
+	/// Fade out the audio source
+	/// </summary>
+	/// <param name="fadeLength">The length of the fade</param>
+	public void FadeOutAudioSource(float fadeLength)
+	{
+		if (audioCor != null)
+			StopCoroutine(audioCor);
+
+		audioCor = AudioManager.Instance.FadeSource(audioSource, 0, fadeLength);
+	}
 }

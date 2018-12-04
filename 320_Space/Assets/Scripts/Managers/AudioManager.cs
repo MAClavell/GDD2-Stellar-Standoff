@@ -35,6 +35,22 @@ public class AudioManager : Singleton<AudioManager> {
         soundSource.transform.parent = transform;
     }
 
+	/// <summary>
+	/// Get an audio clip from the sound effect dictionary
+	/// </summary>
+	/// <param name="clip">The clip's key</param>
+	/// <returns>The returned clip</returns>
+	public AudioClip GetSoundEffect(string clip)
+	{
+		if(!soundClipDictionary.ContainsKey(clip))
+		{
+			Debug.LogError("Audio clip does not exist in sound effect dictionary");
+			return null;
+		}
+
+		return soundClipDictionary[clip];
+	}
+
     /// <summary>
     /// Check if a layer is playing
     /// </summary>
@@ -163,8 +179,23 @@ public class AudioManager : Singleton<AudioManager> {
         if (musicCoroutineDictionary[layerName] != null)
             StopCoroutine(musicCoroutineDictionary[layerName]);
 
-        StartCoroutine(LayerFadeIn(musicLayerDictionary[layerName], goalVolume, fadeLength));
+        StartCoroutine(SourceFadeIn(musicLayerDictionary[layerName], goalVolume, fadeLength));
     }
+
+	/// <summary>
+	/// A helper for external classes to fade in their audio sources
+	/// </summary>
+	/// <param name="source">The audio source</param>
+	/// <param name="goalVolume">The goal volume</param>
+	/// <param name="fadeLength">The length of the fade</param>
+	public Coroutine FadeSource(AudioSource source, float goalVolume, float fadeLength)
+	{
+		if(source.volume > goalVolume)
+		{
+			return StartCoroutine(SourceFadeOut(source, goalVolume, fadeLength));
+		}
+		else return StartCoroutine(SourceFadeIn(source, goalVolume, fadeLength));
+	}
 
     /// <summary>
     /// Fade out an audio layer
@@ -184,7 +215,7 @@ public class AudioManager : Singleton<AudioManager> {
         if (musicCoroutineDictionary[layerName] != null)
             StopCoroutine(musicCoroutineDictionary[layerName]);
 
-        StartCoroutine(LayerFadeOut(musicLayerDictionary[layerName], goalVolume, fadeLength));
+        StartCoroutine(SourceFadeOut(musicLayerDictionary[layerName], goalVolume, fadeLength));
     }
 
     /// <summary>
@@ -194,7 +225,7 @@ public class AudioManager : Singleton<AudioManager> {
     /// <param name="goalVol">Goal volume</param>
     /// <param name="fadeLength">The length of the fade</param>
     /// <returns></returns>
-    IEnumerator LayerFadeIn(AudioSource source, float goalVol, float fadeLength)
+    IEnumerator SourceFadeIn(AudioSource source, float goalVol, float fadeLength)
     {
         float vol = source.volume;
         //Fade the vol
@@ -214,7 +245,7 @@ public class AudioManager : Singleton<AudioManager> {
     /// <param name="goalVol">Goal volume</param>
     /// <param name="fadeLength">The length of the fade</param>
     /// <returns></returns>
-    IEnumerator LayerFadeOut(AudioSource source, float goalVol, float fadeLength)
+    IEnumerator SourceFadeOut(AudioSource source, float goalVol, float fadeLength)
     {
         float vol = source.volume;
         //Fade the vol

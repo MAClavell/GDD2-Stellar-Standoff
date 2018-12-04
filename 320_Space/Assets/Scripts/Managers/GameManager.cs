@@ -301,7 +301,7 @@ public class GameManager : Singleton<GameManager> {
 
                             if(player.ShieldOn)
                             {
-                                player.ShieldOn = false;
+								player.TurnOffShield();
                             }
                         }
 
