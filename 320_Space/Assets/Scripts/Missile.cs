@@ -125,6 +125,7 @@ public class Missile : MonoBehaviour {
             //missle explosion
             //GameManager.Instance.missiles.Remove(this);
             GameManager.Instance.numMissiles--;
+			target.PlayOneShotOnStation("forcefield_Hit", 1f);
             Destroy(gameObject);
         }
         else

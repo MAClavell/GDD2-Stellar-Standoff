@@ -67,7 +67,8 @@ public class PlayerStation : MonoBehaviour {
     private float maxOpacity; //most opaque (on 0-1 scale) that shield can be
 
 	//Audio
-	private AudioSource audioSource;
+	private AudioSource repeatingAudioSource;
+	private AudioSource oneShotAudioSource;
 	private Coroutine audioCor;
 
 	// Called before start
@@ -79,7 +80,8 @@ public class PlayerStation : MonoBehaviour {
         Target = null;
 
 		//Set initial values for audio
-		audioSource = GetComponentInChildren<AudioSource>();
+		repeatingAudioSource = transform.Find("RepeatingAudioSource").GetComponent<AudioSource>();
+		oneShotAudioSource = transform.Find("OneShotAudioSource").GetComponent<AudioSource>();
 		audioCor = null;
 	}
 
@@ -328,9 +330,9 @@ public class PlayerStation : MonoBehaviour {
 			StopCoroutine(audioCor);
 
 		AudioClip clip = AudioManager.Instance.GetSoundEffect(audioClip);
-		audioSource.clip = clip;
-		audioSource.Play();
-		audioCor = AudioManager.Instance.FadeSource(audioSource, 0.5f, fadeLength);
+		repeatingAudioSource.clip = clip;
+		repeatingAudioSource.Play();
+		audioCor = AudioManager.Instance.FadeSource(repeatingAudioSource, 0.5f, fadeLength);
 	}
 
 	/// <summary>
@@ -342,6 +344,16 @@ public class PlayerStation : MonoBehaviour {
 		if (audioCor != null)
 			StopCoroutine(audioCor);
 
-		audioCor = AudioManager.Instance.FadeSource(audioSource, 0, fadeLength);
+		audioCor = AudioManager.Instance.FadeSource(repeatingAudioSource, 0, fadeLength);
+	}
+
+	/// <summary>
+	/// Play a one shot audio clip on the station
+	/// </summary>
+	/// <param name="audioClip">The key name of the clip in the audiomanager</param>
+	/// <param name="volumeScale">The scale of the volume</param>
+	public void PlayOneShotOnStation(string audioClip, float volumeScale)
+	{
+		oneShotAudioSource.PlayOneShot(AudioManager.Instance.GetSoundEffect(audioClip), volumeScale);
 	}
 }

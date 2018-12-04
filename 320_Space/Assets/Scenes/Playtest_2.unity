@@ -1840,8 +1840,10 @@ MonoBehaviour:
   soundClipDictionary:
     m_keys:
     - forcefield_Idle
+    - forcefield_Hit
     m_values:
     - {fileID: 8300000, guid: ab6dcec74c542d44fb74377f0164286f, type: 3}
+    - {fileID: 8300000, guid: 2b8181e62877ef7498a10b6eae44120e, type: 3}
 --- !u!4 &903917319
 Transform:
   m_ObjectHideFlags: 0
