@@ -20,9 +20,6 @@ public class GameManager : Singleton<GameManager> {
     public Canvas enemyMenu;
     public Canvas turnCanvas;
     public Canvas animationCanvas;
-    public Text health;
-    public Text resources;
-    public Text playerName;
     public Text playerTotal;
     public Text currentPlayer;
 
@@ -69,9 +66,6 @@ public class GameManager : Singleton<GameManager> {
         playerMenu.enabled = false;
         enemyMenu.enabled = false;
         missilesLaunched = false;
-        health.enabled = false;
-        resources.enabled = false;
-        playerName.enabled = false;
         playerTotal.enabled = true;
         zoomed = false;
         camBase = 0;
@@ -79,6 +73,7 @@ public class GameManager : Singleton<GameManager> {
         playerReady = false;
         actionsReady = false;
         animationCanvas.enabled = false;
+        turnCanvas.enabled = false;
     }
 
     // Update is called once per frame
@@ -129,6 +124,7 @@ public class GameManager : Singleton<GameManager> {
                         players.Add(newPlayer.GetComponent<PlayerStation>());
                     }
                     mainMenu.enabled = false;
+                    turnCanvas.enabled = true;
                     State = GameState.Playing;
                     cam.UseManagerStart();
                 }
@@ -206,16 +202,9 @@ public class GameManager : Singleton<GameManager> {
                                     //players[i].GetComponentInChildren<SpriteRenderer>().color = baseColor;
                                 }
                             }
-
-                            health.enabled = true;
-                            resources.enabled = true;
-                            playerName.enabled = true;
+                            
                             DisplayHealth(players[currPlayer]);
                             DisplayResources(players[currPlayer]);
-
-                            health.text = "Health: " + players[currPlayer].Health;
-                            resources.text = "Resources: " + players[currPlayer].Resources;
-                            playerName.text = "Player " + (currPlayer + 1);
 
                             CheckForStationTouch();
 
@@ -318,7 +307,6 @@ public class GameManager : Singleton<GameManager> {
 
             //Ending the game
             case GameState.End:
-                playerName.text = "Game Over";
                 break;
         }
     }

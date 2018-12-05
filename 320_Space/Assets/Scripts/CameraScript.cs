@@ -50,6 +50,7 @@ public class CameraScript : MonoBehaviour
     void Start()
     {
         startTime = Time.time;
+        Camera.main.orthographicSize = startZoom;
         startPos = transform.position;//new Vector3(0,0,-10);
         farPos = new Vector3(transform.position.x, transform.position.y, transform.position.z - 10);
         lastPos = startPos;
