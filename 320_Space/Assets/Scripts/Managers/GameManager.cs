@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum GameState { Begin, Paused, Playing, End }
+public enum GameState { Begin, Tutorial, Paused, Playing, End }
 enum RoundState { Begin, TurnOrder, PlayChoices, End }
 enum TurnState { Begin, Choosing, End }
 
@@ -20,6 +20,8 @@ public class GameManager : Singleton<GameManager> {
     public Canvas enemyMenu;
     public Canvas turnCanvas;
     public Canvas animationCanvas;
+    public Canvas tutorialCanvas;
+    public Canvas resourceCanvas;
     public Text playerTotal;
     public Text currentPlayer;
 
@@ -31,8 +33,9 @@ public class GameManager : Singleton<GameManager> {
     public GameObject healthPre;
     public List<PlayerStation> players { get; set; }
     public List<MissileData> missiles { get; set; }
-    public List<GameObject> healthList { get; set; }
-    public List<GameObject> resourceList { get; set; }
+    public List<Image> healthList { get; set; }
+    public List<Image> resourceList { get; set; }
+    public List<Image> tutorialList;
     public int numMissiles;
     //public int numShields
 
@@ -50,6 +53,8 @@ public class GameManager : Singleton<GameManager> {
     Color baseColor;
     bool playerReady;
     bool actionsReady;
+    int tutCounter;
+    bool tutCompleted;
 
     // Called before start
     void Awake() {
@@ -57,8 +62,8 @@ public class GameManager : Singleton<GameManager> {
         roundState = RoundState.Begin;
         players = new List<PlayerStation>();
         missiles = new List<MissileData>();
-        healthList = new List<GameObject>();
-        resourceList = new List<GameObject>();
+        healthList = new List<Image>();
+        resourceList = new List<Image>();
         currPlayer = 0;
         readyToPlay = false;
         numPlayers = 2;
@@ -74,6 +79,10 @@ public class GameManager : Singleton<GameManager> {
         actionsReady = false;
         animationCanvas.enabled = false;
         turnCanvas.enabled = false;
+        tutCounter = 0;
+        tutCompleted = false;
+        tutorialCanvas.enabled = false;
+        resourceCanvas.enabled = false;
     }
 
     // Update is called once per frame
@@ -124,12 +133,36 @@ public class GameManager : Singleton<GameManager> {
                         players.Add(newPlayer.GetComponent<PlayerStation>());
                     }
                     mainMenu.enabled = false;
-                    turnCanvas.enabled = true;
-                    State = GameState.Playing;
+                    tutorialCanvas.enabled = true;
+                    State = GameState.Tutorial;
                     cam.UseManagerStart();
                 }
                 break;
 
+            //Tutorial in progress
+            case GameState.Tutorial:
+
+                if (tutCompleted)
+                {
+                    turnCanvas.enabled = true;
+                    State = GameState.Playing;
+                }
+                else
+                {
+                    for (int i = 0; i < tutorialList.Count; i++)
+                    {
+                        if (tutCounter == i)
+                        {
+                            tutorialList[i].enabled = true;
+                        }
+                        else
+                        {
+                            tutorialList[i].enabled = false;
+                        }
+                    }
+                }
+
+                break;
             //Game is paused
             case GameState.Paused:
 
@@ -173,6 +206,7 @@ public class GameManager : Singleton<GameManager> {
                         {
                             //displaying menu and resources
                             turnCanvas.enabled = false;
+                            resourceCanvas.enabled = true;
                             if (zoomed)
                             {
                                 if (camBase == currPlayer)
@@ -468,44 +502,32 @@ public class GameManager : Singleton<GameManager> {
 
     void DisplayHealth(PlayerStation player)
     {
-        if (healthList.Count > 0)
+        for (int i = 0; i < healthList.Count; i++)
         {
-            for (int i = 0; i < healthList.Count; i++)
+            if (i < player.Health)
             {
-                GameObject cont = healthList[i];
-                healthList.Remove(healthList[i]);
-                Destroy(cont);
+                healthList[i].enabled = true;
             }
-        }
-        for (int i = 0; i < player.Health; i++)
-        {
-            GameObject newHealth = Instantiate(healthPre);
-            Vector3 pos = newHealth.transform.position;
-            pos.x += i;
-            newHealth.transform.position = pos;
-            healthList.Add(newHealth);
+            else
+            {
+                healthList[i].enabled = false;
+            }
         }
     }
 
 
     void DisplayResources(PlayerStation player)
     {
-        if (resourceList.Count > 0)
+        for (int i = 0; i < resourceList.Count; i++)
         {
-            for (int i = 0; i < resourceList.Count; i++)
+            if (i < player.Resources)
             {
-                GameObject cont = resourceList[i];
-                resourceList.Remove(resourceList[i]);
-                Destroy(cont);
+                resourceList[i].enabled = true;
             }
-        }
-        for (int i = 0; i < player.Resources; i++)
-        {
-            GameObject newResource = Instantiate(resourcePre);
-            Vector3 pos = newResource.transform.position;
-            pos.x += i;
-            newResource.transform.position = pos;
-            healthList.Add(newResource);
+            else
+            {
+                resourceList[i].enabled = false;
+            }
         }
     }
 
@@ -518,5 +540,31 @@ public class GameManager : Singleton<GameManager> {
     public void ToggleAnimationReady()
     {
         actionsReady = true;
+    }
+
+    public void NextTutorial()
+    {
+        tutCounter++;
+        if (tutCounter >= 5)
+        {
+            tutCounter = 0;
+            tutorialCanvas.enabled = false;
+            tutCompleted = true;
+        }
+    }
+
+    public void StartTutorial()
+    {
+        tutCompleted = false;
+        tutorialCanvas.enabled = true;
+        tutCounter = 0;
+        State = GameState.Tutorial;
+    }
+
+    public void SkipTutorial()
+    {
+        tutCompleted = true;
+        tutorialCanvas.enabled = false;
+        tutCounter = 0;
     }
 }
