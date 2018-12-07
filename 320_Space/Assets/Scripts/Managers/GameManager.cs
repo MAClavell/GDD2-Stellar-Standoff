@@ -55,6 +55,7 @@ public class GameManager : Singleton<GameManager> {
     bool actionsReady;
     int tutCounter;
     bool tutCompleted;
+    float resultsTimer;
 
     // Called before start
     void Awake() {
