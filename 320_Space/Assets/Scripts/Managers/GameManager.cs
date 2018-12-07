@@ -33,8 +33,8 @@ public class GameManager : Singleton<GameManager> {
     public GameObject healthPre;
     public List<PlayerStation> players { get; set; }
     public List<MissileData> missiles { get; set; }
-    public List<Image> healthList { get; set; }
-    public List<Image> resourceList { get; set; }
+    public List<Image> healthList;
+    public List<Image> resourceList;
     public List<Image> tutorialList;
     public int numMissiles;
     //public int numShields
@@ -63,8 +63,6 @@ public class GameManager : Singleton<GameManager> {
         roundState = RoundState.Begin;
         players = new List<PlayerStation>();
         missiles = new List<MissileData>();
-        healthList = new List<Image>();
-        resourceList = new List<Image>();
         currPlayer = 0;
         readyToPlay = false;
         numPlayers = 2;
@@ -264,6 +262,7 @@ public class GameManager : Singleton<GameManager> {
                         {
                             enemyMenu.enabled = false;
                             playerMenu.enabled = false;
+                            resourceCanvas.enabled = false;
                             turnCanvas.enabled = true;
                             currentPlayer.text = "Player " + (currPlayer + 1);
                             currentPlayer.color = players[currPlayer].Hue;
@@ -309,6 +308,7 @@ public class GameManager : Singleton<GameManager> {
                         }
                         else
                         {
+                            resourceCanvas.enabled = false;
                             animationCanvas.enabled = true;
                         }
                         break;
