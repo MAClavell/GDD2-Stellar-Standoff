@@ -3156,6 +3156,7 @@ MonoBehaviour:
   healthPre: {fileID: 1629701642321042, guid: b1ba443604f4b984fa9a0bdfbe75d76a, type: 2}
   numMissiles: 0
   radius: 4
+  maxResultsTime: 4
   numPlayers: 0
   missilePrefab: {fileID: 1334755276076962, guid: a75d8fe2c5b1bc84e9e915b723093d5e,
     type: 2}

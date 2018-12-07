@@ -63,7 +63,7 @@ public class PlayerStation : MonoBehaviour {
     //Force fields
     public float shieldTimer; //Controls exact opacity during fade
     private float shieldTime; //Max amount of second to fade in/out
-    private bool shieldVisible; // True if shield is at max (permitted) opacity
+    public bool shieldVisible; // True if shield is at max (permitted) opacity
     private float maxOpacity; //most opaque (on 0-1 scale) that shield can be
 
 	//Audio
@@ -284,7 +284,6 @@ public class PlayerStation : MonoBehaviour {
             shieldTimer = 0;
             shieldVisible = true;
         }
-
 
 	}
 

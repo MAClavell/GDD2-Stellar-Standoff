@@ -37,6 +37,7 @@ public class GameManager : Singleton<GameManager> {
     //public int numShields
 
     public float radius;
+    public float maxResultsTime;
 
     //Private Fields
     RoundState roundState;
@@ -50,6 +51,7 @@ public class GameManager : Singleton<GameManager> {
     Color baseColor;
     bool playerReady;
     bool actionsReady;
+    float resultsTimer;
 
     // Called before start
     void Awake() {
@@ -74,6 +76,7 @@ public class GameManager : Singleton<GameManager> {
         actionsReady = false;
         animationCanvas.enabled = false;
         turnCanvas.enabled = false;
+        resultsTimer = 0;
     }
 
     // Update is called once per frame
@@ -238,6 +241,7 @@ public class GameManager : Singleton<GameManager> {
 
                     //Play all the choices out
                     case RoundState.PlayChoices:
+                        resultsTimer += Time.deltaTime;
                         playerMenu.enabled = false;
                         enemyMenu.enabled = false;
                         if (actionsReady)
@@ -264,8 +268,9 @@ public class GameManager : Singleton<GameManager> {
                                     }
                                 }
 
-                                if (missilesLaunched && GameManager.Instance.numMissiles <= 0)
+                                if (missilesLaunched && GameManager.Instance.numMissiles <= 0 && resultsTimer >= maxResultsTime)
                                 {
+                                    resultsTimer = 0;
                                     GameManager.Instance.missiles.Clear();
                                     actionsReady = false;
                                     roundState = RoundState.End;
