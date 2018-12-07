@@ -173,6 +173,9 @@ public class GameManager : Singleton<GameManager> {
                 {
                     //Clear previous player actions
                     case RoundState.Begin:
+
+                        
+
                         currPlayer = 0;
                         missilesLaunched = false;
                         foreach (PlayerStation player in players)
@@ -260,6 +263,12 @@ public class GameManager : Singleton<GameManager> {
                         }
                         else
                         {
+                            //Set rotation to current player
+                            cam.world.transform.rotation = Quaternion.AngleAxis(currPlayer * (360 / numPlayers), Vector3.forward);
+                            cam.currRot = cam.world.transform.rotation;
+                            cam.baseRot = cam.currRot;
+                            cam.startRot = cam.currRot;
+
                             enemyMenu.enabled = false;
                             playerMenu.enabled = false;
                             resourceCanvas.enabled = false;
@@ -272,6 +281,10 @@ public class GameManager : Singleton<GameManager> {
 
                     //Play all the choices out
                     case RoundState.PlayChoices:
+
+                        //Puts player one on top
+                        cam.world.transform.rotation = Quaternion.identity;
+
                         playerMenu.enabled = false;
                         enemyMenu.enabled = false;
                         if (actionsReady)
