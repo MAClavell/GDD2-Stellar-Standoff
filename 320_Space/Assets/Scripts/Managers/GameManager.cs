@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public enum GameState { Begin, Tutorial, Paused, Playing, End }
@@ -22,8 +23,10 @@ public class GameManager : Singleton<GameManager> {
     public Canvas animationCanvas;
     public Canvas tutorialCanvas;
     public Canvas resourceCanvas;
+    public Canvas endCanvas;
     public Text playerTotal;
     public Text currentPlayer;
+    public Text winningPlayer;
 
     //Camera
     public CameraScript cam;
@@ -82,6 +85,7 @@ public class GameManager : Singleton<GameManager> {
         tutCompleted = false;
         tutorialCanvas.enabled = false;
         resourceCanvas.enabled = false;
+        endCanvas.enabled = false;
     }
 
     // Update is called once per frame
@@ -92,6 +96,8 @@ public class GameManager : Singleton<GameManager> {
             case GameState.Begin:
                 //set up for number of players
                 playerTotal.text = numPlayers.ToString();
+                endCanvas.enabled = false;
+                mainMenu.enabled = true;
                 if (readyToPlay)
                 {
 
@@ -355,6 +361,26 @@ public class GameManager : Singleton<GameManager> {
 
             //Ending the game
             case GameState.End:
+                endCanvas.enabled = true;
+
+                int playerWon = -1;
+
+                for (int i = 0; i < players.Count; i++)
+                {
+                    if (players[i].IsAlive)
+                    {
+                        playerWon = i + 1;
+                    }
+                }
+
+                if(playerWon >= 0)
+                {
+                    winningPlayer.text = "Player " + playerWon + " Wins";
+                }
+                else
+                {
+                    winningPlayer.text = "All Stations Destroyed";
+                }
                 break;
         }
     }
@@ -394,7 +420,6 @@ public class GameManager : Singleton<GameManager> {
         {
             numPlayers++;
         }
-        Debug.Log(numPlayers);
     }
 
     /// <summary>
@@ -406,7 +431,6 @@ public class GameManager : Singleton<GameManager> {
         {
             numPlayers--;
         }
-        Debug.Log(numPlayers);
     }
 
     /// <summary>
@@ -415,7 +439,6 @@ public class GameManager : Singleton<GameManager> {
     public void ToggleReady()
     {
         readyToPlay = !readyToPlay;
-        Debug.Log("Play");
     }
 
     /// <summary>
@@ -580,5 +603,12 @@ public class GameManager : Singleton<GameManager> {
         tutCompleted = true;
         tutorialCanvas.enabled = false;
         tutCounter = 0;
+    }
+
+
+    public void ResetGame()
+    {
+        SceneManager.LoadScene("Playtest_2");
+        //Application.LoadLevel(Application.loadedLevel);
     }
 }
