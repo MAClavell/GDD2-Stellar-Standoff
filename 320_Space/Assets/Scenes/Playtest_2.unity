@@ -2098,16 +2098,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 993a9e9a20e949a42af3ce87187390f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicClipDictionary:
-    m_keys: []
-    m_values: []
-  soundClipDictionary:
+  loopingClipDictionary:
     m_keys:
     - forcefield_Idle
-    - forcefield_Hit
+    - drill
     m_values:
     - {fileID: 8300000, guid: ab6dcec74c542d44fb74377f0164286f, type: 3}
+    - {fileID: 8300000, guid: 47b47a499ad9fb94293c6312199a912a, type: 3}
+  soundClipDictionary:
+    m_keys:
+    - forcefield_Hit
+    - missile_Hit
+    - missile_Launch
+    - radar_Beep
+    m_values:
     - {fileID: 8300000, guid: 2b8181e62877ef7498a10b6eae44120e, type: 3}
+    - {fileID: 8300000, guid: 147fe7bf810284c41aea6ab1d7eddf2a, type: 3}
+    - {fileID: 8300000, guid: a03c058b5dec4cb4aa019173499a2217, type: 3}
+    - {fileID: 8300000, guid: 9dc0d0d4bd75ba248907d9f3d320debc, type: 3}
 --- !u!4 &903917319
 Transform:
   m_ObjectHideFlags: 0
@@ -3954,7 +3962,7 @@ SpriteRenderer:
   m_SortingLayerID: 714351191
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9199fb7eee0ede14e809e879a6978dcf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0e0851600439f6741a105ce05220d556, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
