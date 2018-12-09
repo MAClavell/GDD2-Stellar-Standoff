@@ -26,6 +26,8 @@ public class AudioManager : Singleton<AudioManager> {
             layer.transform.parent = transform;
             layer.clip = loopingClipDictionary[str];
             layer.playOnAwake = false;
+			layer.loop = true;
+			layer.volume = 0;
             layer.Stop();
             loopingLayerDictionary.Add(str, layer);
 			loopingCoroutineDictionary.Add(str, null);

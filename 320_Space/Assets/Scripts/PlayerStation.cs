@@ -231,7 +231,7 @@ public class PlayerStation : MonoBehaviour {
 
             case "Load":
                 Resources++;
-				AudioManager.Instance.FadeInLayer("drill", 0.7f, 0.5f);
+				AudioManager.Instance.FadeInLayer("drill", 0.7f, 1f);
 				break;
         }
     }
@@ -284,7 +284,7 @@ public class PlayerStation : MonoBehaviour {
 	public void TurnOffShield()
 	{
 		ShieldOn = false;
-		AudioManager.Instance.FadeOutLayer("forcefield_Idle", 0.7f, shieldTime);
+		AudioManager.Instance.FadeOutLayer("forcefield_Idle", 0, shieldTime);
 	}
 
 	//Fades shield out until full transparency

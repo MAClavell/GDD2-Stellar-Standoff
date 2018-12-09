@@ -185,9 +185,6 @@ public class GameManager : Singleton<GameManager> {
                 {
                     //Clear previous player actions
                     case RoundState.Begin:
-
-                        
-
                         currPlayer = 0;
                         missilesLaunched = false;
                         foreach (PlayerStation player in players)
@@ -362,7 +359,7 @@ public class GameManager : Singleton<GameManager> {
                             State = GameState.End;
                             break;
                         }
-						AudioManager.Instance.FadeOutLayer("drill", 0.7f, 0.5f);
+						AudioManager.Instance.FadeOutLayer("drill", 0, 1f);
 						roundState = RoundState.Begin;
                         break;
                 }
