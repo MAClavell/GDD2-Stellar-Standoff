@@ -119,21 +119,23 @@ public class Missile : MonoBehaviour {
             //missle boop
             bounces++;
             Launch(target, target.Target);
-        }
-        else if(target.Action == "Shield")
+			AudioManager.Instance.PlayOneShot("radar_Beep", 1);
+		}
+		else if(target.Action == "Shield")
         {
             //missle explosion
             //GameManager.Instance.missiles.Remove(this);
             GameManager.Instance.numMissiles--;
-			target.PlayOneShotOnStation("forcefield_Hit", 1f);
+			AudioManager.Instance.PlayOneShot("forcefield_Hit", 1);
             Destroy(gameObject);
-        }
+		}
         else
         {
             //missle and base explosion
             target.TakeDamage();
             GameManager.Instance.numMissiles--;
-            Explode();
+			AudioManager.Instance.PlayOneShot("missile_Hit", 1);
+			Explode();
             Destroy(gameObject);
         }
     }

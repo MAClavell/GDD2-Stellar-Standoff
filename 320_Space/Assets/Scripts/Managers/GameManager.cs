@@ -361,8 +361,8 @@ public class GameManager : Singleton<GameManager> {
                             State = GameState.End;
                             break;
                         }
-
-                        roundState = RoundState.Begin;
+						AudioManager.Instance.FadeOutLayer("drill", 0.7f, 0.5f);
+						roundState = RoundState.Begin;
                         break;
                 }
                 break;

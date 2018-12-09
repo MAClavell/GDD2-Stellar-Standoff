@@ -66,11 +66,6 @@ public class PlayerStation : MonoBehaviour {
     public bool shieldVisible; // True if shield is at max (permitted) opacity
     private float maxOpacity; //most opaque (on 0-1 scale) that shield can be
 
-	//Audio
-	private AudioSource repeatingAudioSource;
-	private AudioSource oneShotAudioSource;
-	private Coroutine audioCor;
-
 	// Called before start
 	void Awake () {
         Health = 3;
@@ -78,11 +73,6 @@ public class PlayerStation : MonoBehaviour {
         ActionChosen = false;
         Action = "";
         Target = null;
-
-		//Set initial values for audio
-		repeatingAudioSource = transform.Find("RepeatingAudioSource").GetComponent<AudioSource>();
-		oneShotAudioSource = transform.Find("OneShotAudioSource").GetComponent<AudioSource>();
-		audioCor = null;
 	}
 
     //Called on startup
@@ -222,6 +212,7 @@ public class PlayerStation : MonoBehaviour {
                 MissileData newMissileData = new MissileData(this, Target);
                 GameManager.Instance.missiles.Add(newMissileData);
                 GameManager.Instance.numMissiles++;
+				AudioManager.Instance.PlayOneShot("missile_Launch", 1);
                 //newMissile.GetComponent<Missile>().Launch(this, Target);
                 //newMissile.GetComponent<Missile>().origin = this;
                 //newMissile.GetComponent<Missile>().destination = Target;
@@ -233,12 +224,13 @@ public class PlayerStation : MonoBehaviour {
                 break;
             case "Shield":
                 ShieldOn = true;
-				FadeInAudioClip("forcefield_Idle", shieldTime); //start the audio for the shield
+				AudioManager.Instance.FadeInLayer("forcefield_Idle", 0.7f, shieldTime);
 				break;
 
             case "Load":
                 Resources++;
-                break;
+				AudioManager.Instance.FadeInLayer("drill", 0.7f, 0.5f);
+				break;
         }
     }
 
@@ -290,11 +282,11 @@ public class PlayerStation : MonoBehaviour {
 	public void TurnOffShield()
 	{
 		ShieldOn = false;
-		FadeOutAudioSource(shieldTime);
+		AudioManager.Instance.FadeOutLayer("forcefield_Idle", 0.7f, shieldTime);
 	}
 
-    //Fades shield out until full transparency
-    private void DeactivateShield()
+	//Fades shield out until full transparency
+	private void DeactivateShield()
     {
         shieldTimer += Time.deltaTime;
         float increment = shieldTimer / shieldTime;
@@ -317,42 +309,4 @@ public class PlayerStation : MonoBehaviour {
     {
         GameManager.Instance.CheckForStationClicked(this);
     }
-
-	/// <summary>
-	/// Fade in an audio clip to the station's audio source
-	/// </summary>
-	/// <param name="audioClip">The clip to fade in</param>
-	/// <param name="fadeLength">The length of the fade</param>
-	public void FadeInAudioClip(string audioClip, float fadeLength)
-	{
-		if (audioCor != null)
-			StopCoroutine(audioCor);
-
-		AudioClip clip = AudioManager.Instance.GetSoundEffect(audioClip);
-		repeatingAudioSource.clip = clip;
-		repeatingAudioSource.Play();
-		audioCor = AudioManager.Instance.FadeSource(repeatingAudioSource, 0.5f, fadeLength);
-	}
-
-	/// <summary>
-	/// Fade out the audio source
-	/// </summary>
-	/// <param name="fadeLength">The length of the fade</param>
-	public void FadeOutAudioSource(float fadeLength)
-	{
-		if (audioCor != null)
-			StopCoroutine(audioCor);
-
-		audioCor = AudioManager.Instance.FadeSource(repeatingAudioSource, 0, fadeLength);
-	}
-
-	/// <summary>
-	/// Play a one shot audio clip on the station
-	/// </summary>
-	/// <param name="audioClip">The key name of the clip in the audiomanager</param>
-	/// <param name="volumeScale">The scale of the volume</param>
-	public void PlayOneShotOnStation(string audioClip, float volumeScale)
-	{
-		oneShotAudioSource.PlayOneShot(AudioManager.Instance.GetSoundEffect(audioClip), volumeScale);
-	}
 }
