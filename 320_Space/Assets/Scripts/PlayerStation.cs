@@ -56,6 +56,7 @@ public class PlayerStation : MonoBehaviour {
     public SpriteRenderer mainRender;
 
     public GameObject label;
+    public float labelOffset;
 
     //Private fields
     public short Health { get; set; }
@@ -114,7 +115,7 @@ public class PlayerStation : MonoBehaviour {
             DeactivateShield();
         }
 
-        label.transform.position = transform.position + new Vector3(0, 1, 0);
+        label.transform.position = transform.position + new Vector3(0, labelOffset, 0);
         label.transform.rotation = Quaternion.identity;
     }
 

@@ -444,6 +444,7 @@ MonoBehaviour:
   shieldRender: {fileID: 212596534054972012}
   mainRender: {fileID: 212635795136389418}
   label: {fileID: 1249125317445218}
+  labelOffset: 1
   shieldTimer: 0
   shieldVisible: 0
 --- !u!114 &114808454656293266
