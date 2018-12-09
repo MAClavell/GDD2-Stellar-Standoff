@@ -27,6 +27,7 @@ public class GameManager : Singleton<GameManager> {
     public Text playerTotal;
     public Text currentPlayer;
     public Text winningPlayer;
+    private Color activeColor;
 
     //Camera
     public CameraScript cam;
@@ -59,6 +60,10 @@ public class GameManager : Singleton<GameManager> {
     int tutCounter;
     bool tutCompleted;
     float resultsTimer;
+
+    //For generating "unique" stations
+    public Color[] baseColors;
+    public Sprite[] baseSprites;
 
     // Called before start
     void Awake() {
@@ -131,7 +136,7 @@ public class GameManager : Singleton<GameManager> {
                             newPlayer.transform.up = direction;
 
                         //Set station color and number
-                        newPlayer.GetComponent<PlayerStation>().Hue = PickColor(i);
+                        newPlayer.GetComponent<PlayerStation>().Hue = baseColors[i];
                         newPlayer.GetComponent<PlayerStation>().PlayerNumber = i + 1;
 
                         //Add prefab's PlayerStation component to list
@@ -269,6 +274,9 @@ public class GameManager : Singleton<GameManager> {
                         }
                         else
                         {
+                            //Set UI color to current player color
+                            activeColor = players[currPlayer].Hue;
+
                             //Set rotation to current player
                             cam.world.transform.rotation = Quaternion.AngleAxis(currPlayer * (360 / numPlayers), Vector3.forward);
                             cam.currRot = cam.world.transform.rotation;
@@ -387,28 +395,7 @@ public class GameManager : Singleton<GameManager> {
 
     public Color PickColor(int index)
     {
-        //Red, Blue, Green, Yellow, Purple, Aqua, Orange, Pink
-        switch (index)
-        {
-            case 0:
-                return Color.red;
-            case 1:
-                return Color.blue;
-            case 2:
-                return Color.green;
-            case 3:
-                return Color.yellow;
-            case 4:
-                return Color.magenta;
-            case 5:
-                return Color.cyan;
-            case 6:
-                return Color.gray;
-            case 7:
-                return Color.black;
-            default:
-                return Color.white;
-        }
+        return baseColors[index];
     }
 
     /// <summary>
