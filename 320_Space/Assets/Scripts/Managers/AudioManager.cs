@@ -5,29 +5,30 @@ using UnityEngine;
 public class AudioManager : Singleton<AudioManager> {
 
     //Public fields
-    public StringAudioClipDictionary musicClipDictionary;
+    public StringAudioClipDictionary loopingClipDictionary;
     public StringAudioClipDictionary soundClipDictionary;
 
-    //Private fields
-    Dictionary<string, AudioSource> musicLayerDictionary;
-    Dictionary<string, Coroutine> musicCoroutineDictionary;
+	//Private fields
+	Dictionary<string, AudioSource> loopingLayerDictionary;
+	Dictionary<string, Coroutine> loopingCoroutineDictionary;
     AudioSource soundSource;
 
-    // Use this for initialization
-    void Awake() {
+	// Use this for initialization
+	void Awake() {
         //Instantiate dicts
-        musicLayerDictionary = new Dictionary<string, AudioSource>();
-        musicCoroutineDictionary = new Dictionary<string, Coroutine>();
+        loopingLayerDictionary = new Dictionary<string, AudioSource>();
+        loopingCoroutineDictionary = new Dictionary<string, Coroutine>();
 
-        //Create gameobjects for each music player
-        foreach (string str in musicClipDictionary.Keys)
+        //Create gameobjects for each looping layer
+        foreach (string str in loopingClipDictionary.Keys)
         {
             AudioSource layer = new GameObject(str, typeof(AudioSource)).GetComponent<AudioSource>();
             layer.transform.parent = transform;
-            layer.clip = musicClipDictionary[str];
+            layer.clip = loopingClipDictionary[str];
             layer.playOnAwake = false;
             layer.Stop();
-            musicLayerDictionary.Add(str, layer);
+            loopingLayerDictionary.Add(str, layer);
+			loopingCoroutineDictionary.Add(str, null);
         }
 
         //Create soundeffect layer
@@ -58,13 +59,13 @@ public class AudioManager : Singleton<AudioManager> {
     public bool IsLayerPlaying(string layerName)
     {
         //Error check
-        if (!musicLayerDictionary.ContainsKey(layerName))
+        if (!loopingLayerDictionary.ContainsKey(layerName))
         {
             Debug.LogError("Audio layer does not exist in dictionary");
             return false;
         }
 
-        return musicLayerDictionary[layerName].isPlaying;
+        return loopingLayerDictionary[layerName].isPlaying;
     }
 
     /// <summary>
@@ -91,7 +92,7 @@ public class AudioManager : Singleton<AudioManager> {
     public void PlayLayer(string layerName)
     {
         //Error check
-        if (!musicLayerDictionary.ContainsKey(layerName))
+        if (!loopingLayerDictionary.ContainsKey(layerName))
         {
             Debug.LogError("Audio layer does not exist in dictionary");
             return;
@@ -99,7 +100,7 @@ public class AudioManager : Singleton<AudioManager> {
 
         if (!IsLayerPlaying(layerName))
         {
-            musicLayerDictionary[layerName].Play();
+            loopingLayerDictionary[layerName].Play();
         }
     }
 
@@ -110,7 +111,7 @@ public class AudioManager : Singleton<AudioManager> {
     public void StopLayer(string layerName)
     {
         //Error check
-        if (!musicLayerDictionary.ContainsKey(layerName))
+        if (!loopingLayerDictionary.ContainsKey(layerName))
         {
             Debug.LogError("Audio layer does not exist in dictionary");
             return;
@@ -118,7 +119,7 @@ public class AudioManager : Singleton<AudioManager> {
 
         if (IsLayerPlaying(layerName))
         {
-            musicLayerDictionary[layerName].Stop();
+            loopingLayerDictionary[layerName].Stop();
         }
     }
 
@@ -130,13 +131,13 @@ public class AudioManager : Singleton<AudioManager> {
     public void SetLayerVolume(string layerName, float volume)
     {
         //Error check
-        if (!musicLayerDictionary.ContainsKey(layerName))
+        if (!loopingLayerDictionary.ContainsKey(layerName))
         {
             Debug.LogError("Audio layer does not exist in dictionary");
             return;
         }
 
-        musicLayerDictionary[layerName].volume = volume;
+        loopingLayerDictionary[layerName].volume = volume;
     }
 
     /// <summary>
@@ -148,13 +149,13 @@ public class AudioManager : Singleton<AudioManager> {
     public void FadeLayer(string layerName, float goalVolume, float fadeLength)
     {
         //Error check
-        if (!musicLayerDictionary.ContainsKey(layerName))
+        if (!loopingLayerDictionary.ContainsKey(layerName))
         {
             Debug.LogError("Audio layer does not exist in dictionary");
             return;
         }
 
-        if (musicLayerDictionary[layerName].volume > goalVolume)
+        if (loopingLayerDictionary[layerName].volume > goalVolume)
         {
             FadeOutLayer(layerName, goalVolume, fadeLength);
         }
@@ -170,32 +171,22 @@ public class AudioManager : Singleton<AudioManager> {
     public void FadeInLayer(string layerName, float goalVolume, float fadeLength)
     {
         //Error check
-        if (!musicLayerDictionary.ContainsKey(layerName))
+        if (!loopingLayerDictionary.ContainsKey(layerName))
         {
-            Debug.LogError("Audio layer does not exist in dictionary");
+            Debug.LogError("Audio " + layerName + " layer does not exist in dictionary");
             return;
         }
 
-        if (musicCoroutineDictionary[layerName] != null)
-            StopCoroutine(musicCoroutineDictionary[layerName]);
+        if (loopingCoroutineDictionary[layerName] != null)
+            StopCoroutine(loopingCoroutineDictionary[layerName]);
 
-        StartCoroutine(SourceFadeIn(musicLayerDictionary[layerName], goalVolume, fadeLength));
+		if (!IsLayerPlaying(layerName))
+			PlayLayer(layerName);
+
+        loopingCoroutineDictionary[layerName] = StartCoroutine(SourceFadeIn(
+						loopingLayerDictionary[layerName], goalVolume, 
+						fadeLength, layerName));
     }
-
-	/// <summary>
-	/// A helper for external classes to fade in their audio sources
-	/// </summary>
-	/// <param name="source">The audio source</param>
-	/// <param name="goalVolume">The goal volume</param>
-	/// <param name="fadeLength">The length of the fade</param>
-	public Coroutine FadeSource(AudioSource source, float goalVolume, float fadeLength)
-	{
-		if(source.volume > goalVolume)
-		{
-			return StartCoroutine(SourceFadeOut(source, goalVolume, fadeLength));
-		}
-		else return StartCoroutine(SourceFadeIn(source, goalVolume, fadeLength));
-	}
 
     /// <summary>
     /// Fade out an audio layer
@@ -206,17 +197,19 @@ public class AudioManager : Singleton<AudioManager> {
     public void FadeOutLayer(string layerName, float goalVolume, float fadeLength)
     {
         //Error check
-        if (!musicLayerDictionary.ContainsKey(layerName))
+        if (!loopingLayerDictionary.ContainsKey(layerName))
         {
             Debug.LogError("Audio layer does not exist in dictionary");
             return;
         }
 
-        if (musicCoroutineDictionary[layerName] != null)
-            StopCoroutine(musicCoroutineDictionary[layerName]);
+        if (loopingCoroutineDictionary[layerName] != null)
+            StopCoroutine(loopingCoroutineDictionary[layerName]);
 
-        StartCoroutine(SourceFadeOut(musicLayerDictionary[layerName], goalVolume, fadeLength));
-    }
+		loopingCoroutineDictionary[layerName] = StartCoroutine(SourceFadeOut(
+						loopingLayerDictionary[layerName], goalVolume,
+						fadeLength, layerName));
+	}
 
     /// <summary>
     /// Coroutine to fade in an audio layer
@@ -225,7 +218,7 @@ public class AudioManager : Singleton<AudioManager> {
     /// <param name="goalVol">Goal volume</param>
     /// <param name="fadeLength">The length of the fade</param>
     /// <returns></returns>
-    IEnumerator SourceFadeIn(AudioSource source, float goalVol, float fadeLength)
+    IEnumerator SourceFadeIn(AudioSource source, float goalVol, float fadeLength, string layerName)
     {
         float vol = source.volume;
         //Fade the vol
@@ -236,7 +229,8 @@ public class AudioManager : Singleton<AudioManager> {
             yield return null;
         }
         source.volume = goalVol;
-    }
+		loopingCoroutineDictionary[layerName] = null;
+	}
 
     /// <summary>
     /// Coroutine to fade in an audio layer
@@ -245,7 +239,7 @@ public class AudioManager : Singleton<AudioManager> {
     /// <param name="goalVol">Goal volume</param>
     /// <param name="fadeLength">The length of the fade</param>
     /// <returns></returns>
-    IEnumerator SourceFadeOut(AudioSource source, float goalVol, float fadeLength)
+    IEnumerator SourceFadeOut(AudioSource source, float goalVol, float fadeLength, string layerName)
     {
         float vol = source.volume;
         //Fade the vol
@@ -256,5 +250,6 @@ public class AudioManager : Singleton<AudioManager> {
             yield return null;
         }
         source.volume = goalVol;
-    }
+		loopingCoroutineDictionary[layerName] = null;
+	}
 }
