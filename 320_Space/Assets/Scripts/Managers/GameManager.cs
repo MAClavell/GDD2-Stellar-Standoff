@@ -54,7 +54,7 @@ public class GameManager : Singleton<GameManager> {
     public GameObject missilePrefab;
     bool zoomed;
     int camBase;
-    Color baseColor;
+    //Color baseColor;
     bool playerReady;
     bool actionsReady;
     int tutCounter;
@@ -81,7 +81,7 @@ public class GameManager : Singleton<GameManager> {
         playerTotal.enabled = true;
         zoomed = false;
         camBase = 0;
-        baseColor = stationPre.GetComponentInChildren<SpriteRenderer>().color;
+        //baseColor = stationPre.GetComponentInChildren<SpriteRenderer>().color;
         playerReady = false;
         actionsReady = false;
         animationCanvas.enabled = false;
@@ -135,9 +135,10 @@ public class GameManager : Singleton<GameManager> {
                         else
                             newPlayer.transform.up = direction;
 
-                        //Set station color and number
+                        //Set station color, number, and sprite
                         newPlayer.GetComponent<PlayerStation>().Hue = baseColors[i];
                         newPlayer.GetComponent<PlayerStation>().PlayerNumber = i + 1;
+                        newPlayer.GetComponent<PlayerStation>().mainRender.sprite = GetBaseSprite();
 
                         //Add prefab's PlayerStation component to list
                         players.Add(newPlayer.GetComponent<PlayerStation>());
@@ -393,9 +394,10 @@ public class GameManager : Singleton<GameManager> {
         }
     }
 
-    public Color PickColor(int index)
+    public Sprite GetBaseSprite()
     {
-        return baseColors[index];
+        int rnd = Random.Range(0, baseSprites.Length);
+        return baseSprites[rnd];
     }
 
     /// <summary>

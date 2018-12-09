@@ -53,6 +53,7 @@ public class PlayerStation : MonoBehaviour {
     public GameObject missile;
 
     public SpriteRenderer shieldRender;
+    public SpriteRenderer mainRender;
 
     public GameObject label;
 
