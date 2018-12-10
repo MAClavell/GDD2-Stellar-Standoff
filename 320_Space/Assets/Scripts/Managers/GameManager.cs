@@ -93,8 +93,15 @@ public class GameManager : Singleton<GameManager> {
         endCanvas.enabled = false;
     }
 
-    // Update is called once per frame
-    void Update() {
+	//Initialize values here
+	private void Start()
+	{
+		//Play all audio
+		AudioManager.Instance.PlayAllMusicLayers();
+	}
+
+	// Update is called once per frame
+	void Update() {
         switch (State)
         {
             //Game is starting
@@ -146,7 +153,8 @@ public class GameManager : Singleton<GameManager> {
                     mainMenu.enabled = false;
                     tutorialCanvas.enabled = true;
                     State = GameState.Tutorial;
-                    cam.UseManagerStart();
+					AudioManager.Instance.FadeLayer("m_tutorial_Layer", 0.4f, 0.5f);
+					cam.UseManagerStart();
                 }
                 break;
 
@@ -157,8 +165,10 @@ public class GameManager : Singleton<GameManager> {
                 {
                     turnCanvas.enabled = true;
                     State = GameState.Playing;
-                }
-                else
+					AudioManager.Instance.FadeLayer("m_tutorial_Layer", 0f, 0.5f);
+					AudioManager.Instance.FadeLayer("m_gameplay_bg_Layer", 0.5f, 0.5f);
+				}
+				else
                 {
                     for (int i = 0; i < tutorialList.Count; i++)
                     {
@@ -209,7 +219,8 @@ public class GameManager : Singleton<GameManager> {
                         if (currPlayer == players.Count)
                         {
                             roundState = RoundState.PlayChoices;
-                            currPlayer = 0;
+							AudioManager.Instance.FadeLayer("m_gameplay_combat_Layer", 0.5f, 0.5f);
+							currPlayer = 0;
                             return;
                         }
 
@@ -359,7 +370,8 @@ public class GameManager : Singleton<GameManager> {
                             State = GameState.End;
                             break;
                         }
-						AudioManager.Instance.FadeOutLayer("drill", 0, 1f);
+						AudioManager.Instance.FadeOutLayer("drill", 0, 1f, true);
+						AudioManager.Instance.FadeOutLayer("m_gameplay_combat_Layer", 0f, 0.5f);
 						roundState = RoundState.Begin;
                         break;
                 }

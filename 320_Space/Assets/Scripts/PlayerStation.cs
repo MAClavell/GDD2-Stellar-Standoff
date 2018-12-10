@@ -284,7 +284,7 @@ public class PlayerStation : MonoBehaviour {
 	public void TurnOffShield()
 	{
 		ShieldOn = false;
-		AudioManager.Instance.FadeOutLayer("forcefield_Idle", 0, shieldTime);
+		AudioManager.Instance.FadeOutLayer("forcefield_Idle", 0, shieldTime, true);
 	}
 
 	//Fades shield out until full transparency

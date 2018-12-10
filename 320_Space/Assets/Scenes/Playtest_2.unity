@@ -2102,9 +2102,15 @@ MonoBehaviour:
     m_keys:
     - forcefield_Idle
     - drill
+    - m_gameplay_bg_Layer
+    - m_gameplay_combat_Layer
+    - m_tutorial_Layer
     m_values:
     - {fileID: 8300000, guid: ab6dcec74c542d44fb74377f0164286f, type: 3}
     - {fileID: 8300000, guid: 47b47a499ad9fb94293c6312199a912a, type: 3}
+    - {fileID: 8300000, guid: d0804c5e6116fbf40a28e14af5d27763, type: 3}
+    - {fileID: 8300000, guid: f4e93c8ea76e44446aa7fe668ceddfcd, type: 3}
+    - {fileID: 8300000, guid: 608b03b8c9c534c488c55d84a6f17168, type: 3}
   soundClipDictionary:
     m_keys:
     - forcefield_Hit
@@ -3962,7 +3968,7 @@ SpriteRenderer:
   m_SortingLayerID: 714351191
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: cad4db921576fa54e961e2e9ebabf2b8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0e0851600439f6741a105ce05220d556, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
