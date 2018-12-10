@@ -99,7 +99,7 @@ public class GameManager : Singleton<GameManager> {
 		//Play all audio
 		AudioManager.Instance.PlayLayer("m_tutorial_Layer");
 		AudioManager.Instance.SetLayerVolume("m_tutorial_Layer", 0);
-		AudioManager.Instance.FadeLayer("m_menu_Layer", 0.5f, 1f);
+		AudioManager.Instance.FadeLayer("m_menu_Layer", 0.5f, 5f);
 	}
 
 	// Update is called once per frame
