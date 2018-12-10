@@ -4945,6 +4945,10 @@ MonoBehaviour:
   baseSprites:
   - {fileID: 21300000, guid: c73f9f2465831394c9e4499b841361bd, type: 3}
   - {fileID: 21300000, guid: d22189dc752bd624d8a398373fbb575b, type: 3}
+  - {fileID: 21300000, guid: 7af5085a936aedf4c8d94c57cb1b4cc1, type: 3}
+  - {fileID: 21300000, guid: df4b7d5524f35be44a1b359ef7914c01, type: 3}
+  - {fileID: 21300000, guid: 922bccd8d6b5c8148a141f0998e52324, type: 3}
+  - {fileID: 21300000, guid: 0eb512c857be730478ea02eb4573d86a, type: 3}
 --- !u!4 &2120391319
 Transform:
   m_ObjectHideFlags: 0
