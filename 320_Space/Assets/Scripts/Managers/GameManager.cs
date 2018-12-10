@@ -208,7 +208,8 @@ public class GameManager : Singleton<GameManager> {
                             player.Action = "";
                             player.Target = null;
                         }
-                        roundState = RoundState.TurnOrder;
+						players[currPlayer].SetLabel("You!");
+						roundState = RoundState.TurnOrder;
                         break;
 
                     //Players are taking their turns
@@ -282,8 +283,11 @@ public class GameManager : Singleton<GameManager> {
                             {
                                 cam.currState = CameraScript.CameraState.Start;
                                 zoomed = false;
-                                currPlayer++;
-                                playerReady = false;
+								players[currPlayer].SetLabel();
+								currPlayer++;
+								if(currPlayer < players.Count)
+									players[currPlayer].SetLabel("You!");
+								playerReady = false;
                             }
                         }
                         else

@@ -57,6 +57,7 @@ public class PlayerStation : MonoBehaviour {
 
     public GameObject label;
     public float labelOffset;
+	public string labelStr;
 
     //Private fields
     public short Health { get; set; }
@@ -88,7 +89,8 @@ public class PlayerStation : MonoBehaviour {
         shieldTimer = 0;
         shieldTime = 1.5f;
         maxOpacity = 0.75f;
-        label.GetComponent<TextMeshPro>().text = "Player " + PlayerNumber;
+		labelStr = "Player " + PlayerNumber;
+		label.GetComponent<TextMeshPro>().text = labelStr;
         label.GetComponent<TextMeshPro>().outlineColor = Hue;
     }
 
@@ -300,6 +302,22 @@ public class PlayerStation : MonoBehaviour {
             shieldVisible = false;
 		}
     }
+
+	/// <summary>
+	/// Set the label text for the station
+	/// </summary>
+	/// <param name="text">The string to set it to</param>
+	public void SetLabel(string text = null)
+	{
+		if(text == null)
+		{
+			label.GetComponent<TextMeshPro>().text = labelStr;
+		}
+		else
+		{
+			label.GetComponent<TextMeshPro>().text = text;
+		}
+	}
 
     public void DebugInfo()
     {
