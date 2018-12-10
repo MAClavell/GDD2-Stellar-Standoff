@@ -60,6 +60,7 @@ public class GameManager : Singleton<GameManager> {
     int tutCounter;
     bool tutCompleted;
     float resultsTimer;
+    float maxResultsTime;
 
     //For generating "unique" stations
     public Color[] baseColors;
@@ -91,6 +92,8 @@ public class GameManager : Singleton<GameManager> {
         tutorialCanvas.enabled = false;
         resourceCanvas.enabled = false;
         endCanvas.enabled = false;
+        resultsTimer = 0;
+        maxResultsTime = 3.0f;
     }
 
 	//Initialize values here
@@ -314,6 +317,8 @@ public class GameManager : Singleton<GameManager> {
                     //Play all the choices out
                     case RoundState.PlayChoices:
 
+                        resultsTimer += Time.deltaTime;
+
                         //Puts player one on top
                         cam.world.transform.rotation = Quaternion.identity;
 
@@ -343,8 +348,9 @@ public class GameManager : Singleton<GameManager> {
                                     }
                                 }
 
-                                if (missilesLaunched && GameManager.Instance.numMissiles <= 0)
+                                if (resultsTimer >= maxResultsTime && missilesLaunched && GameManager.Instance.numMissiles <= 0)
                                 {
+                                    resultsTimer = 0.0f;
                                     GameManager.Instance.missiles.Clear();
                                     actionsReady = false;
                                     roundState = RoundState.End;
