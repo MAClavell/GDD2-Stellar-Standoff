@@ -97,7 +97,9 @@ public class GameManager : Singleton<GameManager> {
 	private void Start()
 	{
 		//Play all audio
-		AudioManager.Instance.PlayAllMusicLayers();
+		AudioManager.Instance.PlayLayer("m_tutorial_Layer");
+		AudioManager.Instance.SetLayerVolume("m_tutorial_Layer", 0);
+		AudioManager.Instance.FadeLayer("m_menu_Layer", 0.5f, 1f);
 	}
 
 	// Update is called once per frame
@@ -153,7 +155,7 @@ public class GameManager : Singleton<GameManager> {
                     mainMenu.enabled = false;
                     tutorialCanvas.enabled = true;
                     State = GameState.Tutorial;
-					AudioManager.Instance.FadeLayer("m_tutorial_Layer", 0.4f, 0.5f);
+					AudioManager.Instance.FadeLayer("m_tutorial_Layer", 0.5f, 0.5f);
 					cam.UseManagerStart();
                 }
                 break;
@@ -165,8 +167,11 @@ public class GameManager : Singleton<GameManager> {
                 {
                     turnCanvas.enabled = true;
                     State = GameState.Playing;
-					AudioManager.Instance.FadeLayer("m_tutorial_Layer", 0f, 0.5f);
-					AudioManager.Instance.FadeLayer("m_gameplay_bg_Layer", 0.5f, 0.5f);
+					AudioManager.Instance.FadeLayer("m_tutorial_Layer", 0f, 1f);
+					AudioManager.Instance.FadeLayer("m_menu_Layer", 0f, 1f);
+					AudioManager.Instance.FadeLayer("m_gameplay_bg_Layer", 0.5f, 1f);
+					AudioManager.Instance.PlayLayer("m_gameplay_combat_Layer");
+					AudioManager.Instance.SetLayerVolume("m_gameplay_combat_Layer", 0);
 				}
 				else
                 {
