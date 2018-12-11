@@ -59,8 +59,12 @@ public class GameManager : Singleton<GameManager> {
     bool actionsReady;
     int tutCounter;
     bool tutCompleted;
+
     float resultsTimer;
     float maxResultsTime;
+
+    float postResultsTimer;
+    float maxPostResultsTime;
 
     //For generating "unique" stations
     public Color[] baseColors;
@@ -94,6 +98,8 @@ public class GameManager : Singleton<GameManager> {
         endCanvas.enabled = false;
         resultsTimer = 0;
         maxResultsTime = 3.0f;
+        postResultsTimer = 0.0f;
+        maxPostResultsTime = 3.0f;
     }
 
 	//Initialize values here
@@ -371,6 +377,9 @@ public class GameManager : Singleton<GameManager> {
 
                     //End the round
                     case RoundState.End:
+
+                        postResultsTimer += Time.deltaTime;
+
                         int alivePlayers = 0;
                         foreach (PlayerStation player in players)
                         {
@@ -388,10 +397,16 @@ public class GameManager : Singleton<GameManager> {
                             {
                                 player.TurnOffDrill();
                             }
+
+                            if (player.DishOn)
+                            {
+                                player.TurnOffDish();
+                            }
                         }
 
-                        if (alivePlayers <= 1)
+                        if (postResultsTimer >= maxPostResultsTime && alivePlayers <= 1)
                         {
+                            postResultsTimer = 0.0f;
                             State = GameState.End;
                             break;
                         }
@@ -512,6 +527,7 @@ public class GameManager : Singleton<GameManager> {
                     {
                         cam.SetNextPlayer(i);
                         cam.currState = CameraScript.CameraState.Base;
+                        players[i].GetComponent<PlayerStation>().labelOffset = 2;
                         zoomed = true;
                         camBase = i;
                     }
@@ -532,7 +548,11 @@ public class GameManager : Singleton<GameManager> {
 	{
 		cam.currState = CameraScript.CameraState.Start;
 		zoomed = false;
-	}
+        foreach(PlayerStation p in players)
+        {
+            p.GetComponent<PlayerStation>().labelOffset = 1;
+        }
+    }
 
     /// <summary>
     /// Shoot for menu functionality

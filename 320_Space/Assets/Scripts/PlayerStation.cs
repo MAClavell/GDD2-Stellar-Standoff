@@ -52,6 +52,8 @@ public class PlayerStation : MonoBehaviour {
 
     public bool DrillOn { get; set; }
 
+    public bool DishOn { get; set; }
+
     public GameObject missile;
 
     public SpriteRenderer shieldRender;
@@ -61,6 +63,7 @@ public class PlayerStation : MonoBehaviour {
     public float labelOffset;
 	public string labelStr;
     public ParticleSystem debris;
+    public Transform dishPosition;
 
     //Private fields
     public short Health { get; set; }
@@ -228,6 +231,7 @@ public class PlayerStation : MonoBehaviour {
                 break;
             case "Reflect":
                 Resources -= 1;
+                TurnOnDish();
                 break;
             case "Shield":
                 ShieldOn = true;
@@ -298,6 +302,18 @@ public class PlayerStation : MonoBehaviour {
     {
         DrillOn = false;
         debris.Stop();
+    }
+
+    public void TurnOnDish()
+    {
+        dishPosition.localPosition = Vector3.zero;
+        DishOn = true;
+    }
+
+    public void TurnOffDish()
+    {
+        dishPosition.localPosition = new Vector3(0, -1, 0);
+        DishOn = false;
     }
 
     //Fades shield out until full transparency

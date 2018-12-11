@@ -42,6 +42,9 @@ TagManager:
   - name: background
     uniqueID: 3720781539
     locked: 0
+  - name: reflector
+    uniqueID: 2574962405
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
