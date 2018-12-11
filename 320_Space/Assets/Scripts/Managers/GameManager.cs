@@ -64,7 +64,7 @@ public class GameManager : Singleton<GameManager> {
 
     //For generating "unique" stations
     public Color[] baseColors;
-    public Sprite[] baseSprites;
+    public List<Sprite> baseSprites;
 
     // Called before start
     void Awake() {
@@ -298,6 +298,7 @@ public class GameManager : Singleton<GameManager> {
                             //Set UI color to current player color
                             activeColor = players[currPlayer].Hue;
 
+                            //PAUL
                             //Set rotation to current player
                             cam.world.transform.rotation = Quaternion.AngleAxis(currPlayer * (360 / numPlayers), Vector3.forward);
                             cam.currRot = cam.world.transform.rotation;
@@ -319,8 +320,12 @@ public class GameManager : Singleton<GameManager> {
 
                         resultsTimer += Time.deltaTime;
 
+                        //PAUL
                         //Puts player one on top
                         cam.world.transform.rotation = Quaternion.identity;
+                        //cam.currRot = cam.world.transform.rotation;
+                        //cam.baseRot = cam.currRot;
+                        //cam.startRot = cam.currRot;
 
                         playerMenu.enabled = false;
                         enemyMenu.enabled = false;
@@ -378,6 +383,11 @@ public class GameManager : Singleton<GameManager> {
                             {
 								player.TurnOffShield();
                             }
+
+                            if (player.DrillOn)
+                            {
+                                player.TurnOffDrill();
+                            }
                         }
 
                         if (alivePlayers <= 1)
@@ -420,8 +430,10 @@ public class GameManager : Singleton<GameManager> {
 
     public Sprite GetBaseSprite()
     {
-        int rnd = Random.Range(0, baseSprites.Length);
-        return baseSprites[rnd];
+        int rnd = Random.Range(0, baseSprites.Count);
+        Sprite baseSprite = baseSprites[rnd];
+        baseSprites.Remove(baseSprite);
+        return baseSprite;
     }
 
     /// <summary>
@@ -461,14 +473,23 @@ public class GameManager : Singleton<GameManager> {
     {
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
+
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint((Input.GetTouch(0).position)), Vector2.zero);
             if (hit.collider != null && hit.collider.gameObject.tag == "Station")
             {
+
+                //Change position of label
+                //if (hit.collider.gameObject.GetComponent<PlayerStation>().labelOffset == 1)
+                //    hit.collider.gameObject.GetComponent<PlayerStation>().labelOffset = 2.0f;
+                //else
+                //    hit.collider.gameObject.GetComponent<PlayerStation>().labelOffset = 1;
+
                 for (int i = 0; i < players.Count; i++)
                 {
                     if (hit.collider.gameObject == players[i])
                     {
                         cam.SetNextPlayer(i);
+
                         return;
                     }
                 }

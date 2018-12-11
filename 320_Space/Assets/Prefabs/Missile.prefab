@@ -146,7 +146,7 @@ MonoBehaviour:
   inFlight: 0
   origin: {fileID: 0}
   destination: {fileID: 0}
-  radius: 4.25
+  radius: 3.2
   bounces: 0
   maxBounces: 4
   maxSpeed: 3.5

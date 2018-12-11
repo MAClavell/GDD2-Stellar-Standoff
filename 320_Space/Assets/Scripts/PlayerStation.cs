@@ -50,6 +50,8 @@ public class PlayerStation : MonoBehaviour {
     /// </summary>
     public bool ShieldOn { get; set; }
 
+    public bool DrillOn { get; set; }
+
     public GameObject missile;
 
     public SpriteRenderer shieldRender;
@@ -58,6 +60,7 @@ public class PlayerStation : MonoBehaviour {
     public GameObject label;
     public float labelOffset;
 	public string labelStr;
+    public ParticleSystem debris;
 
     //Private fields
     public short Health { get; set; }
@@ -233,6 +236,8 @@ public class PlayerStation : MonoBehaviour {
 
             case "Load":
                 Resources++;
+                DrillOn = true;
+                debris.Play();
 				AudioManager.Instance.FadeInLayer("drill", 0.7f, 1f);
 				break;
         }
@@ -289,8 +294,14 @@ public class PlayerStation : MonoBehaviour {
 		AudioManager.Instance.FadeOutLayer("forcefield_Idle", 0, shieldTime, true);
 	}
 
-	//Fades shield out until full transparency
-	private void DeactivateShield()
+    public void TurnOffDrill()
+    {
+        DrillOn = false;
+        debris.Stop();
+    }
+
+    //Fades shield out until full transparency
+    private void DeactivateShield()
     {
         shieldTimer += Time.deltaTime;
         float increment = shieldTimer / shieldTime;
