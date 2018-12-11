@@ -496,14 +496,22 @@ public class GameManager : Singleton<GameManager> {
                     }
                     else
                     {
-                        cam.currState = CameraScript.CameraState.Start;
-                        zoomed = false;
+						ZoomOut();
                     }
                     return;
                 }
             }
         }
     }
+
+	/// <summary>
+	/// Set the proper vars to zoom the camera out
+	/// </summary>
+	public void ZoomOut()
+	{
+		cam.currState = CameraScript.CameraState.Start;
+		zoomed = false;
+	}
 
     /// <summary>
     /// Shoot for menu functionality
