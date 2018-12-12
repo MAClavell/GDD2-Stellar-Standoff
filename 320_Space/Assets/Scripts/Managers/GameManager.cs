@@ -517,7 +517,7 @@ public class GameManager : Singleton<GameManager> {
     /// </summary>
     public void CheckForStationClicked(PlayerStation station)
     {
-        if (!cam.moving)
+        if (!cam.moving && playerReady)
         {
             for (int i = 0; i < players.Count; i++)
             {
