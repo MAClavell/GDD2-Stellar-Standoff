@@ -404,7 +404,7 @@ public class GameManager : Singleton<GameManager> {
                             }
                         }
 
-                        if (postResultsTimer >= maxPostResultsTime && alivePlayers <= 1)
+                        if (alivePlayers <= 1)
                         {
                             postResultsTimer = 0.0f;
                             State = GameState.End;
