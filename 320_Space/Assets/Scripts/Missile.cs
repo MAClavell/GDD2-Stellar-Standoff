@@ -86,7 +86,7 @@ public class Missile : MonoBehaviour {
             //GameManager.Instance.missiles.Remove(this);
             GameManager.Instance.numMissiles--;
             Explode();
-            destination.TakeDamage();
+            origin.TakeDamage();
             Destroy(gameObject);
         }
 	}
